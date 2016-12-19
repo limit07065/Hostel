@@ -1,4 +1,12 @@
+<%-- 
+    Document   : index
+    Created on : Dec 19, 2016, 10:50:45 PM
+    Author     : Ray
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -82,3 +90,4 @@
 </body>
 
 </html>
+
