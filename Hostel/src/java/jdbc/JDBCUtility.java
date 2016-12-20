@@ -78,7 +78,7 @@ public class JDBCUtility {
     }
 
     public void prepareSQLStatement() {
-        try {
+      /*  try {
 //            //select all student
 //            String sqlSelectAllStudent = "SELECT * FROM student";
 //            psSelectAllStudent = con.prepareStatement(sqlSelectAllStudent);
@@ -113,7 +113,7 @@ public class JDBCUtility {
             System.out.println("Connection to the database error");
         } catch (java.lang.Exception ex) {
             ex.printStackTrace();
-        }
+        }*/ 
     }
-   
+  
 }
