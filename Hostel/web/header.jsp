@@ -1,4 +1,13 @@
+<%-- 
+    Document   : index
+    Created on : Dec 19, 2016, 10:50:45 PM
+    Author     : Ray
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -9,13 +18,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Logo Nav - Start Bootstrap Template</title>
+    <title>Hostel Management System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="css/logo-nav.css" rel="stylesheet">
+    <script src="js/font-awesome.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,15 +55,15 @@
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav pull-right">
                     <li>
-                        <a href="#">About</a>
+                        <a href="#">Room Type </a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
+                        <a href="#">Application History</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="#">Login</a>
                     </li>
                 </ul>
             </div>
@@ -61,24 +71,6 @@
         </div>
         <!-- /.container -->
     </nav>
+    
+   
 
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Logo Nav by Start Bootstrap</h1>
-                <p>Note: You may need to adjust some CSS based on the size of your logo. The default logo size is 150x50 pixels.</p>
-            </div>
-        </div>
-    </div>
-    <!-- /.container -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-</body>
-
-</html>
