@@ -57,7 +57,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav pull-right">
                     <li>
-                        <a href="#">Room Type </a>
+                        <a href="#roomtypegallery">Room Type </a>
                     </li>
                     <li>
                         <a href="#">Application History</a>
