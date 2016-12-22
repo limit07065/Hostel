@@ -90,7 +90,7 @@ public class LoginServlet extends HttpServlet {
                     // redirect to admin page, not sure which one
                     response.sendRedirect("admin.jsp");
                 else
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("apply.jsp");
             }
             else if(!status){
                 request.setAttribute("loginError", "Username and Password do not matched");

@@ -58,7 +58,7 @@
                 <ul class="nav navbar-nav pull-right">
                     <c:if test="${not empty user}">
                         <li>
-                            <a href="#">Welcome, <c:out value="${user.getName()}" /></a>
+                            <a href="WEB-INF/index.jsp">Welcome, <c:out value="${user.getName()}" /></a>
                         </li>
                     </c:if>
                     <li>
