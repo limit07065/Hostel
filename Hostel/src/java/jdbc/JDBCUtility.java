@@ -19,6 +19,7 @@ public class JDBCUtility {
    String password;
    PreparedStatement psInsertUser = null;
    PreparedStatement psSelectAllFromUserViaUsername = null;
+   PreparedStatement psSelectUserViaUserPass = null;
    PreparedStatement psUpdateUserViaUsername= null;
    PreparedStatement psInsertRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
@@ -37,71 +38,58 @@ public class JDBCUtility {
    public JDBCUtility()
    {
    }
+   
+    //use this constructor if not using ConnectionPool
+    //ConnectionPool is used for multi user!
+    public JDBCUtility(String driver,
+            String url,
+            String userName,
+            String password) {
+        this.driver = driver;
+        this.url = url;
+        this.userName = userName;
+        this.password = password;
+    }
 
-   //use this constructor if not using ConnectionPool
-   //ConnectionPool is used for multi user!
-   public JDBCUtility(String driver,
-                      String url,
-                      String userName,
-                      String password)
-   {
-      this.driver = driver;
-      this.url = url;
-      this.userName = userName;
-      this.password = password;
-   }
-   
-   public void jdbcConnect()
-   {
-       try
-       {
-           Class.forName(driver);
-           con = DriverManager.getConnection(url, userName, password);
-           DatabaseMetaData dma = con.getMetaData ();
-           System.out.println("\nConnected to " + dma.getURL());
-           System.out.println("Driver       " + dma.getDriverName());
-           System.out.println("Version      " + dma.getDriverVersion());
-           System.out.println("");
-       }
-       
-       catch(SQLException ex)
-       {
-           while(ex != null)
-           {
-               System.out.println("SQLState: " + ex.getSQLState());
-               System.out.println("Message:  " + ex.getMessage());
-               System.out.println("Vendor:   " + ex.getErrorCode());
-               ex = ex.getNextException();
-               System.out.println ("");
-           }
-           System.out.println("Connection to the database error");
-       }
-       
-       catch(java.lang.Exception ex)
-       {
-           ex.printStackTrace();
-       }
-   }
-   
-   public Connection jdbcGetConnection()
-   {
-       return con;
-   }
-   
-   public void jdbcConClose()
-   {
-       try
-       {
-           con.close();
-       }
-       catch(Exception ex)
-       {
-           
-       }
-   }
-   
-   public void prepareSQLStatement()
-   {
+    public void jdbcConnect() {
+        try {
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, userName, password);
+            DatabaseMetaData dma = con.getMetaData();
+            System.out.println("\nConnected to " + dma.getURL());
+            System.out.println("Driver       " + dma.getDriverName());
+            System.out.println("Version      " + dma.getDriverVersion());
+            System.out.println("");
+        } catch (SQLException ex) {
+            while (ex != null) {
+                System.out.println("SQLState: "
+                        + ex.getSQLState());
+                System.out.println("Message:  "
+                        + ex.getMessage());
+                System.out.println("Vendor:   "
+                        + ex.getErrorCode());
+                ex = ex.getNextException();
+                System.out.println("");
+            }
+
+            System.out.println("Connection to the database error");
+        } catch (java.lang.Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public Connection jdbcGetConnection() {
+        return con;
+    }
+
+    public void jdbcConClose() {
+        try {
+            con.close();
+        } catch (Exception ex) {
+        }
+    }
+
+    public void prepareSQLStatement() {
        try
        {
            //insert user
@@ -114,6 +102,11 @@ public class JDBCUtility {
             String sqlSelectAllFromUser = "SELECT * FROM user";
             
             psSelectAllFromUserViaUsername = con.prepareStatement(sqlSelectAllFromUser);
+            
+            //select user via username & password (for login)
+            String sqlSelectUserViaUserPass = "SELECT * FROM user WHERE Username = ? AND Password = ?";
+            
+            psSelectUserViaUserPass = con.prepareStatement(sqlSelectUserViaUserPass);
             
             //update user via username
             String sqlUpdateUserViaUsername = "UPDATE user SET Password = ?, Contact = ?, Email = ? " +
@@ -206,8 +199,8 @@ public class JDBCUtility {
         catch(java.lang.Exception ex)
 	{
             ex.printStackTrace();
-	}
-   }
+        }
+    }
    
    public PreparedStatement getPsInsertUser()
    {
@@ -217,6 +210,11 @@ public class JDBCUtility {
    public PreparedStatement getPsSelectAllFromUserViaUsername()
    {
        return psSelectAllFromUserViaUsername;
+   }
+   
+   public PreparedStatement getPsSelectUserViaUserPass()
+   {
+       return psSelectUserViaUserPass;
    }
    
    public PreparedStatement getPsUpdateUserViaUsername()

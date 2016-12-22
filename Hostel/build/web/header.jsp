@@ -26,7 +26,7 @@
     <!-- Custom CSS -->
     <link href="css/logo-nav.css" rel="stylesheet">
     <script src="js/font-awesome.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -49,22 +49,36 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.jsp">
                     <img src="http://placehold.it/150x50&text=Logo" alt="">
                 </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav pull-right">
+                    <c:if test="${not empty user}">
+                        <li>
+                            <a href="#">Welcome, <c:out value="${user.getName()}" /></a>
+                        </li>
+                    </c:if>
                     <li>
                         <a href="#">Room Type </a>
                     </li>
                     <li>
                         <a href="#">Application History</a>
                     </li>
-                    <li>
-                        <a href="#">Login</a>
-                    </li>
+                    <c:choose>
+                        <c:when test="${empty user}">
+                            <li>
+                                <a href="login.jsp">Login</a>
+                            </li>
+                        </c:when>
+                        <c:when test="${not empty user}">
+                            <li>
+                                <a href="LogoutServlet">Logout</a>
+                            </li>
+                        </c:when>
+                    </c:choose>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
