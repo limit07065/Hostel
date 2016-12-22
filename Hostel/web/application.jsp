@@ -14,7 +14,6 @@
         <select id="roomtype" name="roomtype" class="inline-control">
         </select>
 
-
         <label for="block"  >Block </label>
         <select id="block" name="block" class="inline-control">
         </select>
@@ -25,33 +24,58 @@
 
         <input type="submit" class="inline-control  btn btn-success">
 
-
     </form>
-
-    <h2>Current Application</h2>
-    <table class="table table-responsive table-hover">
-        <tr>
-            <th>Session</th>
-            <th>Block</th>
-            <th>Room No.</th>
-            <th>Room Type</th>
-            <th>Price/Day</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr> 
-    </table>
-
-    <h2> Room History </h2>
-    <table class="table table-responsive table-hover">
-        <tr>
-            <th>Session</th>
-            <th>Block</th>
-            <th>Room No.</th>
-            <th>Room Type</th>
-            <th>Price/Day</th>
-            <th>Total</th>
-        </tr> 
-    </table>
+    <div class="container">
+        <div class="page-header">
+            <div class="btn-toolbar pull-right">
+                <span style="cursor:pointer;" class="glyphicon glyphicon-plus">
+            </div>
+            <h2>Current Application</h2>
+        </div>
+            <table class="table table-responsive table-hover" style="display:none;">
+                <tr>
+                    <th>Session</th>
+                    <th>Block</th>
+                    <th>Room No.</th>
+                    <th>Room Type</th>
+                    <th>Price/Day</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr> 
+            </table>
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <div class="btn-toolbar pull-right">
+                <span style="cursor:pointer;" class="glyphicon glyphicon-plus">
+            </div>
+            <h2> Room History </h2>
+        </div>
+            <table class="table table-responsive table-hover" style="display:none;">
+                <tr>
+                    <th>Session</th>
+                    <th>Block</th>
+                    <th>Room No.</th>
+                    <th>Room Type</th>
+                    <th>Price/Day</th>
+                    <th>Total</th>
+                </tr> 
+            </table>
+    </div>
 </div>
 <%@include file="footer.jsp" %>
+<script>
+    $(document).ready(function() {
+        $("span.glyphicon").click(function(){
+            if (this.className === "glyphicon glyphicon-plus"){
+                $(this).parents(".container").children("table").slideDown("slow");
+                $(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
+            }
+            else{
+                $(this).parents(".container").children("table").slideUp("slow");
+                $(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+            }
+        });
+    });
+</script>
