@@ -58,7 +58,14 @@
                 <ul class="nav navbar-nav pull-right">
                     <c:if test="${not empty user}">
                         <li>
-                            <a href="#">Welcome, <c:out value="${user.getName()}" /></a>
+                        <c:choose>
+                            <c:when test="${user.getLevel() == '0'}">
+                                <a href="admin.jsp">Welcome, <c:out value="${user.getName()}" /></a>
+                            </c:when>
+                            <c:when test="${user.getLevel() == '1'}">
+                                <a href="apply.jsp">Welcome, <c:out value="${user.getName()}" /></a>
+                            </c:when>
+                        </c:choose>
                         </li>
                     </c:if>
                     <li>
