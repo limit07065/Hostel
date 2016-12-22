@@ -19,6 +19,7 @@ public class JDBCUtility {
    String password;
    PreparedStatement psInsertUser = null;
    PreparedStatement psSelectAllFromUserViaUsername = null;
+   PreparedStatement psSelectUserViaUserPass = null;
    PreparedStatement psUpdateUserViaUsername= null;
    PreparedStatement psInsertRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
@@ -101,6 +102,11 @@ public class JDBCUtility {
             String sqlSelectAllFromUser = "SELECT * FROM user";
             
             psSelectAllFromUserViaUsername = con.prepareStatement(sqlSelectAllFromUser);
+            
+            //select user via username & password (for login)
+            String sqlSelectUserViaUserPass = "SELECT * FROM user WHERE Username = ? AND Password = ?";
+            
+            psSelectUserViaUserPass = con.prepareStatement(sqlSelectUserViaUserPass);
             
             //update user via username
             String sqlUpdateUserViaUsername = "UPDATE user SET Password = ?, Contact = ?, Email = ? " +
@@ -204,6 +210,11 @@ public class JDBCUtility {
    public PreparedStatement getPsSelectAllFromUserViaUsername()
    {
        return psSelectAllFromUserViaUsername;
+   }
+   
+   public PreparedStatement getPsSelectUserViaUserPass()
+   {
+       return psSelectUserViaUserPass;
    }
    
    public PreparedStatement getPsUpdateUserViaUsername()
