@@ -56,6 +56,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
+
                         <li>
                             <a href="#roomtypegallery">Room Type </a>
                         </li>
@@ -68,10 +69,10 @@
                         <c:if test="${1==1}">
                             <li>
                                 <a href="#">Logout</a>
-                                
+
                             </li>
                             <li>
-                            <a><img alt="x" class="profile-icon "></a>
+                                <a><img alt="x" class="profile-icon "></a>
                             </li>
                         </c:if>
                     </ul>

@@ -21,11 +21,17 @@
     <title>Hostel Management System</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+   
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/logo-nav.css" rel="stylesheet">
-    <script src="js/font-awesome.min.js"></script>
+   
+    <link href="../css/logo-nav.css" rel="stylesheet">
+    <!-- Hostel CSS -->
+    <link href="../css/hostel.css" rel="stylesheet">
+    
+   
+    <script src="../js/font-awesome.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,19 +61,20 @@
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav pull-right">
+                <ul class="nav navbar-nav navbar-right">
+                    
                     <li>
-                        <a href="#roomtypegallery">Room Type </a>
-                    </li>
-                    <li>
-                        <a href="#">Application History</a>
+                        <a href="#">Dashboard</a>
                     </li>
                     <li>
                         <a href="#">Login</a>
                     </li>
-                    <c:if test="${1}">
+                    <c:if test="${1==1}">
                     <li>
-                        <a href="#">Logout</a><img alt="x" class="profile-icon">
+                        <a href="#">Logout</a>
+                    </li>
+                    <li>
+                        <a><img alt="x" class="profile-icon"></a>
                     </li>
                     </c:if>
                 </ul>
