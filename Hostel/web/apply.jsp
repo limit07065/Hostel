@@ -42,5 +42,36 @@
         </div>
     </div>
 </div>
+<div class="container-fluid" id="roomtypegallery">
+    <div class="row">
+        <div class="col-md-3 gallery-tile" >
+            <img class="img-responsive" alt="x"/>
+        </div>
+        <div class="col-md-3 gallery-tile" >
+
+        </div>
+        <div class="col-md-3 gallery-tile" >
+            <img class="img-responsive" alt="x"/>
+        </div>
+        <div class="col-md-3 gallery-tile" >
+
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-3 gallery-tile" >
+            
+        </div>
+        <div class="col-md-3 gallery-tile" >
+<img class="img-responsive" alt="x"/>
+        </div>
+        <div class="col-md-3 gallery-tile" >
+            
+        </div>
+        <div class="col-md-3 gallery-tile" >
+<img class="img-responsive" alt="x"/>
+        </div>        
+    </div>
+
+</div>
 </div>
 <%@include file="footer.jsp" %>
