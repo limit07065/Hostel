@@ -10,6 +10,7 @@
 
 <html lang="en">
 
+    <<<<<<< HEAD
     <head>
 
         <meta charset="utf-8">
@@ -78,6 +79,7 @@
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
+
             </div>
             <!-- /.container -->
         </nav>
