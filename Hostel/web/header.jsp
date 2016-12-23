@@ -10,7 +10,7 @@
 
 <html lang="en">
 
-    <<<<<<< HEAD
+
     <head>
 
         <meta charset="utf-8">
@@ -58,24 +58,31 @@
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
 
-                        <li>
-                            <a href="#roomtypegallery">Room Type </a>
-                        </li>
+                      
                         <li>
                             <a href="#">Application History</a>
                         </li>
-                        <li>
-                            <a href="#">Login</a>
-                        </li>
-                        <c:if test="${1==1}">
-                            <li>
-                                <a href="#">Logout</a>
 
-                            </li>
-                            <li>
-                                <a><img alt="x" class="profile-icon "></a>
-                            </li>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${empty user}">
+                                <li>
+                                    <a href="#">Login</a>
+                                </li>
+
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <a href="#">Logout</a>
+
+                                </li>
+                                <li>
+                                    <a><img alt="x" class="profile-icon "></a>
+                                </li>
+
+                            </c:otherwise>
+
+                        </c:choose>
+
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
