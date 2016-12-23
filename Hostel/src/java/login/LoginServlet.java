@@ -24,7 +24,7 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/Home"})
 public class LoginServlet extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
@@ -61,64 +61,26 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        try {
-            PreparedStatement ps = jdbcUtility.getPsSelectUserViaUserPass();
-            
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
-            
-            boolean status = rs.next();
-            
-            if(status){
-                User userBean = new User();
-                userBean.setUsername(rs.getString("Username"));
-                userBean.setLevel(rs.getInt("Level"));
-                userBean.setGender(rs.getInt("Gender"));
-                userBean.setName(rs.getString("Name"));
-                userBean.setContact(rs.getString("Contact"));
-                userBean.setEmail(rs.getString("Email"));
-                userBean.setPic(rs.getString("Pic"));
-                
-                HttpSession session = request.getSession(true);
-                session.setAttribute("user", userBean);
-                
-                if(userBean.getLevel() == 0)
-                    // redirect to admin page, not sure which one
-                    response.sendRedirect("admin.jsp");
-                else
-                    response.sendRedirect("apply.jsp");
-            }
-            else if(!status){
-                request.setAttribute("loginError", "Username and Password do not matched");
-                sendPage(request, response, "/login.jsp");
-            }
+        HttpSession session = request.getSession(false);
+
+        if(session == null){
+            request.setAttribute("loginError", "");
+            sendPage(request, response, "/login.jsp");
         }
-        catch (SQLException ex)
-	{
-            while (ex != null)
-            {
-                System.out.println ("SQLState: " +
-                                 ex.getSQLState ());
-                System.out.println ("Message:  " +
-                                 ex.getMessage ());
-		System.out.println ("Vendor:   " +
-                                 ex.getErrorCode ());
-                ex = ex.getNextException ();
-		      System.out.println ("");
-            }
+        else {
+            User user = (User)session.getAttribute("user");
             
-            System.out.println("Connection to the database error");
-	}
-	catch (java.lang.Exception ex)
-	{
-            ex.printStackTrace ();
-	}
-        
+            if(user.getLevel() == 0) 
+                sendPage(request, response, "/admin/dashboard.jsp");
+            else
+                sendPage(request, response, "/application.jsp");
+           
+        }
     }
+        
+        
+        
+    
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
     {
@@ -162,7 +124,46 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        try {
+            PreparedStatement ps = jdbcUtility.getPsSelectUserViaUserPass();
+
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            boolean status = rs.next();
+
+            if(status){
+                User userBean = new User();
+                userBean.setUsername(rs.getString("Username"));
+                userBean.setLevel(rs.getInt("Level"));
+                userBean.setGender(rs.getInt("Gender"));
+                userBean.setName(rs.getString("Name"));
+                userBean.setContact(rs.getString("Contact"));
+                userBean.setEmail(rs.getString("Email"));
+                userBean.setPic(rs.getString("Pic"));
+
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", userBean);
+
+                if(userBean.getLevel() == 0)
+                    sendPage(request, response, "/admin/dashboard.jsp");
+                else
+                    sendPage(request, response, "/application.jsp");
+            }
+            else if(!status){
+                request.setAttribute("loginError", "Username and Password do not matched");
+                sendPage(request, response, "/login.jsp");
+            }
+        }
+        catch (SQLException ex)
+        {
+        }
+        
     }
 
     /**
