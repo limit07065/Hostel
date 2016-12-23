@@ -6,12 +6,8 @@
 <%@include file="header.jsp" %>
 <div class="container-fluid">
     <div class="row hostelbg">
-        <div class="col-md-5 col-md-offset-1">
-            <blockquote id ="index-quote" >
-                <h2>Kolej Tun Dr Ismail</h2>
-                <p>Kita sama-sama Naik! <br>
-                    <cite class="pull-right">JKM KTDI 2014</cite></p>
-            </blockquote>
+        <!-- carousel roomtype gallery -->
+        <div class="col-md-6 ">
 
         </div>
 
@@ -41,37 +37,6 @@
 
         </div>
     </div>
-</div>
-<div class="container-fluid" id="roomtypegallery">
-    <div class="row">
-        <div class="col-md-3 gallery-tile" >
-            <img class="img-responsive" alt="x"/>
-        </div>
-        <div class="col-md-3 gallery-tile" >
-
-        </div>
-        <div class="col-md-3 gallery-tile" >
-            <img class="img-responsive" alt="x"/>
-        </div>
-        <div class="col-md-3 gallery-tile" >
-
-        </div>        
-    </div>
-    <div class="row">
-        <div class="col-md-3 gallery-tile" >
-            
-        </div>
-        <div class="col-md-3 gallery-tile" >
-<img class="img-responsive" alt="x"/>
-        </div>
-        <div class="col-md-3 gallery-tile" >
-            
-        </div>
-        <div class="col-md-3 gallery-tile" >
-<img class="img-responsive" alt="x"/>
-        </div>        
-    </div>
-
 </div>
 </div>
 <%@include file="footer.jsp" %>
