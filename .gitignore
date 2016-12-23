@@ -12,5 +12,6 @@
 hs_err_pid*
 /Hostel/nbproject/
 /Hostel/dist/
+/Hostel/build/web/
 /Hostel/build/empty/
 /Hostel/build/generated-sources/
