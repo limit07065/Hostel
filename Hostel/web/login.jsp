@@ -8,7 +8,14 @@
 <c:if test="${not empty user}">
     <script type="text/javascript">
         $(function(){
-            window.location = "index.jsp";
+        <c:choose>
+            <c:when test="${user.getLevel() == '0'}">
+            window.location = "admin.jsp";
+            </c:when>
+            <c:when test="${user.getLevel() == '1'}">
+            window.location = "apply.jsp";
+            </c:when>
+        </c:choose>
         });
     </script>
 </c:if>
