@@ -3,10 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package application;
 
+import bean.Room;
+import bean.RoomType;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,14 +20,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jdbc.JDBCUtility;
 
 /**
  *
  * @author wenhe
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/Logout"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "PopulateRoomServlet", urlPatterns = {"/PopulateRoomServlet"})
+public class PopulateRoomServlet extends HttpServlet {
 
+    private JDBCUtility jdbcUtility;
+    private Connection con;
+    
+    public void init() throws ServletException
+    {
+        String driver = "com.mysql.jdbc.Driver";
+
+        String dbName = "hostel";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        con = jdbcUtility.jdbcGetConnection();
+        jdbcUtility.prepareSQLStatement();
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,30 +62,30 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         
-        HttpSession session = request.getSession(false);
+        String roomtype;
+        String block;        
+        Room room = new Room();
         
-        if(session != null){
-            session.invalidate();
-            sendPage(request, response, "/login.jsp");
+        String type = request.getParameter("type");
+        if(type != null){            
+           try{
+                PreparedStatement ps = jdbcUtility.getPsSelectBlockViaRoomType();
+                ps.setString(1, type);
+                ResultSet rs = ps.executeQuery();
+                ArrayList blockList = new ArrayList();
+
+                while(rs.next())
+                    blockList.add(rs.getString("Block"));
+
+                session.setAttribute("block", blockList);
+            }
+            catch (SQLException ex) 
+            {            
+            }  
         }
-        
     }
-
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }        
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
