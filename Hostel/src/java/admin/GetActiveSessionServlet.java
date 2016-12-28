@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Ryan Hoo
+ * @author Pang
  */
 @WebServlet(name = "GetActiveSessionServlet", urlPatterns = {"/GetActiveSessionServlet"})
 public class GetActiveSessionServlet extends HttpServlet {
