@@ -8,12 +8,15 @@ package admin;
 import bean.Application;
 import bean.Room;
 import bean.RoomType;
+import bean.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -63,7 +66,7 @@ public class dashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession(true);
+        HttpSession httpsession = request.getSession(true);
         
         ArrayList applications = new ArrayList();
         Application application = null;    
@@ -72,9 +75,110 @@ public class dashboard extends HttpServlet {
         Room room = null;
         
         ArrayList roomTypes = new ArrayList();
-        RoomType roomtype = null;
+        RoomType roomType = null;
         
-        request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
+
+        ArrayList sessions = new ArrayList();
+        Session session = null;
+        
+        try {   
+            //select all from application
+            ResultSet rs = jdbcUtility.getPsSelectAllFromApplication().executeQuery();
+            
+            while (rs.next()) {           
+                application = new Application();
+                application.setApplication_PK(rs.getInt("Application_PK"));
+                application.setUsername(rs.getString("Username"));
+                application.setNumber(rs.getString("Number"));
+                application.setBlock(rs.getString("Block"));
+                application.setStatus(rs.getInt("Status"));
+                application.setApplyDate(rs.getString("ApplyDate"));
+                application.setApprovedDate(rs.getString("ApprovedDate"));
+                applications.add(application);
+            }
+            
+            //select all from room
+            ResultSet rs1 = jdbcUtility.getPsSelectAllFromRoom().executeQuery();
+            
+            while (rs1.next()) {     
+                room = new Room();
+                room.setRoom_PK(rs1.getInt("Room_PK"));
+                room.setNumber(rs1.getString("Number"));
+                room.setBlock(rs1.getString("Block"));
+                room.setGender(rs1.getInt("Gender"));
+                room.setRoomType(rs1.getInt("RoomType_PK"));
+                room.setOccupied(rs1.getInt("Occupied"));
+                rooms.add(room);
+            }
+            
+            //select all from roomtype
+            ResultSet rs2 = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+            
+            while (rs2.next()) {     
+                roomType = new RoomType();
+                roomType.setRoomType_PK(rs2.getInt("RoomType_PK"));
+                roomType.setPic(rs2.getString("Pic"));
+                roomType.setType(rs2.getString("Type"));
+                roomType.setPrice(rs2.getDouble("Price"));
+                roomType.setDescription(rs2.getString("Description"));
+                roomTypes.add(roomType);
+            }
+            
+            //select all from session
+            ResultSet rs3 = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+            
+            while (rs3.next()) {     
+                session = new Session();
+                session.setId(rs3.getInt("Session_PK"));
+                session.setName(rs3.getString("Name"));
+                session.setStatus(rs3.getInt("Status"));
+                sessions.add(session);
+            }
+        }
+        catch (SQLException ex)
+	{
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
+	}
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	}              
+    
+        //put into sessions
+        httpsession.setAttribute("applications", applications);
+        httpsession.setAttribute("rooms", rooms);
+        httpsession.setAttribute("roomTypes", roomTypes);
+        httpsession.setAttribute("sessions", sessions);
+        
+        //redirect to managedestination.jsp
+        sendPage(request, response, "admin/dashboard.jsp");
+    }
+    
+    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
+    {
+        // Get the dispatcher; it gets the main page to the user
+	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
+
+	if (dispatcher == null)
+	{
+            System.out.println("There was no dispatcher");
+	    // No dispatcher means the html file could not be found.
+	    res.sendError(res.SC_NO_CONTENT);
+	}
+	else
+	    dispatcher.forward(req, res);
     }                
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

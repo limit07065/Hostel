@@ -22,6 +22,7 @@ public class JDBCUtility {
    PreparedStatement psSelectUserViaUserPass = null;
    PreparedStatement psUpdateUserViaUsername= null;
    PreparedStatement psInsertRoom = null;
+   PreparedStatement psSelectAllFromRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
    PreparedStatement psUpdateRoomViaId = null;
    PreparedStatement psUpdateRoomStatusViaId = null;
@@ -129,6 +130,11 @@ public class JDBCUtility {
             psInsertRoom = con.prepareStatement(sqlInsertRoom);
             
             //select all from room
+            String sqlSelectAllFromRoom = "SELECT * FROM room";
+            
+            psSelectAllFromRoom = con.prepareStatement(sqlSelectAllFromRoom);
+            
+            //select all from room via id
             String sqlSelectAllFromRoomViaId = "SELECT * FROM room WHERE Room_PK = ?";
             
             psSelectAllFromRoomViaId = con.prepareStatement(sqlSelectAllFromRoomViaId);
@@ -270,6 +276,11 @@ public class JDBCUtility {
    public PreparedStatement getPsInsertRoom()
    {
        return psInsertRoom;
+   }
+   
+   public PreparedStatement getPsSelectAllFromRoom()
+   {
+       return psSelectAllFromRoom;
    }
    
    public PreparedStatement getPsSelectAllFromRoomViaId()
