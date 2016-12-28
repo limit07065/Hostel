@@ -3,29 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package admin;
 
-import bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import jdbc.JDBCUtility;
 
 /**
  *
- * @author wenhe
+ * @author Ryan Hoo
  */
-
-@WebServlet(name = "ManageProfileServlet", urlPatterns = {"/Profile"})
-public class ManageProfileServlet extends HttpServlet {
-
+@WebServlet(name = "AddRoom", urlPatterns = {"/AddRoom"})
+public class AddRoom extends HttpServlet {
+    
     private JDBCUtility jdbcUtility;
     private Connection con;
     
@@ -46,8 +45,8 @@ public class ManageProfileServlet extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }
-    
+    }            
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,20 +58,52 @@ public class ManageProfileServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
-        // Check if user login already
-        HttpSession session = request.getSession(false);
+        String number = request.getParameter("Number");
+        String block = request.getParameter("Block");
+        int gender = Integer.parseInt(request.getParameter("Gender"));
+        int roomtype = Integer.parseInt(request.getParameter("RoomType_FK"));
         
-
-        if(session == null || session.getAttribute("user") == null){
-            request.setAttribute("loginError", "Session timeout, please login again");
-            sendPage(request, response, "/login.jsp");
+        try{
+            PreparedStatement preparedStatement = jdbcUtility.getPsInsertRoom();
+            
+            preparedStatement.setString(1, number);
+            preparedStatement.setString(2, block);
+            preparedStatement.setInt(3, gender);
+            preparedStatement.setInt(4, roomtype);
+            
+            preparedStatement.executeUpdate();
+            
+            PrintWriter out = response.getWriter();
+            
+            out.println("<script>");
+            out.println("    alert('Room is added');");
+            out.println("</script>");
+            
+            sendPage(request, response, "/dashboard");
         }
-        else {
-            sendPage(request, response, "/profile.jsp");
-
-        }
         
+        catch (SQLException ex)
+	{
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
+	}
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	} 
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
@@ -88,7 +119,7 @@ public class ManageProfileServlet extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }     
+    }  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

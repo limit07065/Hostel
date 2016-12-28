@@ -3,25 +3,50 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jdbc.JDBCUtility;
 
 /**
  *
- * @author wenhe
+ * @author Ryan Hoo
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/Logout"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "EditSession", urlPatterns = {"/EditSession"})
+public class EditSession extends HttpServlet {
 
+    private JDBCUtility jdbcUtility;
+    private Connection con;
+    
+    public void init() throws ServletException
+    {
+        String driver = "com.mysql.jdbc.Driver";
+
+        String dbName = "db_hostel";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        con = jdbcUtility.jdbcGetConnection();
+        jdbcUtility.prepareSQLStatement();
+    }    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,16 +58,51 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession(false);
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("Name");
         
-        if(session != null){
-            session.invalidate();
-            sendPage(request, response, "/login.jsp");
+        response.setContentType("text/html;charset=UTF-8");
+        try{
+            PreparedStatement preparedStatement = jdbcUtility.getPsUpdateSessionViaId();
+            
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, id);
+            
+            preparedStatement.executeUpdate();
+            
+            PrintWriter out = response.getWriter();
+            
+            out.println("<script type='text/javascript'>");
+            out.println("    alert('Session info is updated!');");
+            out.println("</script>");
+           
+            
+            sendPage(request, response, "/dashboard");
         }
-        
+        catch (SQLException ex)
+	{
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
+	}
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	} 
     }
-
+    
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
     {
         // Get the dispatcher; it gets the main page to the user
@@ -56,8 +116,8 @@ public class LogoutServlet extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }        
-    
+    }  
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
