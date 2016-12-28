@@ -23,8 +23,8 @@ import jdbc.JDBCUtility;
  * @author wenhe
  */
 
-@WebServlet(name = "ManageProfileServlet", urlPatterns = {"/Profile"})
-public class ManageProfileServlet extends HttpServlet {
+@WebServlet(name = "ManageProfile", urlPatterns = {"/Profile"})
+public class ManageProfile extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
