@@ -102,7 +102,7 @@ public class Login extends HttpServlet {
                 catch(SQLException ex)
                 {}
 
-                sendPage(request, response, "ApplyServlet");
+                sendPage(request, response, "Apply");
             }
         }
     }
@@ -209,7 +209,7 @@ public class Login extends HttpServlet {
                         {}
                     }
                     
-                    sendPage(request, response, "ApplyServlet");
+                    sendPage(request, response, "Apply");
                 }
                     
             }
