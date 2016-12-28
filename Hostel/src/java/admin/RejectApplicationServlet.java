@@ -3,28 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package admin;
 
-import bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import jdbc.JDBCUtility;
 
 /**
  *
- * @author wenhe
+ * @author Ryan Hoo
  */
-
-@WebServlet(name = "ManageProfile", urlPatterns = {"/Profile"})
-public class ManageProfile extends HttpServlet {
+@WebServlet(name = "RejectApplicationServlet", urlPatterns = {"/RejectApplicationServlet"})
+public class RejectApplicationServlet extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
@@ -46,7 +45,7 @@ public class ManageProfile extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }
+    }            
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,20 +58,44 @@ public class ManageProfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //get Application_PK 
+        String id = request.getParameter("id");
         
-        // Check if user login already
-        HttpSession session = request.getSession(false);
+        //approve date - now
+        java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String rejectDate = sdf.format(dt);
         
-
-        if(session == null || session.getAttribute("user") == null){
-            request.setAttribute("loginError", "Session timeout, please login again");
-            sendPage(request, response, "/login.jsp");
+        try {                    
+            PreparedStatement preparedStatement = jdbcUtility.getPsUpdateApplicationStatusViaId();
+            
+            preparedStatement.setString(1, "1");
+            preparedStatement.setString(2, rejectDate);
+            preparedStatement.setString(3, id);
+            
+            preparedStatement.executeUpdate();
         }
-        else {
-            sendPage(request, response, "/profile.jsp");
-
-        }
-        
+        catch (SQLException ex)
+	{
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
+	}
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	} 
+        sendPage(request, response, "/dashboard.java");
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
@@ -88,7 +111,7 @@ public class ManageProfile extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }     
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

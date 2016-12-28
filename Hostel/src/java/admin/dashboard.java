@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package admin;
 
-import bean.User;
+import bean.Application;
+import bean.Room;
+import bean.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,11 +25,10 @@ import jdbc.JDBCUtility;
 
 /**
  *
- * @author wenhe
+ * @author Pang
  */
-
-@WebServlet(name = "ManageProfile", urlPatterns = {"/Profile"})
-public class ManageProfile extends HttpServlet {
+@WebServlet(name = "dashboard", urlPatterns = {"/dashboard"})
+public class dashboard extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
@@ -46,8 +50,7 @@ public class ManageProfile extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }
-    
+    }           
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,35 +63,19 @@ public class ManageProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Check if user login already
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         
-
-        if(session == null || session.getAttribute("user") == null){
-            request.setAttribute("loginError", "Session timeout, please login again");
-            sendPage(request, response, "/login.jsp");
-        }
-        else {
-            sendPage(request, response, "/profile.jsp");
-
-        }
+        ArrayList applications = new ArrayList();
+        Application application = null;    
         
-    }
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }     
+        ArrayList rooms = new ArrayList();
+        Room room = null;
+        
+        ArrayList roomTypes = new ArrayList();
+        RoomType roomtype = null;
+        
+        request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
+    }                
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
