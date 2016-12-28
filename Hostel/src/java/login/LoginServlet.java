@@ -94,7 +94,7 @@ public class LoginServlet extends HttpServlet {
             }
             else if(!status){
                 request.setAttribute("loginError", "Username and Password do not matched");
-                sendPage(request, response, "/login.jsp");
+                sendPage(request, response,"login.jsp");
             }
         }
         catch (SQLException ex)
