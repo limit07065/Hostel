@@ -6,7 +6,7 @@
 
 
 <link href="../css/bootstrap.min.css" rel="stylesheet">
-<%@include file="header.jsp"%>
+<%@include file="../header.jsp"%>
 <div class="container-fluid" style="margin-top:70px;">
     <div class="col-md-9 tab-content">
         <div id="application" class="tab-pane fade in active">
@@ -92,7 +92,21 @@
         </div>
 
     </div>
-    <%@include file="sidebar.jsp"%>
+    <div class="col-md-3">
+    <h4>Menu</h4>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
+        <li><a data-toggle="pill" href="#room">Room</a></li>
+        <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
+        <li><a data-toggle="pill" href="#session">Session</a></li>  
+    </ul>
 </div>
-<%@include file="footer.jsp"%>
+</div>
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
 
