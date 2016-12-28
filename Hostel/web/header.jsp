@@ -21,7 +21,7 @@
 
         <title>Hostel Management System</title>
         <c:choose>
-            <c:when test="${user.getLevel()==1}">
+            <c:when test="${user.getLevel()==0}">
                 <!-- Bootstrap Core CSS -->
                 <link href="../css/bootstrap.min.css" rel="stylesheet">
 

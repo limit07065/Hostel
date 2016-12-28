@@ -23,14 +23,16 @@ import javax.servlet.annotation.WebFilter;
  *
  * @author Ray
  */
+
 @WebFilter(filterName = "auth", urlPatterns = {"/*"})
 public class auth implements Filter {
+
 
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
-    // configured. 
+    // configured.
     private FilterConfig filterConfig = null;
 
     public auth() {
@@ -73,7 +75,7 @@ public class auth implements Filter {
         // Write code here to process the request and/or response after
         // the rest of the filter chain is invoked.
         // For example, a logging filter might log the attributes on the
-        // request object after the request has been processed. 
+        // request object after the request has been processed.
         /*
 	for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
 	    String name = (String)en.nextElement();
