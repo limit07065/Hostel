@@ -85,7 +85,7 @@ public class EditRoom extends HttpServlet {
             out.println("</script>");
            
             
-            sendPage(request, response, "/Dashboard");
+            sendPage(request, response, "/dashboard");
         }
         catch (SQLException ex)
 	{

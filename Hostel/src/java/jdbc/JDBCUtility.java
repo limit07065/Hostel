@@ -179,6 +179,12 @@ public class JDBCUtility {
             
             psUpdateSessionViaId = con.prepareStatement(sqlUpdateSessionViaId);
             
+            //update session via id
+            String sqlUpdateSessionStatusViaId = "UPDATE session SET Status = ? " +
+                                                "WHERE Session_PK = ?";
+            
+            psUpdateSessionStatusViaId = con.prepareStatement(sqlUpdateSessionStatusViaId);
+            
             //insert application
             String sqlInsertApplication = "INSERT INTO application(Username, Number, Block, ApplyDate, ApprovedDate) " +
                                       "VALUES(?, ?, ?, ?, ?)";
@@ -309,6 +315,11 @@ public class JDBCUtility {
    public PreparedStatement getPsUpdateSessionViaId()
    {
        return psUpdateSessionViaId;
+   }
+   
+   public PreparedStatement getPsUpdateSessionStatusViaId()
+   {
+       return psUpdateSessionStatusViaId;
    }
    
    public PreparedStatement getPsInsertApplication()
