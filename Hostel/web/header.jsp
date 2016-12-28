@@ -34,14 +34,14 @@
             </c:when>
             <c:otherwise>
                 <!-- Bootstrap Core CSS -->
-                <link href="css/bootstrap.min.css" rel="stylesheet">
+                <link href="../css/bootstrap.min.css" rel="stylesheet">
 
                 <!-- Custom CSS -->
-                <link href="css/logo-nav.css" rel="stylesheet">
-                <link href="css/hostel.css" rel="stylesheet">
+                <link href="../css/logo-nav.css" rel="stylesheet">
+                <link href="../css/hostel.css" rel="stylesheet">
 
                 <!-- Font Awesome  -->
-                <script src="js/font-awesome.min.js"></script>
+                <script src="../js/font-awesome.min.js"></script>
 
                 <!-- Bootstrap Core CSS -->
                 <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -99,12 +99,12 @@
                         </li>
 
                         <c:choose>
-                            <c:when test="${user.getLevel==0}">
+                            <c:when test="${user.getLevel()==0}">
                                 <li>
                                     <a href="#">Applications</a>
                                 </li>
                             </c:when>
-                            <c:when test="${user.getLevel==1}">
+                            <c:when test="${user.getLevel()==1}">
                                 <li>
                                     <a href="#">Dashboard</a>
                                 </li>
