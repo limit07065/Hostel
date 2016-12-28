@@ -7,7 +7,10 @@
 <%@include file="header.jsp"%>
 <div class="container">
     <div class="col-md-4 col-md-offset-4">
-        <img class="img-circle center-block img-thumbnail" src="img/<c:out value='${user.getPic()}' />" alt="x"/>
+
+        <img class="upload-icon" src="img/upload.png">
+        <img class="img img-circle center-block img-thumbnail profile-pic" src="img/<c:out value='${user.getPic()}' />" alt="x"/>
+        
     </div>
     <div class="col-md-6 col-md-offset-3">
         <div class="row">
