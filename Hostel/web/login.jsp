@@ -5,22 +5,8 @@
 --%>
 
 <%@include file="header.jsp" %>
-<c:if test="${not empty user}">
-    <script type="text/javascript">
-        $(function(){
-        <c:choose>
-            <c:when test="${user.getLevel() == '0'}">
-            window.location = "admin.jsp";
-            </c:when>
-            <c:when test="${user.getLevel() == '1'}">
-            window.location = "apply.jsp";
-            </c:when>
-        </c:choose>
-        });
-    </script>
-</c:if>
 <div class="container-fluid greenbg">
-    <form class="loginform form-group col-md-4 col-md-offset-4" method="post" action="LoginServlet">
+    <form class="loginform form-group col-md-4 col-md-offset-4" method="post" action="Home">
         <img id="loginlogo" class="img-responsive center-block" alt="ktdi logo">
         <div class="input-group">
             <span class="input-group-addon" style="padding-right:15px">

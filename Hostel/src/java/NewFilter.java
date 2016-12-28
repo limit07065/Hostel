@@ -113,8 +113,8 @@ public class NewFilter implements Filter {
             HttpSession session = ((HttpServletRequest) request).getSession();
             if (session.getAttribute("user") == null) {
                 String url = ((HttpServletRequest) request).getRequestURL().toString();
-                if (!(url.endsWith("LoginServlet"))) {
-                    ((HttpServletResponse) response).sendRedirect("LoginServlet");
+                if (!(url.endsWith("Home"))) {
+                    ((HttpServletResponse) response).sendRedirect("Home");
                 } else {
                     chain.doFilter(request, response);
                 }

@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package user;
 
 import bean.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +22,9 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet, "})
-public class LoginServlet extends HttpServlet {
+
+@WebServlet(name = "ManageProfileServlet", urlPatterns = {"/Profile"})
+public class ManageProfileServlet extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
@@ -61,62 +60,18 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        // Check if user login already
+        HttpSession session = request.getSession(false);
         
-        try {
-            PreparedStatement ps = jdbcUtility.getPsSelectUserViaUserPass();
-            
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
-            
-            boolean status = rs.next();
-            
-            if(status){
-                User userBean = new User();
-                userBean.setUsername(rs.getString("Username"));
-                userBean.setLevel(rs.getInt("Level"));
-                userBean.setGender(rs.getInt("Gender"));
-                userBean.setName(rs.getString("Name"));
-                userBean.setContact(rs.getString("Contact"));
-                userBean.setEmail(rs.getString("Email"));
-                userBean.setPic(rs.getString("Pic"));
-                
-                HttpSession session = request.getSession(true);
-                session.setAttribute("user", userBean);
-                
-                if(userBean.getLevel() == 0)
-                    // redirect to admin page, not sure which one
-                    response.sendRedirect("admin.jsp");
-                else
-                    response.sendRedirect("apply.jsp");
-            }
-            else if(!status){
-                request.setAttribute("loginError", "Username and Password do not matched");
-                sendPage(request, response, "/login.jsp");
-            }
+
+        if(session == null || session.getAttribute("user") == null){
+            request.setAttribute("loginError", "Session timeout, please login again");
+            sendPage(request, response, "/login.jsp");
         }
-        catch (SQLException ex)
-	{
-            while (ex != null)
-            {
-                System.out.println ("SQLState: " +
-                                 ex.getSQLState ());
-                System.out.println ("Message:  " +
-                                 ex.getMessage ());
-		System.out.println ("Vendor:   " +
-                                 ex.getErrorCode ());
-                ex = ex.getNextException ();
-		      System.out.println ("");
-            }
-            
-            System.out.println("Connection to the database error");
-	}
-	catch (java.lang.Exception ex)
-	{
-            ex.printStackTrace ();
-	}
+        else {
+            sendPage(request, response, "/profile.jsp");
+
+        }
         
     }
     
@@ -133,8 +88,7 @@ public class LoginServlet extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }        
-    
+    }     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
