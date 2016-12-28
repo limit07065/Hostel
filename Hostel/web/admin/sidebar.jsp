@@ -4,13 +4,12 @@
     Author     : Ray
 --%>
 
-<div class="col-md-2 pull-right  ">
+<div class="col-md-3">
     <h4>Menu</h4>
-    <ul>
-        <li>Application</li>
-        <li>Room</li>
-        <li>Room Type</li>
-        <li>Session</li>  
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
+        <li><a data-toggle="pill" href="#room">Room</a></li>
+        <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
+        <li><a data-toggle="pill" href="#session">Session</a></li>  
     </ul>
-
 </div>

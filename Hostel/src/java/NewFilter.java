@@ -23,7 +23,7 @@ import javax.servlet.annotation.WebFilter;
  *
  * @author Ray
  */
-@WebFilter(filterName = "Auth", urlPatterns = {"/*"})
+@WebFilter(filterName = "Auth", urlPatterns = {"/oooo"})
 public class NewFilter implements Filter {
 
     private static final boolean debug = true;
