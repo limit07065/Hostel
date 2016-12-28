@@ -4,10 +4,10 @@
     Author     : Ray
 --%>
 
-<%@include file="../header.jsp"%>
+<%@include file="header.jsp"%>
 <div class="container-fluid">
-    <div class="row">
-        <%@include file="sidebar.jsp"%>
+    <div class="row" id="application">
+
         <div class="col-md-5 " id="applicationlist" style="height:530px;">
             <h3>Application list</h3>
             <table class="table table-responsive table-hover" >
@@ -22,7 +22,7 @@
                 </tr> 
             </table>
         </div>
-        
+
         <div class="col-md-4" id="studentwindow">
             <h3>Student Window</h3>
             <div class="col-md-6">
@@ -50,7 +50,17 @@
                 </tr> 
             </table>
         </div>       
+
+    </div>
+    
+    <div class="row" id="room">
+        <div class="col-md-6" id="roomlist">
+            
+        </div>
         
+        <div class="col-md-6" id="roomtype">
+            
+        </div>
     </div>
 </div>
 
