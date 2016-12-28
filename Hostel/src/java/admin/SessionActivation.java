@@ -22,7 +22,7 @@ import jdbc.JDBCUtility;
  *
  * @author Ryan Hoo
  */
-@WebServlet(name = "SessionActivation", urlPatterns = {"/SessionActivation"})
+@WebServlet(name = "SessionActivationgit", urlPatterns = {"/SessionActivation"})
 public class SessionActivation extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
