@@ -4,8 +4,9 @@
     Author     : Ray
 --%>
 
+
 <link href="../css/bootstrap.min.css" rel="stylesheet">
-<%@include file="header.jsp"%>
+<%@include file="../header.jsp"%>
 <div class="container-fluid" style="margin-top:70px;">
     <div class="col-md-9 tab-content">
         <div id="application" class="tab-pane fade in active">
@@ -22,6 +23,7 @@
                         <th>Action</th>
                     </tr> 
                 </table>
+
 
             </div>
             <div class="col-md-6" id="studentwindow">
@@ -62,8 +64,7 @@
             <!--This is for the things inside forth menu-->
             <h3>cd</h3>
         </div>
-<<<<<<< HEAD
-=======
+
         <div class="col-md-4 full-screen" id="waitinglist">
             <h3>Waiting list</h3>
             <table class="table table-responsive table-hover" >
@@ -89,9 +90,23 @@
         <div class="col-md-6" id="roomtype">
             
         </div>
->>>>>>> a807da249e7330e895d9fb3bdc38bd6a2e96ba05
+
     </div>
-    <%@include file="sidebar.jsp"%>
+    <div class="col-md-3">
+    <h4>Menu</h4>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
+        <li><a data-toggle="pill" href="#room">Room</a></li>
+        <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
+        <li><a data-toggle="pill" href="#session">Session</a></li>  
+    </ul>
 </div>
-<%@include file="footer.jsp"%>
+</div>
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
 
