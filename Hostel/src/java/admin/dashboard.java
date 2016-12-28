@@ -77,6 +77,7 @@ public class dashboard extends HttpServlet {
         ArrayList roomTypes = new ArrayList();
         RoomType roomtype = null;
         
+
         ArrayList sessions = new ArrayList();
         Session session = null;
         
@@ -162,6 +163,7 @@ public class dashboard extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
+
     }                
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
