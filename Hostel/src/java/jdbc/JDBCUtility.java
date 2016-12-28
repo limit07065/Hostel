@@ -23,13 +23,19 @@ public class JDBCUtility {
    PreparedStatement psUpdateUserViaUsername= null;
    PreparedStatement psInsertRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
+   PreparedStatement psUpdateRoomViaId = null;
    PreparedStatement psUpdateRoomStatusViaId = null;
+   PreparedStatement psDeleteRoomViaId = null;
    PreparedStatement psInsertRoomType = null;
    PreparedStatement psSelectAllFromRoomType = null;
    PreparedStatement psUpdateRoomTypeViaId = null;
+   PreparedStatement psUpdateRoomTypeViaStatusId = null;
+   PreparedStatement psDeleteRoomTypeViaId = null;
    PreparedStatement psInsertSession = null;
    PreparedStatement psSelectAllFromSession = null;
    PreparedStatement psUpdateSessionViaId = null;
+   PreparedStatement psDeleteSessionViaId = null;
+   PreparedStatement psUpdateSessionStatusViaId = null;
    PreparedStatement psInsertApplication = null;
    PreparedStatement psSelectAllFromApplication = null;
    PreparedStatement psUpdateApplicationStatusViaId = null;
@@ -127,15 +133,21 @@ public class JDBCUtility {
             
             psSelectAllFromRoomViaId = con.prepareStatement(sqlSelectAllFromRoomViaId);
             
+            //update room via id
+            String sqlUpdateRoomViaId = "UPDATE room SET Number = ?, Block = ?, Gender = ?, RoomType_FK = ? " +
+                                                "WHERE Room_PK = ?";
+            
+            psUpdateRoomViaId = con.prepareStatement(sqlUpdateRoomViaId);
+            
             //update room status via id
             String sqlUpdateRoomStatusViaId = "UPDATE room SET Occupied = ? " +
                                                 "WHERE Room_PK = ?";
             
             psUpdateRoomStatusViaId = con.prepareStatement(sqlUpdateRoomStatusViaId);
             
-            //insert room
-            String sqlInsertRoomType = "INSERT INTO roomtype(Pic, Type, Price, Description) " +
-                                      "VALUES(?, ?, ?, ?)";
+            //insert roomtype
+            String sqlInsertRoomType = "INSERT INTO roomtype(Type, Price, Description) " +
+                                      "VALUES(?, ?, ?)";
             
             psInsertRoomType = con.prepareStatement(sqlInsertRoomType);
             
@@ -145,10 +157,10 @@ public class JDBCUtility {
             psSelectAllFromRoomType = con.prepareStatement(sqlSelectAllFromRoomType);
             
             //update roomtype via id
-            String sqlUpdateRoomTypeViaId = "UPDATE roomtype SET Pic = ?, Type = ?, Price = ?, Description = ? " +
+            String sqlUpdateRoomTypeViaId = "UPDATE roomtype SET Type = ?, Price = ?, Description = ? " +
                                                 "WHERE RoomType_PK = ?";
             
-            psUpdateRoomTypeViaId = con.prepareStatement(sqlUpdateRoomStatusViaId);
+            psUpdateRoomTypeViaId = con.prepareStatement(sqlUpdateRoomTypeViaId);
             
             //insert session
             String sqlInsertSession = "INSERT INTO session(Name) " +
@@ -162,7 +174,7 @@ public class JDBCUtility {
             psSelectAllFromSession = con.prepareStatement(sqlSelectAllFromSession);
             
             //update session via id
-            String sqlUpdateSessionViaId = "UPDATE session SET Name = ?, Status = ? " +
+            String sqlUpdateSessionViaId = "UPDATE session SET Name = ? " +
                                                 "WHERE Session_PK = ?";
             
             psUpdateSessionViaId = con.prepareStatement(sqlUpdateSessionViaId);
@@ -193,6 +205,21 @@ public class JDBCUtility {
             String sqlSelectRoomViaTypeNBlock = "SELECT * FROM room WHERE RoomType_FK = ? AND Block = ?";
             
             psSelectRoomViaTypeNBlock = con.prepareStatement(sqlSelectRoomViaTypeNBlock);
+            
+            //delete room
+            String sqlDeleteRoomViaId = "DELETE FROM room WHERE Room_PK = ?";
+            
+            psDeleteRoomViaId = con.prepareStatement(sqlDeleteRoomViaId);
+            
+            //delete room type
+            String sqlDeleteRoomTypeViaId = "DELETE FROM roomtype WHERE RoomType_PK = ?";
+            
+            psDeleteRoomTypeViaId = con.prepareStatement(sqlDeleteRoomTypeViaId);
+            
+            //delete session
+            String sqlDeleteSessionViaId = "DELETE FROM session WHERE Session_PK = ?";
+            
+            psDeleteRoomTypeViaId = con.prepareStatement(sqlDeleteRoomTypeViaId);
        }
        
        catch(SQLException ex)
@@ -242,6 +269,11 @@ public class JDBCUtility {
    public PreparedStatement getPsSelectAllFromRoomViaId()
    {
        return psSelectAllFromRoomViaId;
+   }
+   
+   public PreparedStatement getPsUpdateRoomViaId()
+   {
+       return psUpdateRoomViaId;
    }
    
    public PreparedStatement getPsUpdateRoomStatusViaId()
@@ -302,5 +334,20 @@ public class JDBCUtility {
    public PreparedStatement getPsSelectRoomViaTypeNBlock()
    {
        return psSelectRoomViaTypeNBlock;
+   }
+   
+   public PreparedStatement getPsDeleteRoomViaId()
+   {
+       return psDeleteRoomViaId;
+   }
+   
+   public PreparedStatement getPsDeleteRoomTypeViaId()
+   {
+       return psDeleteRoomTypeViaId;
+   }
+   
+   public PreparedStatement getPsDeleteSessionViaId()
+   {
+       return psDeleteSessionViaId;
    }
 }
