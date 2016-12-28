@@ -16,7 +16,7 @@
                 <label for="roomtype" >Room Type</label>
 
                 <select id="roomtype" name="roomtype" class="form-control">
-                    <option value="" selected disabled>Select Room Type</option>
+                    <option value=" " selected disabled>Select Room Type</option>
                     <c:forEach items="${sessionScope.roomtype}" var="currentRoomtype" varStatus="loop">
                         <option value="<c:out value='${currentRoomtype.getRoomType_PK()}' />"> <c:out value="${currentRoomtype.getType()}" /> </option>
                     </c:forEach>
@@ -28,12 +28,12 @@
                         <c:choose>
                             <c:when test="${empty block}">
                                 <select id="block" name="block" class="form-control" disabled>
-                                    <option value="" selected disabled>Select Available Block</option>
+                                    <option value=" " selected disabled>Select Available Block</option>
                                 </select>
                             </c:when>
                             <c:otherwise>
                                 <select id="block" name="block" class="form-control">
-                                    <option value="" selected disabled>Select Available Block</option>
+                                    <option value=" " selected disabled>Select Available Block</option>
                                     <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
                                         <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
                                     </c:forEach>
@@ -47,12 +47,12 @@
                         <c:choose>
                             <c:when test="${empty block}">
                                 <select id="room" name="room" class="form-control" disabled>
-                                    <option value="" selected disabled>Select Room</option>
+                                    <option value=" " selected disabled>Select Room</option>
                                 </select>
                             </c:when>
                             <c:otherwise>
                                 <select id="room" name="room" class="form-control">
-                                    <option value="" selected disabled>Select Room</option>
+                                    <option value=" " selected disabled>Select Room</option>
                                     <c:forEach items="${sessionScope.room}" var="currentRoom" varStatus="loop">
                                         <option value="<c:out value='${currentRoom.getRoom_PK()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
                                     </c:forEach>
@@ -77,7 +77,7 @@
         
         var roomtype = $("#roomtype").val();
         
-        $.post("PopulateRoomServlet", {type: roomtype}, function(res){ 
+        $.post("PopulateRoomServlet", {type: roomtype}, function(){ 
             $("#room").load(" #room");
         });
     });
