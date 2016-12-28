@@ -75,7 +75,7 @@ public class dashboard extends HttpServlet {
         Room room = null;
         
         ArrayList roomTypes = new ArrayList();
-        RoomType roomtype = null;
+        RoomType roomType = null;
         
 
         ArrayList sessions = new ArrayList();
@@ -100,27 +100,40 @@ public class dashboard extends HttpServlet {
             //select all from room
             ResultSet rs1 = jdbcUtility.getPsSelectAllFromRoom().executeQuery();
             
-            while (rs.next()) {     
+            while (rs1.next()) {     
                 room = new Room();
-                room.setRoom_PK(rs.getInt("Room_PK"));
-                room.setNumber(rs.getString("Number"));
-                room.setBlock(rs.getString("Block"));
-                room.setGender(rs.getInt("Gender"));
-                room.setRoomType(rs.getInt("RoomType_PK"));
-                room.setOccupied(rs.getInt("Occupied"));
-                
-                application = new Application();
-                application.setApplication_PK(rs.getInt("Application_PK"));
-                application.setUsername(rs.getString("Username"));
-                application.setNumber(rs.getString("Number"));
-                application.setBlock(rs.getString("Block"));
-                application.setStatus(rs.getInt("Status"));
-                application.setApplyDate(rs.getString("ApplyDate"));
-                application.setApprovedDate(rs.getString("ApprovedDate"));
-                applications.add(application);
+                room.setRoom_PK(rs1.getInt("Room_PK"));
+                room.setNumber(rs1.getString("Number"));
+                room.setBlock(rs1.getString("Block"));
+                room.setGender(rs1.getInt("Gender"));
+                room.setRoomType(rs1.getInt("RoomType_PK"));
+                room.setOccupied(rs1.getInt("Occupied"));
+                rooms.add(room);
             }
             
+            //select all from roomtype
+            ResultSet rs2 = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
             
+            while (rs2.next()) {     
+                roomType = new RoomType();
+                roomType.setRoomType_PK(rs2.getInt("RoomType_PK"));
+                roomType.setPic(rs2.getString("Pic"));
+                roomType.setType(rs2.getString("Type"));
+                roomType.setPrice(rs2.getDouble("Price"));
+                roomType.setDescription(rs2.getString("Description"));
+                roomTypes.add(roomType);
+            }
+            
+            //select all from session
+            ResultSet rs3 = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+            
+            while (rs3.next()) {     
+                session = new Session();
+                session.setId(rs3.getInt("Session_PK"));
+                session.setName(rs3.getString("Name"));
+                session.setStatus(rs3.getInt("Status"));
+                sessions.add(session);
+            }
         }
         catch (SQLException ex)
 	{
@@ -145,6 +158,9 @@ public class dashboard extends HttpServlet {
     
         //put into sessions
         httpsession.setAttribute("applications", applications);
+        httpsession.setAttribute("rooms", rooms);
+        httpsession.setAttribute("roomTypes", roomTypes);
+        httpsession.setAttribute("sessions", sessions);
         
         //redirect to managedestination.jsp
         sendPage(request, response, "admin/dashboard.jsp");
@@ -163,7 +179,6 @@ public class dashboard extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-
     }                
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
