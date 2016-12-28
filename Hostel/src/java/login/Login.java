@@ -76,7 +76,7 @@ public class Login extends HttpServlet {
 
             //Redirect user according to their user level
             if(user.getLevel() == 0) 
-                sendPage(request, response, "GetApplicationServlet");
+                sendPage(request, response, "dashboard");
             else {
                 RoomType rt;
 

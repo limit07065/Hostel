@@ -115,24 +115,28 @@ public class auth implements Filter {
         //get session
         HttpSession session = ((HttpServletRequest) request).getSession();
 
-        //get url of request page
-        String url = ((HttpServletRequest) request).getRequestURL().toString();
-        if (!url.endsWith("Login")) {
-            try {
+        if(session == null || request.getAttribute("user") == null){
+        
+            //get url of request page
+            String url = ((HttpServletRequest) request).getRequestURL().toString();
 
-                chain.doFilter(request, response);
-            } catch (Throwable t) {
-                // If an exception is thrown somewhere down the filter chain,
-                // we still want to execute our after processing, and then
-                // rethrow the problem after that.
-                problem = t;
-                t.printStackTrace();
+            if (url.endsWith("Login")||url.endsWith(".js")||url.endsWith(".css")) {
+                try {
+                    chain.doFilter(request, response);
+                } catch (Throwable t) {
+                    // If an exception is thrown somewhere down the filter chain,
+                    // we still want to execute our after processing, and then
+                    // rethrow the problem after that.
+                    problem = t;
+                    t.printStackTrace();
+                }
+            } else {
+                //redirect to Login servlet
+                ((HttpServletResponse) response).sendRedirect("Login");
+                
             }
-        } else {
-            //redirect to Login servlet
-            ((HttpServletResponse) response).sendRedirect("Login");
-
         }
+        
 
         doAfterProcessing(request, response);
 
