@@ -143,7 +143,6 @@ public final class application_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\r\n");
       out.write("\r\n");
       out.write("<div class=\"container\">\r\n");
-      out.write("<<<<<<< HEAD\r\n");
       out.write("    <h2>Next-Year Application</h2>\r\n");
       out.write("    <form id=\"form\" class=\"form-group\">\r\n");
       out.write("        <label for=\"roomtype\" >Room Type</label>\r\n");
@@ -182,12 +181,6 @@ public final class application_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            </tr> \r\n");
       out.write("        </table>\r\n");
       out.write("    </div>\r\n");
-      out.write("=======\r\n");
-      out.write("    ");
-      if (_jspx_meth_c_choose_3(_jspx_page_context))
-        return;
-      out.write("\r\n");
-      out.write(">>>>>>> f2e70b6833cb2b6bf7913a356acb06639792e810\r\n");
       out.write("    <div class=\"container\">\r\n");
       out.write("        <div class=\"page-header\">\r\n");
       out.write("            <h2 class=\"clickable-header\" data-toggle=\"tooltip\" title=\"Click to show more.\" style=\"cursor:pointer;\">\r\n");
@@ -238,7 +231,6 @@ public final class application_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</html>\r\n");
       out.write("\r\n");
       out.write("<script>\r\n");
-      out.write("<<<<<<< HEAD\r\n");
       out.write("    $(document).ready(function() {\r\n");
       out.write("        $('[data-toggle=\"tooltip\"]').tooltip();\r\n");
       out.write("        $(\"h2.clickable-header\").click(function(){\r\n");
@@ -247,14 +239,6 @@ public final class application_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                $(this).children(\"span\").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');\r\n");
       out.write("            }\r\n");
       out.write("            else{\r\n");
-      out.write("=======\r\n");
-      out.write("    $(document).ready(function () {\r\n");
-      out.write("        $(\"span.glyphicon\").click(function () {\r\n");
-      out.write("            if (this.className === \"glyphicon glyphicon-plus\") {\r\n");
-      out.write("                $(this).parents(\".container\").children(\"table\").slideDown(\"slow\");\r\n");
-      out.write("                $(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');\r\n");
-      out.write("            } else {\r\n");
-      out.write(">>>>>>> f2e70b6833cb2b6bf7913a356acb06639792e810\r\n");
       out.write("                $(this).parents(\".container\").children(\"table\").slideUp(\"slow\");\r\n");
       out.write("                $(this).children(\"span\").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');\r\n");
       out.write("            }\r\n");
@@ -579,115 +563,6 @@ public final class application_jsp extends org.apache.jasper.runtime.HttpJspBase
       return true;
     }
     _jspx_tagPool_c_otherwise.reuse(_jspx_th_c_otherwise_1);
-    return false;
-  }
-
-  private boolean _jspx_meth_c_choose_3(PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:choose
-    org.apache.taglibs.standard.tag.common.core.ChooseTag _jspx_th_c_choose_3 = (org.apache.taglibs.standard.tag.common.core.ChooseTag) _jspx_tagPool_c_choose.get(org.apache.taglibs.standard.tag.common.core.ChooseTag.class);
-    _jspx_th_c_choose_3.setPageContext(_jspx_page_context);
-    _jspx_th_c_choose_3.setParent(null);
-    int _jspx_eval_c_choose_3 = _jspx_th_c_choose_3.doStartTag();
-    if (_jspx_eval_c_choose_3 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\r\n");
-        out.write("        ");
-        if (_jspx_meth_c_when_4((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_choose_3, _jspx_page_context))
-          return true;
-        out.write("\r\n");
-        out.write("        ");
-        if (_jspx_meth_c_otherwise_2((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_choose_3, _jspx_page_context))
-          return true;
-        out.write("\r\n");
-        out.write("\r\n");
-        out.write("    ");
-        int evalDoAfterBody = _jspx_th_c_choose_3.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_choose_3.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_choose.reuse(_jspx_th_c_choose_3);
-      return true;
-    }
-    _jspx_tagPool_c_choose.reuse(_jspx_th_c_choose_3);
-    return false;
-  }
-
-  private boolean _jspx_meth_c_when_4(javax.servlet.jsp.tagext.JspTag _jspx_th_c_choose_3, PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:when
-    org.apache.taglibs.standard.tag.rt.core.WhenTag _jspx_th_c_when_4 = (org.apache.taglibs.standard.tag.rt.core.WhenTag) _jspx_tagPool_c_when_test.get(org.apache.taglibs.standard.tag.rt.core.WhenTag.class);
-    _jspx_th_c_when_4.setPageContext(_jspx_page_context);
-    _jspx_th_c_when_4.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_choose_3);
-    _jspx_th_c_when_4.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${empty application}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
-    int _jspx_eval_c_when_4 = _jspx_th_c_when_4.doStartTag();
-    if (_jspx_eval_c_when_4 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\r\n");
-        out.write("            <h3 class=\"container\"> Application Opens Now. <a href=\"#\">Click to apply.</a></h3>\r\n");
-        out.write("        ");
-        int evalDoAfterBody = _jspx_th_c_when_4.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_when_4.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_when_test.reuse(_jspx_th_c_when_4);
-      return true;
-    }
-    _jspx_tagPool_c_when_test.reuse(_jspx_th_c_when_4);
-    return false;
-  }
-
-  private boolean _jspx_meth_c_otherwise_2(javax.servlet.jsp.tagext.JspTag _jspx_th_c_choose_3, PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:otherwise
-    org.apache.taglibs.standard.tag.common.core.OtherwiseTag _jspx_th_c_otherwise_2 = (org.apache.taglibs.standard.tag.common.core.OtherwiseTag) _jspx_tagPool_c_otherwise.get(org.apache.taglibs.standard.tag.common.core.OtherwiseTag.class);
-    _jspx_th_c_otherwise_2.setPageContext(_jspx_page_context);
-    _jspx_th_c_otherwise_2.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_choose_3);
-    int _jspx_eval_c_otherwise_2 = _jspx_th_c_otherwise_2.doStartTag();
-    if (_jspx_eval_c_otherwise_2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\r\n");
-        out.write("            <div class=\"container\">\r\n");
-        out.write("                <div class=\"page-header\">\r\n");
-        out.write("                    <div class=\"btn-toolbar pull-right\">\r\n");
-        out.write("                        <span style=\"cursor:pointer;\" class=\"glyphicon glyphicon-plus\">\r\n");
-        out.write("                    </div>\r\n");
-        out.write("                    <h2> Current Application </h2>\r\n");
-        out.write("                </div>\r\n");
-        out.write("                <table class=\"table table-responsive table-hover\" style=\"display:none;\">\r\n");
-        out.write("                    <tr>\r\n");
-        out.write("                        <th>Session</th>\r\n");
-        out.write("                        <th>Block</th>\r\n");
-        out.write("                        <th>Room No.</th>\r\n");
-        out.write("                        <th>Room Type</th>\r\n");
-        out.write("                        <th>Price/Day</th>\r\n");
-        out.write("                        <th>Total</th>\r\n");
-        out.write("                        <th>Status</th>\r\n");
-        out.write("                        <th>Action</th>\r\n");
-        out.write("                    </tr> \r\n");
-        out.write("                </table>\r\n");
-        out.write("            </div>\r\n");
-        out.write("        ");
-        int evalDoAfterBody = _jspx_th_c_otherwise_2.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_otherwise_2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_otherwise.reuse(_jspx_th_c_otherwise_2);
-      return true;
-    }
-    _jspx_tagPool_c_otherwise.reuse(_jspx_th_c_otherwise_2);
     return false;
   }
 }
