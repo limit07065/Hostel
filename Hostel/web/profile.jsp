@@ -7,7 +7,7 @@
 <%@include file="header.jsp"%>
 <div class="container">
     <div class="col-md-4 col-md-offset-4">
-        <img class="img-circle center-block img-thumbnail" alt="x"/>
+        <img class="img-circle center-block img-thumbnail" src="img/<c:out value='${user.getPic()}' />" alt="x"/>
     </div>
     <div class="col-md-6 col-md-offset-3">
         <div class="row">
@@ -22,8 +22,8 @@
                 <label>:</label>
             </div>
             <div class="col-md-8">
-                <label> Name</label>    <br>
-                <label> Matric Number</label>
+                <label> <c:out value="${user.getName()}" /></label>    <br>
+                <label> <c:out value="${user.getEmail()}" /></label>
             </div>
         </div>
        

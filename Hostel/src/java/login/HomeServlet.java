@@ -5,12 +5,14 @@
  */
 package login;
 
+import bean.RoomType;
 import bean.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +27,7 @@ import jdbc.JDBCUtility;
  * @author wenhe
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Home"})
-public class LoginServlet extends HttpServlet {
+public class HomeServlet extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
@@ -61,20 +63,47 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        //Check if login already
         HttpSession session = request.getSession(false);
-
-        if(session == null){
-            request.setAttribute("loginError", "");
+        
+        if(session == null || session.getAttribute("user") == null){
+            request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
         }
         else {
             User user = (User)session.getAttribute("user");
             
+
+            //Redirect user according to their user level
             if(user.getLevel() == 0) 
                 sendPage(request, response, "/admin/dashboard.jsp");
-            else
-                sendPage(request, response, "/application.jsp");
-           
+            else {
+                RoomType rt;
+
+                try {
+                    PreparedStatement ps = jdbcUtility.getPsSelectAllFromRoomType();
+                    ResultSet rs = ps.executeQuery();
+
+                    ArrayList roomtypeList = new ArrayList();
+
+                    while(rs.next()){
+                        rt = new RoomType();
+                        rt.setRoomType_PK(rs.getInt("RoomType_PK"));
+                        rt.setType(rs.getString("Type"));
+                        rt.setDescription(rs.getString("Description"));
+                        rt.setPic(rs.getString("Pic"));
+                        rt.setPrice(rs.getDouble("Price"));
+
+                        roomtypeList.add(rt);
+                    }
+
+                    session.setAttribute("roomtype", roomtypeList);
+                }
+                catch(SQLException ex)
+                {}
+
+                sendPage(request, response, "/apply.jsp");
+            }
         }
     }
         
@@ -110,7 +139,17 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String type = request.getParameter("type");
+        
+        if(type != null){
+            if(type.equals("history")){
+                sendPage(request, response, "/application.jsp");
+            }
+        }
+        else
+            processRequest(request, response);
+
     }
 
     /**
@@ -152,8 +191,37 @@ public class LoginServlet extends HttpServlet {
 
                 if(userBean.getLevel() == 0)
                     sendPage(request, response, "/admin/dashboard.jsp");
-                else
-                    sendPage(request, response, "/application.jsp");
+                else {
+                    
+                    if(session.getAttribute("roomtype") == null){
+                        RoomType rt;
+
+                        try {
+                            ps = jdbcUtility.getPsSelectAllFromRoomType();
+                            rs = ps.executeQuery();
+
+                            ArrayList roomtypeList = new ArrayList();
+
+                            while(rs.next()){
+                                rt = new RoomType();
+                                rt.setRoomType_PK(rs.getInt("RoomType_PK"));
+                                rt.setType(rs.getString("Type"));
+                                rt.setDescription(rs.getString("Description"));
+                                rt.setPic(rs.getString("Pic"));
+                                rt.setPrice(rs.getDouble("Price"));
+
+                                roomtypeList.add(rt);
+                            }
+
+                            session.setAttribute("roomtype", roomtypeList);
+                        }
+                        catch(SQLException ex)
+                        {}
+                    }
+                    
+                    sendPage(request, response, "/apply.jsp");
+                }
+                    
             }
             else if(!status){
                 request.setAttribute("loginError", "Username and Password do not matched");

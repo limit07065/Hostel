@@ -50,29 +50,35 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="Home">
                         <img src="http://placehold.it/150x50&text=Logo" alt="">
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
-
-                      
+                        <c:if test="${not empty user}">
+                            <li>
+                                <a href="Profile">Welcome, <c:out value="${user.getName()}" /></a>
+                            </li>
+                            <li>
+                                <a href="Home">Home</a>
+                            </li>
+                        </c:if>
                         <li>
-                            <a href="#">Application History</a>
+                            <a href="Home?type=history">Application History</a>
                         </li>
 
                         <c:choose>
                             <c:when test="${empty user}">
                                 <li>
-                                    <a href="#">Login</a>
+                                    <a href="Home">Login</a>
                                 </li>
 
                             </c:when>
                             <c:otherwise>
                                 <li>
-                                    <a href="#">Logout</a>
+                                    <a href="Logout">Logout</a>
 
                                 </li>
                                 <li>

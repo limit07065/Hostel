@@ -64,77 +64,28 @@ public class PopulateRoomServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         
-        String roomtype = "%";
-        String block = "%";        
-        RoomType rt;
+        String roomtype;
+        String block;        
         Room room = new Room();
         
-        if(session.getAttribute("roomtype") == null){
-            try{
-                PreparedStatement ps = jdbcUtility.getPsSelectAllFromRoomType();
-                ResultSet rs = ps.executeQuery();
-                ArrayList roomtypeList = new ArrayList();
-
-                while(rs.next()){
-                    rt = new RoomType();
-                    rt.setRoomType_PK(rs.getInt("RoomType_PK"));
-                    rt.setType(rs.getString("Type"));
-                    rt.setDescription(rs.getString("Description"));
-                    rt.setPic(rs.getString("Pic"));
-                    rt.setPrice(rs.getDouble("Price"));
-
-                    roomtypeList.add(rt);
-                }
-
-                session.setAttribute("roomtype", roomtypeList);
-            }
-            catch (SQLException ex) 
-            {            
-            }    
-        }
-        
-        String change = request.getParameter("typeChange");
-         /* if(change.equals("1")){
+        String type = request.getParameter("type");
+        if(type != null){            
            try{
-                PreparedStatement ps = jdbcUtility.getPsSelectAllFromRoomType();
+                PreparedStatement ps = jdbcUtility.getPsSelectBlockViaRoomType();
+                ps.setString(1, type);
                 ResultSet rs = ps.executeQuery();
-                ArrayList roomtypeList = new ArrayList();
+                ArrayList blockList = new ArrayList();
 
-                while(rs.next()){
-                    rt = new RoomType();
-                    rt.setRoomType_PK(rs.getInt("RoomType_PK"));
-                    rt.setType(rs.getString("Type"));
-                    rt.setDescription(rs.getString("Description"));
-                    rt.setPic(rs.getString("Pic"));
-                    rt.setPrice(rs.getDouble("Price"));
+                while(rs.next())
+                    blockList.add(rs.getString("Block"));
 
-                    roomtypeList.add(rt);
-                }
-
-                session.setAttribute("roomtype", roomtypeList);
+                session.setAttribute("block", blockList);
             }
             catch (SQLException ex) 
             {            
             }  
-        }*/
-        
-       // sendPage(request, response, "/apply.jsp");
+        }
     }
-
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }        
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

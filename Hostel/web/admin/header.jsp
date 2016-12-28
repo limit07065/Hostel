@@ -22,16 +22,16 @@
 
     <!-- Bootstrap Core CSS -->
    
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
    
-    <link href="../css/logo-nav.css" rel="stylesheet">
+    <link href="css/logo-nav.css" rel="stylesheet">
     <!-- Hostel CSS -->
-    <link href="../css/hostel.css" rel="stylesheet">
+    <link href="css/hostel.css" rel="stylesheet">
     
    
-    <script src="../js/font-awesome.min.js"></script>
+    <script src="js/font-awesome.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,19 +64,24 @@
                 <ul class="nav navbar-nav navbar-right">
                     
                     <li>
-                        <a href="#">Dashboard</a>
+                        <a href="Home">Dashboard</a>
                     </li>
-                    <li>
-                        <a href="#">Login</a>
-                    </li>
-                    <c:if test="${1==1}">
-                    <li>
-                        <a href="#">Logout</a>
-                    </li>
-                    <li>
-                        <a><img alt="x" class="profile-icon"></a>
-                    </li>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${empty user}">
+                            <li>
+                                <a href="Home">Login</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li>
+                                <a href="Logout">Logout</a>
+                            </li>
+                            <li>
+                                <a><img alt="x" class="profile-icon"></a>
+                            </li>
+                        </c:otherwise>
+
+                    </c:choose>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

@@ -33,6 +33,8 @@ public class JDBCUtility {
    PreparedStatement psInsertApplication = null;
    PreparedStatement psSelectAllFromApplication = null;
    PreparedStatement psUpdateApplicationStatusViaId = null;
+   PreparedStatement psSelectBlockViaRoomType = null;
+   PreparedStatement psSelectRoomViaTypeNBlock = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -181,6 +183,16 @@ public class JDBCUtility {
                                                 "WHERE Application_PK = ?";
             
             psUpdateApplicationStatusViaId = con.prepareStatement(sqlUpdateApplicationStatusViaId);
+            
+            //select available block via roomtype
+            String sqlSelectBlockViaRoomType = "SELECT DISTINCT Block FROM room WHERE RoomType_FK = ?";
+            
+            psSelectBlockViaRoomType = con.prepareStatement(sqlSelectBlockViaRoomType);
+            
+            //select rooms via roomtype and block
+            String sqlSelectRoomViaTypeNBlock = "SELECT * FROM room WHERE RoomType_FK = ? AND Block = ?";
+            
+            psSelectRoomViaTypeNBlock = con.prepareStatement(sqlSelectRoomViaTypeNBlock);
        }
        
        catch(SQLException ex)
@@ -280,5 +292,15 @@ public class JDBCUtility {
    public PreparedStatement getPsUpdateApplicationStatusViaId()
    {
        return psUpdateApplicationStatusViaId;
+   }
+   
+   public PreparedStatement getPsSelectBlockViaRoomType()
+   {
+       return psSelectBlockViaRoomType;
+   }
+   
+   public PreparedStatement getPsSelectRoomViaTypeNBlock()
+   {
+       return psSelectRoomViaTypeNBlock;
    }
 }
