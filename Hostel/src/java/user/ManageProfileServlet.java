@@ -63,12 +63,14 @@ public class ManageProfileServlet extends HttpServlet {
         // Check if user login already
         HttpSession session = request.getSession(false);
         
+
         if(session == null || session.getAttribute("user") == null){
             request.setAttribute("loginError", "Session timeout, please login again");
             sendPage(request, response, "/login.jsp");
         }
         else {
             sendPage(request, response, "/profile.jsp");
+
         }
         
     }
