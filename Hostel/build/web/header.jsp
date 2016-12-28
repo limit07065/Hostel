@@ -20,13 +20,41 @@
         <meta name="author" content="">
 
         <title>Hostel Management System</title>
+        <c:choose>
+            <c:when test="${user.getLevel()==1}">
+                <!-- Bootstrap Core CSS -->
+                <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Bootstrap Core CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+                <!-- Custom CSS -->
+                <link href="../css/logo-nav.css" rel="stylesheet">
+                <link href="../css/hostel.css" rel="stylesheet">
 
-        <!-- Custom CSS -->
-        <link href="css/logo-nav.css" rel="stylesheet">
-        <script src="js/font-awesome.min.js"></script>
+                <!-- Font Awesome  -->
+                <script src="../js/font-awesome.min.js"></script>
+            </c:when>
+            <c:otherwise>
+                <!-- Bootstrap Core CSS -->
+                <link href="css/bootstrap.min.css" rel="stylesheet">
+
+                <!-- Custom CSS -->
+                <link href="css/logo-nav.css" rel="stylesheet">
+                <link href="css/hostel.css" rel="stylesheet">
+
+                <!-- Font Awesome  -->
+                <script src="js/font-awesome.min.js"></script>
+
+                <!-- Bootstrap Core CSS -->
+                <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+                <!-- Custom CSS -->
+                <link href="../css/logo-nav.css" rel="stylesheet">
+                <link href="../css/hostel.css" rel="stylesheet">
+
+                <!-- Font Awesome  -->
+                <script src="../js/font-awesome.min.js"></script>
+            </c:otherwise>
+        </c:choose>
+
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,7 +69,7 @@
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
+            <div id="navbar" class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -58,19 +86,22 @@
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
 
-                      
-                        <li>
-                            <a href="#">Application History</a>
-                        </li>
+                        <c:choose>
+                            <c:when test="${user.getLevel==0}">
+                                <li>
+                                    <a href="#">Applications</a>
+                                </li>
+                            </c:when>
+                            <c:when test="${user.getLevel==1}">
+                                <li>
+                                    <a href="#">Dashboard</a>
+                                </li>
+                            </c:when>
+                        </c:choose>
+
 
                         <c:choose>
-                            <c:when test="${empty user}">
-                                <li>
-                                    <a href="#">Login</a>
-                                </li>
-
-                            </c:when>
-                            <c:otherwise>
+                            <c:when test="${not empty user}">                            
                                 <li>
                                     <a href="#">Logout</a>
 
@@ -79,6 +110,11 @@
                                     <a><img alt="x" class="profile-icon "></a>
                                 </li>
 
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <a href="">Login</a>
+                                </li>
                             </c:otherwise>
 
                         </c:choose>
