@@ -21,11 +21,26 @@
                         <th>Room </th>
                         <th>Type</th>
                         <th>Action</th>
-                    </tr> 
+                    </tr>
+                    <tr>
+                        <c:choose>
+                            <c:when test="${$application}">
+                                
+                            </c:when>
+                            <c:when test="${application ==null}">
+                                <td colspan="7">No Record</td>
+                            </c:when>
+                                
+                        </c:choose>
+                    </tr>
+                
+                
+                    
                 </table>
 
 
             </div>
+<!--            hidden-->
             <div class="col-md-6" id="studentwindow">
                 <h3>Student Window</h3>
                 <div class="col-md-6">
@@ -37,20 +52,7 @@
                     <label>Matric Number:</label>
                 </div>
             </div>
-            <div class="col-md-6 full-screen" id="waitinglist">
-                <h3>Waiting list</h3>
-                <table class="table table-responsive table-hover" >
-                    <tr>
-                        <th>No.</th>
-                        <th>Name.</th>
-                        <th>Matric No.</th>
-                        <th>Block</th>
-                        <th>Room </th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </tr> 
-                </table>
-            </div>
+            
         </div>
         <div id="room" class="tab-pane fade">
             <!--This is for the things inside second menu-->
@@ -65,39 +67,18 @@
             <h3>cd</h3>
         </div>
 
-        <div class="col-md-4 full-screen" id="waitinglist">
-            <h3>Waiting list</h3>
-            <table class="table table-responsive table-hover" >
-                <tr>
-                    <th>No.</th>
-                    <th>Name.</th>
-                    <th>Matric No.</th>
-                    <th>Block</th>
-                    <th>Room </th>
-                    <th>Type</th>
-                    <th>Action</th>
-                </tr> 
-            </table>
-        </div>       
+       
 
     </div>
     
-    <div class="row" id="room">
-        <div class="col-md-6" id="roomlist">
-            
-        </div>
-        
-        <div class="col-md-6" id="roomtype">
-            
-        </div>
-
-    </div>
+  
     <div class="col-md-3">
     <h4>Menu</h4>
     <ul class="nav nav-pills nav-stacked">
         <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
         <li><a data-toggle="pill" href="#room">Room</a></li>
         <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
+        
         <li><a data-toggle="pill" href="#session">Session</a></li>  
     </ul>
 </div>
