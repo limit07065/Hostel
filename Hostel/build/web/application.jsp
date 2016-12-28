@@ -7,7 +7,6 @@
 <%@include file="header.jsp" %>
 
 <div class="container">
-<<<<<<< HEAD
     <h2>Next-Year Application</h2>
     <form id="form" class="form-group">
         <label for="roomtype" >Room Type</label>
@@ -46,36 +45,6 @@
             </tr> 
         </table>
     </div>
-=======
-    <c:choose>
-        <c:when test="${empty application}">
-            <h3 class="container"> Application Opens Now. <a href="#">Click to apply.</a></h3>
-        </c:when>
-        <c:otherwise>
-            <div class="container">
-                <div class="page-header">
-                    <div class="btn-toolbar pull-right">
-                        <span style="cursor:pointer;" class="glyphicon glyphicon-plus">
-                    </div>
-                    <h2> Current Application </h2>
-                </div>
-                <table class="table table-responsive table-hover" style="display:none;">
-                    <tr>
-                        <th>Session</th>
-                        <th>Block</th>
-                        <th>Room No.</th>
-                        <th>Room Type</th>
-                        <th>Price/Day</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr> 
-                </table>
-            </div>
-        </c:otherwise>
-
-    </c:choose>
->>>>>>> f2e70b6833cb2b6bf7913a356acb06639792e810
     <div class="container">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
@@ -97,7 +66,6 @@
 </div>
 <%@include file="footer.jsp" %>
 <script>
-<<<<<<< HEAD
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
         $("h2.clickable-header").click(function(){
@@ -106,14 +74,6 @@
                 $(this).children("span").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
             }
             else{
-=======
-    $(document).ready(function () {
-        $("span.glyphicon").click(function () {
-            if (this.className === "glyphicon glyphicon-plus") {
-                $(this).parents(".container").children("table").slideDown("slow");
-                $(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
-            } else {
->>>>>>> f2e70b6833cb2b6bf7913a356acb06639792e810
                 $(this).parents(".container").children("table").slideUp("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }
