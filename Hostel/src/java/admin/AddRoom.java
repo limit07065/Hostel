@@ -81,7 +81,7 @@ public class AddRoom extends HttpServlet {
             out.println("    alert('Room is added');");
             out.println("</script>");
             
-            sendPage(request, response, "/Dashboard");
+            sendPage(request, response, "/dashboard");
         }
         
         catch (SQLException ex)

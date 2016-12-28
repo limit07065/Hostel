@@ -75,7 +75,7 @@ public class DeleteRoom extends HttpServlet {
             out.println("    alert('Room is deleted!');");
             out.println("</script>");
             
-            sendPage(request, response, "/Dashboard");
+            sendPage(request, response, "/dashboard");
         }
         catch (SQLException ex)
 	{

@@ -8,6 +8,9 @@ package admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,9 +60,76 @@ public class RoomActivation extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        int id = Integer.parseInt(request.getParameter("id"));
+        int status = Integer.parseInt(request.getParameter("status"));
         
+        if(status ==  0)
+        {
+            status = 1;
+        }
+        
+        else if(status == 1)
+        {
+            status = 0;
+        }
+        
+        response.setContentType("text/html;charset=UTF-8");
+        try{
+            //PrintWriter out = response.getWriter();
+            
+            PreparedStatement preparedStatement = jdbcUtility.getPsUpdateRoomStatusViaId();
+            
+            preparedStatement.setInt(1, status);
+            preparedStatement.setInt(2, id);
+            
+            preparedStatement.executeUpdate();
+            
+            /*out.println("<script>");
+            out.println("    alert('Destination status updated success');");
+            out.println("</script>");
+            
+            out.println("<p>Please click <a href='/ServletDatev5/GetDestinationsServlet'>here</a> to view destination details</p>");*/
+            
+            sendPage(request, response, "/dashboard");
+
+        }
+        catch (SQLException ex)
+	{
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
+	}
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	} 
     }
 
+    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
+    {
+        // Get the dispatcher; it gets the main page to the user
+	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
+
+	if (dispatcher == null)
+	{
+            System.out.println("There was no dispatcher");
+	    // No dispatcher means the html file could not be found.
+	    res.sendError(res.SC_NO_CONTENT);
+	}
+	else
+	    dispatcher.forward(req, res);
+    }  
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

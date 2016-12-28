@@ -75,7 +75,7 @@ public class AddSession extends HttpServlet {
             out.println("    alert('Session is added');");
             out.println("</script>");
             
-            sendPage(request, response, "/Dashboard");
+            sendPage(request, response, "/dashboard");
         }
         
         catch (SQLException ex)

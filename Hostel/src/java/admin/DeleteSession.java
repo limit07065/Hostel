@@ -75,7 +75,7 @@ public class DeleteSession extends HttpServlet {
             out.println("    alert('Session is deleted!');");
             out.println("</script>");
             
-            sendPage(request, response, "/Dashboard");
+            sendPage(request, response, "/dashboard");
         }
         catch (SQLException ex)
 	{

@@ -79,7 +79,7 @@ public class AddRoomType extends HttpServlet {
             out.println("    alert('Room type is added!');");
             out.println("</script>");
             
-            sendPage(request, response, "Dashboard");
+            sendPage(request, response, "dashboard");
         }
         
         catch (SQLException ex)
