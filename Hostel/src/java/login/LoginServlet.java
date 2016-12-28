@@ -24,7 +24,7 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet, "})
 public class LoginServlet extends HttpServlet {
 
     private JDBCUtility jdbcUtility;

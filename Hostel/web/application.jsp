@@ -49,7 +49,7 @@
 =======
     <c:choose>
         <c:when test="${empty application}">
-            <h3 class="container"> Application Opens Now. Click to apply.</h3>
+            <h3 class="container"> Application Opens Now. <a href="#">Click to apply.</a></h3>
         </c:when>
         <c:otherwise>
             <div class="container">

@@ -7,9 +7,19 @@ and open the template in the editor.
     Created on : Dec 22, 2016, 9:41:13 PM
     Author     : Ray
 */
+
+
 html, body {
     height: 100%;
 }
 .full-screen{
     min-height: 100%;
+}
+
+.upload-icon{
+    position:absolute;
+    z-index: 1;
+    right:95px;
+    bottom: 30px;
+    
 }
