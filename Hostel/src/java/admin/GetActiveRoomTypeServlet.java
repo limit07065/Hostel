@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Ryan Hoo
+ * @author Pang
  */
 @WebServlet(name = "GetActiveRoomTypeServlet", urlPatterns = {"/GetActiveRoomTypeServlet"})
 public class GetActiveRoomTypeServlet extends HttpServlet {

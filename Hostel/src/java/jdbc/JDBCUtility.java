@@ -191,7 +191,7 @@ public class JDBCUtility {
             psSelectAllFromApplication = con.prepareStatement(sqlSelectAllFromApplication);
             
             //update session via id
-            String sqlUpdateApplicationStatusViaId = "UPDATE application SET Status = ? " +
+            String sqlUpdateApplicationStatusViaId = "UPDATE application SET Status = ?, ApprovedDate = ? " +
                                                 "WHERE Application_PK = ?";
             
             psUpdateApplicationStatusViaId = con.prepareStatement(sqlUpdateApplicationStatusViaId);
