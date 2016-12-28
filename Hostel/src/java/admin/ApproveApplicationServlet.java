@@ -59,7 +59,7 @@ public class ApproveApplicationServlet extends HttpServlet {
             throws ServletException, IOException {
         
         //get Application_PK 
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
         
         //approve date - now
         java.util.Date dt = new java.util.Date();
@@ -71,7 +71,7 @@ public class ApproveApplicationServlet extends HttpServlet {
             
             preparedStatement.setString(1, "1");
             preparedStatement.setString(2, approveDate);
-            preparedStatement.setString(3, id);
+            preparedStatement.setInt(3, id);
             
             preparedStatement.executeUpdate();
         }
@@ -96,7 +96,7 @@ public class ApproveApplicationServlet extends HttpServlet {
             ex.printStackTrace ();
 	} 
         
-        sendPage(request, response, "/dashboard.java");
+        sendPage(request, response, "/dashboard");
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
