@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package user;
 
+import bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,14 +16,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jdbc.JDBCUtility;
 
 /**
  *
  * @author wenhe
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/Logout"})
-public class LogoutServlet extends HttpServlet {
 
+@WebServlet(name = "ManageProfile", urlPatterns = {"/Profile"})
+public class ManageProfile extends HttpServlet {
+
+    private JDBCUtility jdbcUtility;
+    private Connection con;
+    
+    public void init() throws ServletException
+    {
+        String driver = "com.mysql.jdbc.Driver";
+
+        String dbName = "db_hostel";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        con = jdbcUtility.jdbcGetConnection();
+        jdbcUtility.prepareSQLStatement();
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,15 +60,21 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Check if user login already
         HttpSession session = request.getSession(false);
         
-        if(session != null){
-            session.invalidate();
+
+        if(session == null || session.getAttribute("user") == null){
+            request.setAttribute("loginError", "Session timeout, please login again");
             sendPage(request, response, "/login.jsp");
+        }
+        else {
+            sendPage(request, response, "/profile.jsp");
+
         }
         
     }
-
+    
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
     {
         // Get the dispatcher; it gets the main page to the user
@@ -56,8 +88,8 @@ public class LogoutServlet extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }        
-    
+    }     
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

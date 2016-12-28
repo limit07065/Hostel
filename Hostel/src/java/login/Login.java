@@ -26,8 +26,8 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/Home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
@@ -36,7 +36,7 @@ public class HomeServlet extends HttpServlet {
     {
         String driver = "com.mysql.jdbc.Driver";
 
-        String dbName = "hostel";
+        String dbName = "db_hostel";
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String password = "";
@@ -76,7 +76,7 @@ public class HomeServlet extends HttpServlet {
 
             //Redirect user according to their user level
             if(user.getLevel() == 0) 
-                sendPage(request, response, "/admin/dashboard.jsp");
+                sendPage(request, response, "GetApplicationServlet");
             else {
                 RoomType rt;
 
@@ -102,7 +102,7 @@ public class HomeServlet extends HttpServlet {
                 catch(SQLException ex)
                 {}
 
-                sendPage(request, response, "/apply.jsp");
+                sendPage(request, response, "Apply");
             }
         }
     }
@@ -139,17 +139,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String type = request.getParameter("type");
-        
-        if(type != null){
-            if(type.equals("history")){
-                sendPage(request, response, "/application.jsp");
-            }
-        }
-        else
-            processRequest(request, response);
-
+        processRequest(request, response);
     }
 
     /**
@@ -190,7 +180,7 @@ public class HomeServlet extends HttpServlet {
                 session.setAttribute("user", userBean);
 
                 if(userBean.getLevel() == 0)
-                    sendPage(request, response, "/admin/dashboard.jsp");
+                    sendPage(request, response, "GetApplicationServlet");
                 else {
                     
                     if(session.getAttribute("roomtype") == null){
@@ -219,7 +209,7 @@ public class HomeServlet extends HttpServlet {
                         {}
                     }
                     
-                    sendPage(request, response, "/apply.jsp");
+                    sendPage(request, response, "Apply");
                 }
                     
             }
