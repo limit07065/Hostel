@@ -75,7 +75,7 @@ public class DeleteRoomType extends HttpServlet {
             out.println("    alert('Room type is deleted!');");
             out.println("</script>");
             
-            sendPage(request, response, "/dashboard");
+            response.sendRedirect("dashboard");
         }
         catch (SQLException ex)
 	{
