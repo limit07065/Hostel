@@ -5,7 +5,7 @@
 --%>
 
 <div id="footer" class="container">    
-    <div class="col-md-4">
+    <div class="col-sm-4">
         <h3>Developers</h3>
         <p>
             Hoo Boon Keong <br>
@@ -16,7 +16,7 @@
         </p>
 
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4">
         <h3> All rights reserved.</h3>
     </div>
 </div>    
