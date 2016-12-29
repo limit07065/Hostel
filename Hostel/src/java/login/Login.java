@@ -31,9 +31,8 @@ public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
-    
-    public void init() throws ServletException
-    {
+
+    public void init() throws ServletException {
         String driver = "com.mysql.jdbc.Driver";
 
         String dbName = "db_hostel";
@@ -42,15 +41,15 @@ public class Login extends HttpServlet {
         String password = "";
 
         jdbcUtility = new JDBCUtility(driver,
-                                      url,
-                                      userName,
-                                      password);
+                url,
+                userName,
+                password);
 
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,22 +61,22 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //Check if login already
         HttpSession session = request.getSession(false);
-        
-        if(session == null || session.getAttribute("user") == null){
+
+        //if user not logon
+        if (session == null || session.getAttribute("user") == null) {
             request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
-        }
-        else {
-            User user = (User)session.getAttribute("user");
-            
+        } else {
+            User user = (User) session.getAttribute("user");
 
             //Redirect user according to their user level
-            if(user.getLevel() == 0) 
-                sendPage(request, response, "GetApplicationServlet");
-            else {
+            //admin
+            if (user.getLevel() == 0) {
+                response.sendRedirect("dashboard");
+            } else {
                 RoomType rt;
 
                 try {
@@ -86,7 +85,7 @@ public class Login extends HttpServlet {
 
                     ArrayList roomtypeList = new ArrayList();
 
-                    while(rs.next()){
+                    while (rs.next()) {
                         rt = new RoomType();
                         rt.setRoomType_PK(rs.getInt("RoomType_PK"));
                         rt.setType(rs.getString("Type"));
@@ -98,34 +97,26 @@ public class Login extends HttpServlet {
                     }
 
                     session.setAttribute("roomtype", roomtypeList);
+                } catch (SQLException ex) {
                 }
-                catch(SQLException ex)
-                {}
 
                 sendPage(request, response, "Apply");
             }
         }
     }
-        
-        
-        
-    
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
 
-	if (dispatcher == null)
-	{
+    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException {
+        // Get the dispatcher; it gets the main page to the user
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
+
+        if (dispatcher == null) {
             System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }        
-    
+            // No dispatcher means the html file could not be found.
+            res.sendError(res.SC_NO_CONTENT);
+        } else {
+            dispatcher.forward(req, res);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -153,10 +144,10 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
+
         try {
             PreparedStatement ps = jdbcUtility.getPsSelectUserViaUserPass();
 
@@ -166,7 +157,7 @@ public class Login extends HttpServlet {
 
             boolean status = rs.next();
 
-            if(status){
+            if (status) {
                 User userBean = new User();
                 userBean.setUsername(rs.getString("Username"));
                 userBean.setLevel(rs.getInt("Level"));
@@ -179,11 +170,11 @@ public class Login extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", userBean);
 
-                if(userBean.getLevel() == 0)
-                    sendPage(request, response, "GetApplicationServlet");
-                else {
-                    
-                    if(session.getAttribute("roomtype") == null){
+                if (userBean.getLevel() == 0) {
+                    response.sendRedirect("dashboard");
+                } else {
+
+                    if (session.getAttribute("roomtype") == null) {
                         RoomType rt;
 
                         try {
@@ -192,7 +183,7 @@ public class Login extends HttpServlet {
 
                             ArrayList roomtypeList = new ArrayList();
 
-                            while(rs.next()){
+                            while (rs.next()) {
                                 rt = new RoomType();
                                 rt.setRoomType_PK(rs.getInt("RoomType_PK"));
                                 rt.setType(rs.getString("Type"));
@@ -204,24 +195,20 @@ public class Login extends HttpServlet {
                             }
 
                             session.setAttribute("roomtype", roomtypeList);
+                        } catch (SQLException ex) {
                         }
-                        catch(SQLException ex)
-                        {}
                     }
-                    
-                    sendPage(request, response, "Apply");
+
+                    response.sendRedirect("Apply");
                 }
-                    
-            }
-            else if(!status){
-                request.setAttribute("loginError", "Username and Password do not matched");
+
+            } else if (!status) {
+                request.setAttribute("loginError", "Username and Password do not match");
                 sendPage(request, response, "/login.jsp");
             }
+        } catch (SQLException ex) {
         }
-        catch (SQLException ex)
-        {
-        }
-        
+
     }
 
     /**

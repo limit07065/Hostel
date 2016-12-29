@@ -7,13 +7,59 @@ and open the template in the editor.
     Created on : Dec 22, 2016, 9:41:13 PM
     Author     : Ray
 */
+@import url('https://fonts.googleapis.com/css?family=Merriweather|Montserrat');
 
-
-html, body {
-    height: 100%;
+@media (max-width:768px){
+    #footer{
+        text-align:center;
+    }
+   
 }
+
+@media (min-width:768px)
+{
+    .nav-logo{
+        border-right: solid rgb(204, 193, 193) 1px;
+    }
+}
+html, body {
+    font-family: 'Merriweather', serif;
+    /*height: 100%;*/
+    background-color: white;
+}
+
+.alert{
+    font-family: Montserrat, serif;
+    padding: 10px;
+    
+}
+.btn{
+    font-family: 'Montserrat', serif;
+}
+
 .full-screen{
     min-height: 100%;
+}
+
+.greenbg
+{
+    height: 67%;
+    background:rgba(92, 214, 60, 0.23) ;
+    background: -webkit-linear-gradient(180deg, rgba(92, 214, 60, 0.23), #6fe367);
+    background: -o-linear-gradient(180deg, rgba(92, 214, 60, 0.23), #6fe367);
+    background: -moz-linear-gradient(180deg,rgba(92, 214, 60, 0.23), #6fe367);
+    background: linear-gradient(180deg, rgba(92, 214, 60, 0.23), #6fe367);
+}
+
+.input-group
+{
+    margin-bottom: 10px;
+}    
+
+.nav-logo
+{
+    height:50px;
+    width: 200px;
 }
 
 .upload-icon{
@@ -21,5 +67,14 @@ html, body {
     z-index: 1;
     right:95px;
     bottom: 30px;
-    
 }
+
+
+#loginlogo{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 150px;
+
+}
+
+

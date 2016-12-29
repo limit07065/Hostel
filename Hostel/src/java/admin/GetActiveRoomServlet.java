@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package admin;
 
-import bean.User;
+import bean.Room;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import javax.servlet.RequestDispatcher;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import jdbc.JDBCUtility;
 
 /**
  *
- * @author wenhe
+ * @author Pang
  */
-
-@WebServlet(name = "ManageProfile", urlPatterns = {"/Profile"})
-public class ManageProfile extends HttpServlet {
+@WebServlet(name = "GetActiveRoomServlet", urlPatterns = {"/GetActiveRoomServlet"})
+public class GetActiveRoomServlet extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
@@ -46,7 +46,7 @@ public class ManageProfile extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }
+    }           
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,35 +60,49 @@ public class ManageProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Check if user login already
-        HttpSession session = request.getSession(false);
+        ArrayList activeRooms = new ArrayList();
+        Room room = null;
         
-
-        if(session == null || session.getAttribute("user") == null){
-            request.setAttribute("loginError", "Session timeout, please login again");
-            sendPage(request, response, "/login.jsp");
+        //select all from roomtype
+        try{
+            //select all from room
+            ResultSet rs = jdbcUtility.getPsSelectAllFromRoom().executeQuery();
+            
+            while (rs.next()) {     
+                room = new Room();
+                room.setRoom_PK(rs.getInt("Room_PK"));
+                room.setNumber(rs.getString("Number"));
+                room.setBlock(rs.getString("Block"));
+                room.setGender(rs.getInt("Gender"));
+                room.setRoomType(rs.getInt("RoomType_PK"));
+                
+                if(rs.getInt("Occupied") == 0)
+                    activeRooms.add(room);
+            }
         }
-        else {
-            sendPage(request, response, "profile.jsp");
-
-        }
-        
-    }
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
+        catch (SQLException ex)
 	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
 	}
-	else
-	    dispatcher.forward(req, res);
-    }     
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	}       
+        
+        request.setAttribute("activeRooms",activeRooms);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

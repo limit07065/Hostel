@@ -22,6 +22,7 @@ public class JDBCUtility {
    PreparedStatement psSelectUserViaUserPass = null;
    PreparedStatement psUpdateUserViaUsername= null;
    PreparedStatement psInsertRoom = null;
+   PreparedStatement psSelectAllFromRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
    PreparedStatement psUpdateRoomViaId = null;
    PreparedStatement psUpdateRoomStatusViaId = null;
@@ -41,6 +42,7 @@ public class JDBCUtility {
    PreparedStatement psUpdateApplicationStatusViaId = null;
    PreparedStatement psSelectBlockViaRoomType = null;
    PreparedStatement psSelectRoomViaTypeNBlock = null;
+   PreparedStatement psUpdateRoomTypeImage = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -129,6 +131,11 @@ public class JDBCUtility {
             psInsertRoom = con.prepareStatement(sqlInsertRoom);
             
             //select all from room
+            String sqlSelectAllFromRoom = "SELECT * FROM room";
+            
+            psSelectAllFromRoom = con.prepareStatement(sqlSelectAllFromRoom);
+            
+            //select all from room via id
             String sqlSelectAllFromRoomViaId = "SELECT * FROM room WHERE Room_PK = ?";
             
             psSelectAllFromRoomViaId = con.prepareStatement(sqlSelectAllFromRoomViaId);
@@ -226,6 +233,11 @@ public class JDBCUtility {
             String sqlDeleteSessionViaId = "DELETE FROM session WHERE Session_PK = ?";
             
             psDeleteRoomTypeViaId = con.prepareStatement(sqlDeleteRoomTypeViaId);
+            
+            //update destination image
+            String sqlUpdateRoomTypeImage = "UPDATE roomtype SET Pic = ? WHERE RoomType_PK = ?"; 
+            
+            psUpdateRoomTypeImage = con.prepareStatement(sqlUpdateRoomTypeImage); 
        }
        
        catch(SQLException ex)
@@ -270,6 +282,11 @@ public class JDBCUtility {
    public PreparedStatement getPsInsertRoom()
    {
        return psInsertRoom;
+   }
+   
+   public PreparedStatement getPsSelectAllFromRoom()
+   {
+       return psSelectAllFromRoom;
    }
    
    public PreparedStatement getPsSelectAllFromRoomViaId()
@@ -360,5 +377,9 @@ public class JDBCUtility {
    public PreparedStatement getPsDeleteSessionViaId()
    {
        return psDeleteSessionViaId;
+   }
+   public PreparedStatement getPsUpdateRoomTypeImage()
+   {
+       return psUpdateRoomTypeImage;
    }
 }
