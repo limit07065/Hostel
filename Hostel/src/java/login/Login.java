@@ -26,7 +26,7 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(name = "Login", urlPatterns = {"/Login",""})
 public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
@@ -163,6 +163,7 @@ public class Login extends HttpServlet {
                 userBean.setUsername(rs.getString("Username"));
                 userBean.setLevel(rs.getInt("Level"));
                 userBean.setGender(rs.getInt("Gender"));
+                userBean.setId(rs.getString("Id"));
                 userBean.setName(rs.getString("Name"));
                 userBean.setContact(rs.getString("Contact"));
                 userBean.setEmail(rs.getString("Email"));

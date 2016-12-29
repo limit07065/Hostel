@@ -20,17 +20,17 @@
         <meta name="author" content="">
 
         <title>Hostel Management System</title>
-       
-                <!-- Bootstrap Core CSS -->
-                <link href="css/bootstrap.min.css" rel="stylesheet">
 
-                <!-- Custom CSS -->
-                <link href="css/logo-nav.css" rel="stylesheet">
-                <link href="css/hostel.css" rel="stylesheet">
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-                <!-- Font Awesome  -->
-                <script src="js/font-awesome.min.js"></script>
-            
+        <!-- Custom CSS -->
+        <link href="css/logo-nav.css" rel="stylesheet">
+        <link href="css/hostel.css" rel="stylesheet">
+
+        <!-- Font Awesome  -->
+        <script src="js/font-awesome.min.js"></script>
+
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -55,33 +55,28 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="Home">
+                    <a class="navbar-brand" href="Login">
                         <img class="nav-logo img-responsive" src="img/logo.png" alt="">
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
-                    
+
                         <c:if test="${not empty user}">
                             <li>
                                 <a href="Profile">Welcome, <c:out value="${user.getName()}" /></a>
-                            </li>
-                            <li>
-                                <a href="Home">Home</a>
-                            </li>
+                            </li>                            
                         </c:if>
-                        <li>
-                            <a href="Home?type=history">Application History</a>
-                        </li>
+                        
 
                         <c:choose>
-                            <c:when test="${user.getLevel()==0}">
+                            <c:when test="${user.getLevel()==1}">
                                 <li>
                                     <a href="#">Applications</a>
                                 </li>
                             </c:when>
-                            <c:when test="${user.getLevel()==1}">
+                            <c:when test="${user.getLevel()==0}">
                                 <li>
                                     <a href="#">Dashboard</a>
                                 </li>
@@ -95,8 +90,31 @@
                                     <a href="Logout">Logout</a>
 
                                 </li>
-                                <li>
-                                    <a><img alt="x" class="profile-icon "></a>
+                                <li class="dropdown user user-menu open">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <img src="${user.getPic()}" class="user-image" alt="User Image">
+                                        <span class="hidden-xs">${user.getName()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img src="${user.getPic()}" class="img-circle" alt="User Image">
+
+                                            <p>
+                                                ${user.getName()} 
+                                                <small>${user.getId()}</small>
+                                            </p>
+                                        </li>                                        
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+                                                <a href="Profile" class="btn btn-default btn-flat">Profile</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a href="Logout" class="btn btn-default btn-flat">Log out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </li>
 
                             </c:when>
