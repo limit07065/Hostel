@@ -90,7 +90,7 @@ public class SessionActivation extends HttpServlet {
             
             out.println("<p>Please click <a href='/ServletDatev5/GetDestinationsServlet'>here</a> to view destination details</p>");*/
             
-            sendPage(request, response, "/dashboard");
+            response.sendRedirect("dashboard");
 
         }
         catch (SQLException ex)

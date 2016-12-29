@@ -83,7 +83,7 @@ public class EditRoomType extends HttpServlet {
             out.println("</script>");
            
             
-            sendPage(request, response, "/dashboard");
+            response.sendRedirect("dashboard");
         }
         catch (SQLException ex)
 	{
