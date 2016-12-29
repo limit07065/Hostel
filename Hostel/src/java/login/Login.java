@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         //if user not logon
-        if (session == null || session.getAttribute("user") == null) {
+        if ( session.getAttribute("user") == null) {
             request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
         } else {
@@ -77,6 +77,7 @@ public class Login extends HttpServlet {
             if (user.getLevel() == 0) {
                 response.sendRedirect("dashboard");
             } else {
+                /*
                 RoomType rt;
 
                 try {
@@ -99,8 +100,8 @@ public class Login extends HttpServlet {
                     session.setAttribute("roomtype", roomtypeList);
                 } catch (SQLException ex) {
                 }
-
-                sendPage(request, response, "Apply");
+*/
+                response.sendRedirect("Apply");
             }
         }
     }
@@ -197,9 +198,10 @@ public class Login extends HttpServlet {
                             session.setAttribute("roomtype", roomtypeList);
                         } catch (SQLException ex) {
                         }
+                        response.sendRedirect("Apply");
                     }
 
-                    response.sendRedirect("Apply");
+                    
                 }
 
             } else if (!status) {

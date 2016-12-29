@@ -20,19 +20,7 @@
         <meta name="author" content="">
 
         <title>Hostel Management System</title>
-        <c:choose>
-            <c:when test="${user.getLevel()==0}">
-                <!-- Bootstrap Core CSS -->
-                <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-                <!-- Custom CSS -->
-                <link href="../css/logo-nav.css" rel="stylesheet">
-                <link href="../css/hostel.css" rel="stylesheet">
-
-                <!-- Font Awesome  -->
-                <script src="../js/font-awesome.min.js"></script>
-            </c:when>
-            <c:otherwise>
+       
                 <!-- Bootstrap Core CSS -->
                 <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -41,9 +29,8 @@
                 <link href="css/hostel.css" rel="stylesheet">
 
                 <!-- Font Awesome  -->
-                <script src="js/font-awesome.min.js"></script>                
-            </c:otherwise>
-        </c:choose>
+                <script src="js/font-awesome.min.js"></script>
+            
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
