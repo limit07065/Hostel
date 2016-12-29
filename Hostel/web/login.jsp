@@ -6,16 +6,13 @@
 
 <%@include file="header.jsp" %>
 <div class="container-fluid greenbg">
-<<<<<<< HEAD
-    <form class="loginform form-group col-md-4 col-md-offset-4" method="post" action="Login">
-        <img id="loginlogo" class="img-responsive center-block" alt="ktdi logo">
-=======
+
     <form class="loginform form-group col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" method="post" action="">
         <img id="loginlogo" class="img-circle img-thumbnail center-block" alt="ktdi logo" src="img/loginlogo.jpg">
         <c:if test="${not empty loginError}">  
                 <span class="col-xs-12 alert alert-danger text-center" ><i class="fa fa-exclamation-triangle"></i> <c:out value="${loginError}" /></span>
                 </c:if>
->>>>>>> 387fbd255b00c433053f72187940a734e6035700
+
         <div class="input-group">
             <span class="input-group-addon" style="padding-right:15px">
                 <i class="fa fa-user"></i>
