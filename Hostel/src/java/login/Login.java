@@ -26,14 +26,13 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(name = "Login", urlPatterns = {"/Login",""})
 public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
-    
-    public void init() throws ServletException
-    {
+
+    public void init() throws ServletException {
         String driver = "com.mysql.jdbc.Driver";
 
         String dbName = "db_hostel";
@@ -42,15 +41,15 @@ public class Login extends HttpServlet {
         String password = "";
 
         jdbcUtility = new JDBCUtility(driver,
-                                      url,
-                                      userName,
-                                      password);
+                url,
+                userName,
+                password);
 
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,45 +61,40 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //Check if login already
         HttpSession session = request.getSession(false);
-        
-        if(session == null || session.getAttribute("user") == null){
+
+        //if user not logon
+        if ( session.getAttribute("user") == null) {
             request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
-        }
-        else {
-            User user = (User)session.getAttribute("user");
-            
+        } else {
+            User user = (User) session.getAttribute("user");
 
             //Redirect user according to their user level
+
+            //admin
             if(user.getLevel() == 0) 
                 response.sendRedirect("dashboard");
             else
+            //student
                 response.sendRedirect("Apply");
         }
     }
-        
-        
-        
-    
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
 
-	if (dispatcher == null)
-	{
+    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException {
+        // Get the dispatcher; it gets the main page to the user
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
+
+        if (dispatcher == null) {
             System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }        
-    
+            // No dispatcher means the html file could not be found.
+            res.sendError(res.SC_NO_CONTENT);
+        } else {
+            dispatcher.forward(req, res);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -128,10 +122,10 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
+
         try {
             PreparedStatement ps = jdbcUtility.getPsSelectUserViaUserPass();
             
@@ -141,11 +135,12 @@ public class Login extends HttpServlet {
 
             boolean status = rs.next();
 
-            if(status){
+            if (status) {
                 User userBean = new User();
                 userBean.setUsername(rs.getString("Username"));
                 userBean.setLevel(rs.getInt("Level"));
                 userBean.setGender(rs.getInt("Gender"));
+                userBean.setId(rs.getString("Id"));
                 userBean.setName(rs.getString("Name"));
                 userBean.setContact(rs.getString("Contact"));
                 userBean.setEmail(rs.getString("Email"));
@@ -169,7 +164,6 @@ public class Login extends HttpServlet {
         {
             ex.printStackTrace();
         }
-        
     }
 
     /**

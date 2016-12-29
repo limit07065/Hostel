@@ -20,6 +20,7 @@
         <meta name="author" content="">
 
         <title>Hostel Management System</title>
+<<<<<<< HEAD
         <c:choose>
             <c:when test="${user.getLevel()==0}">
                 <!-- Bootstrap Core CSS -->
@@ -54,6 +55,19 @@
                 <script src="js/font-awesome.min.js"></script>
             </c:otherwise>
         </c:choose>
+=======
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/logo-nav.css" rel="stylesheet">
+        <link href="css/hostel.css" rel="stylesheet">
+
+        <!-- Font Awesome  -->
+        <script src="js/font-awesome.min.js"></script>
+
+>>>>>>> 387fbd255b00c433053f72187940a734e6035700
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -68,7 +82,7 @@
     <body>
 
         <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div id="navbar" class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -78,33 +92,39 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+<<<<<<< HEAD
                     <a class="navbar-brand" href="#">
                         <img src="http://placehold.it/150x50&text=Logo" alt="">
+=======
+                    <a class="navbar-brand" href="Login">
+                        <img class="nav-logo img-responsive" src="img/logo.png" alt="">
+>>>>>>> 387fbd255b00c433053f72187940a734e6035700
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
-                    
+
                         <c:if test="${not empty user}">
                             <li>
                                 <a href="Profile">Welcome, <c:out value="${user.getName()}" /></a>
-                            </li>
-                            <li>
-                                <a href="Home">Home</a>
-                            </li>
+                            </li>                            
                         </c:if>
+<<<<<<< HEAD
                         <li>
                             <a href="Apply">Application History</a>
                         </li>
+=======
+                        
+>>>>>>> 387fbd255b00c433053f72187940a734e6035700
 
                         <c:choose>
-                            <c:when test="${user.getLevel()==0}">
+                            <c:when test="${user.getLevel()==1}">
                                 <li>
                                     <a href="#">Applications</a>
                                 </li>
                             </c:when>
-                            <c:when test="${user.getLevel()==1}">
+                            <c:when test="${user.getLevel()==0}">
                                 <li>
                                     <a href="#">Dashboard</a>
                                 </li>
@@ -118,8 +138,31 @@
                                     <a href="Logout">Logout</a>
 
                                 </li>
-                                <li>
-                                    <a><img alt="x" class="profile-icon "></a>
+                                <li class="dropdown user user-menu open">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <img src="${user.getPic()}" class="user-image" alt="User Image">
+                                        <span class="hidden-xs">${user.getName()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img src="${user.getPic()}" class="img-circle" alt="User Image">
+
+                                            <p>
+                                                ${user.getName()} 
+                                                <small>${user.getId()}</small>
+                                            </p>
+                                        </li>                                        
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+                                                <a href="Profile" class="btn btn-default btn-flat">Profile</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a href="Logout" class="btn btn-default btn-flat">Log out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </li>
 
                             </c:when>

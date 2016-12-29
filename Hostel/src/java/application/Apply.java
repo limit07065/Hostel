@@ -87,7 +87,7 @@ public class Apply extends HttpServlet {
         catch(SQLException ex)
         {}
         
-        sendPage(request, response, "/application.jsp");
+        request.getRequestDispatcher("/application.jsp").forward(request,response);
     }
 
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
