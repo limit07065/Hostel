@@ -42,6 +42,7 @@ public class JDBCUtility {
    PreparedStatement psUpdateApplicationStatusViaId = null;
    PreparedStatement psSelectBlockViaRoomType = null;
    PreparedStatement psSelectRoomViaTypeNBlock = null;
+   PreparedStatement psUpdateRoomTypeImage = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -232,6 +233,11 @@ public class JDBCUtility {
             String sqlDeleteSessionViaId = "DELETE FROM session WHERE Session_PK = ?";
             
             psDeleteRoomTypeViaId = con.prepareStatement(sqlDeleteRoomTypeViaId);
+            
+            //update destination image
+            String sqlUpdateRoomTypeImage = "UPDATE roomtype SET Pic = ? WHERE RoomType_PK = ?"; 
+            
+            psUpdateRoomTypeImage = con.prepareStatement(sqlUpdateRoomTypeImage); 
        }
        
        catch(SQLException ex)
@@ -371,5 +377,9 @@ public class JDBCUtility {
    public PreparedStatement getPsDeleteSessionViaId()
    {
        return psDeleteSessionViaId;
+   }
+   public PreparedStatement getPsUpdateRoomTypeImage()
+   {
+       return psUpdateRoomTypeImage;
    }
 }
