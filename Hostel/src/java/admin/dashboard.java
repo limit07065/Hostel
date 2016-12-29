@@ -77,7 +77,6 @@ public class dashboard extends HttpServlet {
         ArrayList roomTypes = new ArrayList();
         RoomType roomType = null;
         
-
         ArrayList sessions = new ArrayList();
         Session session = null;
         
@@ -125,7 +124,7 @@ public class dashboard extends HttpServlet {
             }
             
             //select all from session
-            ResultSet rs3 = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+            ResultSet rs3 = jdbcUtility.getPsSelectAllFromSession().executeQuery();
             
             while (rs3.next()) {     
                 session = new Session();

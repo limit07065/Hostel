@@ -114,40 +114,43 @@ public class auth implements Filter {
         HttpSession session = ((HttpServletRequest) request).getSession();
 
         if (session.getAttribute("user") == null) {
-            //get url of request page
-            String url = ((HttpServletRequest) request).getRequestURL().toString();
-            
-            //allow request to proceed for Login.java, css, js, jpg and png files
-            if (url.endsWith("Login")||url.endsWith(".css")||url.endsWith(".js")||url.endsWith(".jpg")||url.endsWith(".png")) {
-                try {
 
-                    chain.doFilter(request, response);
-                } catch (Throwable t) {
-                    // If an exception is thrown somewhere down the filter chain,
-                    // we still want to execute our after processing, and then
-                    // rethrow the problem after that.
-                    problem = t;
-                    t.printStackTrace();
+            if (session.getAttribute("user") == null) {
+                //get url of request page
+                String url = ((HttpServletRequest) request).getRequestURL().toString();
+
+                //allow request to proceed for Login.java, css, js, jpg and png files
+                if (url.endsWith("Login") || url.endsWith(".css") || url.endsWith(".js") || url.endsWith(".jpg") || url.endsWith(".png")) {
+                    try {
+
+                        chain.doFilter(request, response);
+                    } catch (Throwable t) {
+                        // If an exception is thrown somewhere down the filter chain,
+                        // we still want to execute our after processing, and then
+                        // rethrow the problem after that.
+                        problem = t;
+                        t.printStackTrace();
+                    }
+                } else {
+                    //redirect to Login servlet
+                    ((HttpServletResponse) response).sendRedirect("Login");
+
                 }
-            } else {
-                //redirect to Login servlet
-                ((HttpServletResponse) response).sendRedirect("Login");
-
             }
-        }
 
-        doAfterProcessing(request, response);
+            doAfterProcessing(request, response);
 
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
+            // If there was a problem, we want to rethrow it if it is
+            // a known type, otherwise log it.
+            if (problem != null) {
+                if (problem instanceof ServletException) {
+                    throw (ServletException) problem;
+                }
+                if (problem instanceof IOException) {
+                    throw (IOException) problem;
+                }
+                sendProcessingError(problem, response);
             }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
-            }
-            sendProcessingError(problem, response);
         }
     }
 
