@@ -23,35 +23,35 @@
         <c:choose>
             <c:when test="${user.getLevel()==0}">
                 <!-- Bootstrap Core CSS -->
-                <link href="../css/bootstrap.min.css" rel="stylesheet">
+                <link href="css/bootstrap.min.css" rel="stylesheet">
 
                 <!-- Custom CSS -->
-                <link href="../css/logo-nav.css" rel="stylesheet">
-                <link href="../css/hostel.css" rel="stylesheet">
+                <link href="css/logo-nav.css" rel="stylesheet">
+                <link href="css/hostel.css" rel="stylesheet">
 
                 <!-- Font Awesome  -->
-                <script src="../js/font-awesome.min.js"></script>
+                <script src="js/font-awesome.min.js"></script>
             </c:when>
             <c:otherwise>
                 <!-- Bootstrap Core CSS -->
-                <link href="../css/bootstrap.min.css" rel="stylesheet">
+                <link href="css/bootstrap.min.css" rel="stylesheet">
 
                 <!-- Custom CSS -->
-                <link href="../css/logo-nav.css" rel="stylesheet">
-                <link href="../css/hostel.css" rel="stylesheet">
+                <link href="css/logo-nav.css" rel="stylesheet">
+                <link href="css/hostel.css" rel="stylesheet">
 
                 <!-- Font Awesome  -->
-                <script src="../js/font-awesome.min.js"></script>
+                <script src="js/font-awesome.min.js"></script>
 
                 <!-- Bootstrap Core CSS -->
-                <link href="../css/bootstrap.min.css" rel="stylesheet">
+                <link href="css/bootstrap.min.css" rel="stylesheet">
 
                 <!-- Custom CSS -->
-                <link href="../css/logo-nav.css" rel="stylesheet">
-                <link href="../css/hostel.css" rel="stylesheet">
+                <link href="css/logo-nav.css" rel="stylesheet">
+                <link href="css/hostel.css" rel="stylesheet">
 
                 <!-- Font Awesome  -->
-                <script src="../js/font-awesome.min.js"></script>
+                <script src="js/font-awesome.min.js"></script>
             </c:otherwise>
         </c:choose>
 
@@ -78,7 +78,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="Home">
+                    <a class="navbar-brand" href="#">
                         <img src="http://placehold.it/150x50&text=Logo" alt="">
                     </a>
                 </div>
@@ -95,7 +95,7 @@
                             </li>
                         </c:if>
                         <li>
-                            <a href="Home?type=history">Application History</a>
+                            <a href="Apply">Application History</a>
                         </li>
 
                         <c:choose>
@@ -125,7 +125,7 @@
                             </c:when>
                             <c:otherwise>
                                 <li>
-                                    <a href="">Login</a>
+                                    <a href="Login">Login</a>
                                 </li>
                             </c:otherwise>
 

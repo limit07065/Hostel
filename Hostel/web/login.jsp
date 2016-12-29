@@ -6,7 +6,7 @@
 
 <%@include file="header.jsp" %>
 <div class="container-fluid greenbg">
-    <form class="loginform form-group col-md-4 col-md-offset-4" method="post" action="Home">
+    <form class="loginform form-group col-md-4 col-md-offset-4" method="post" action="Login">
         <img id="loginlogo" class="img-responsive center-block" alt="ktdi logo">
         <div class="input-group">
             <span class="input-group-addon" style="padding-right:15px">

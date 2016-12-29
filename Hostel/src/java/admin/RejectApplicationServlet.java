@@ -58,8 +58,9 @@ public class RejectApplicationServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         //get Application_PK 
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
         
         //approve date - now
         java.util.Date dt = new java.util.Date();
@@ -71,7 +72,7 @@ public class RejectApplicationServlet extends HttpServlet {
             
             preparedStatement.setString(1, "1");
             preparedStatement.setString(2, rejectDate);
-            preparedStatement.setString(3, id);
+            preparedStatement.setInt(3, id);
             
             preparedStatement.executeUpdate();
         }
@@ -95,7 +96,7 @@ public class RejectApplicationServlet extends HttpServlet {
 	{
             ex.printStackTrace ();
 	} 
-        sendPage(request, response, "/dashboard.java");
+        sendPage(request, response, "/dashboard");
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException

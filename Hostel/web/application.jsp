@@ -8,21 +8,34 @@
 
 <div class="container">
     <h2>Next-Year Application</h2>
-    <form id="form" class="form-group">
+    <form id="form" class="form-group" method="get" action="InsertApplicationServlet">
         <label for="roomtype" >Room Type</label>
 
         <select id="roomtype" name="roomtype" class="inline-control">
+            <option value=" " selected disabled hidden>Select Room Type</option>
+            <c:forEach items="${sessionScope.roomTypes}" var="currentRoomtype" varStatus="loop">
+                <option value="<c:out value='${currentRoomtype.getRoomType_PK()}' />"> <c:out value="${currentRoomtype.getType()}" /> </option>
+            </c:forEach>
         </select>
 
         <label for="block"  >Block </label>
-        <select id="block" name="block" class="inline-control">
+        <select id="block" name="block" class="inline-control" disabled>
+            <c:if test="${not empty block}">
+                <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
+                    <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
+                </c:forEach>
+            </c:if>
+            <option value=" " selected disabled hidden>Select Available Block</option>
         </select>
 
         <label for="room" >Room Number</label>
-        <select id="room" name="room" class="inline-control">
+        <select id="room" name="room" class="inline-control" disabled>
+            <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
+                <option value="<c:out value='${currentRoom.getRoom_PK()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
+            </c:forEach>
+            <option value=" " selected disabled hidden>Select Room</option>
         </select>
-
-        <input type="submit" class="inline-control  btn btn-success">
+        <input id="submit" type="submit" class="inline-control  btn btn-success" disabled>
 
     </form>
     <div class="container">
@@ -79,4 +92,43 @@
             }
         });
     });
+</script>
+
+
+<script>
+    
+    $("#roomtype").change( function(){ 
+        var roomtype = $("#roomtype").val();
+        
+        $.post("PopulateRoomServlet", {type: roomtype}, function(){ 
+            $("#block").load(" #block>*");
+        });
+        
+        $("#block").removeAttr("disabled");
+    });
+    
+    $("#block").change( function(){ 
+        var block = $("#block").val();
+        var roomtype = $("#roomtype").val();
+        
+        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function(){ 
+            $("#room").load(" #room>*");
+        });
+        
+        $("#room").removeAttr("disabled");
+    });
+    
+    $(function(){ 
+        setInterval(function(){
+            var room = $("#room").val();
+
+            if(room !== null){
+                $("#submit").removeAttr("disabled");
+            }
+            else{
+                $("#submit").attr("disabled", "disabled");
+            }
+        }, 2000)
+    });
+    
 </script>

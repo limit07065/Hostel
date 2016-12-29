@@ -5,34 +5,27 @@
  */
 package admin;
 
-import java.io.File;
+import bean.Room;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import jdbc.JDBCUtility;
 
 /**
  *
- * @author Ryan Hoo
+ * @author Pang
  */
-@WebServlet(name = "UploadRoomImageServlet", urlPatterns = {"/UploadRoomImageServlet"})
-@MultipartConfig(location="d:\\rosely\\netbeans\\ServletDate\\build\\web\\img",
-                 fileSizeThreshold=1024*1024*2, // 2MB
-                 maxFileSize=1024*1024*10,      // 10MB
-                 maxRequestSize=1024*1024*50)   // 50MB
-public class UploadRoomImageServlet extends HttpServlet {
-    
+@WebServlet(name = "GetActiveRoomServlet", urlPatterns = {"/GetActiveRoomServlet"})
+public class GetActiveRoomServlet extends HttpServlet {
+
     private JDBCUtility jdbcUtility;
     private Connection con;
     
@@ -53,12 +46,7 @@ public class UploadRoomImageServlet extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }
-    /**
-     * Name of the directory where uploaded files will be saved, relative to
-     * the web application directory.
-     */
-    private static final String SAVE_DIR = "img";
+    }           
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,37 +60,27 @@ public class UploadRoomImageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
-        String id = (String)session.getAttribute("id");
+        ArrayList activeRooms = new ArrayList();
+        Room room = null;
         
-        String appPath = request.getServletContext().getRealPath("");
-        String savePath = appPath + File.separator + SAVE_DIR;
-        
-        // creates the save directory if it does not exists
-        File fileSaveDir = new File(savePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdir();
-        }
-        
-        String fileName = "";
-        for (Part part : request.getParts()) {
-            fileName = extractFileName(part);
-            part.write(fileName);
-            //part.write(fileName);
-        }
-        
-        //update in table
-        try {                    
-            PreparedStatement preparedStatement = jdbcUtility.getPsUpdateRoomTypeImage();
-            preparedStatement.setString(1, fileName);
-            preparedStatement.setString(2, id);
-            preparedStatement.executeUpdate();
+        //select all from roomtype
+        try{
+            //select all from room
+            ResultSet rs = jdbcUtility.getPsSelectAllFromRoom().executeQuery();
             
-            //PrintWriter out = response.getWriter();
-            //out.println("Update successfull");
-            sendPage(request, response, "/dashboard");
+            while (rs.next()) {     
+                room = new Room();
+                room.setRoom_PK(rs.getInt("Room_PK"));
+                room.setNumber(rs.getString("Number"));
+                room.setBlock(rs.getString("Block"));
+                room.setGender(rs.getInt("Gender"));
+                room.setRoomType(rs.getInt("RoomType_PK"));
+                
+                if(rs.getInt("Occupied") == 0)
+                    activeRooms.add(room);
+            }
         }
-	catch (SQLException ex)
+        catch (SQLException ex)
 	{
             while (ex != null)
             {
@@ -121,37 +99,10 @@ public class UploadRoomImageServlet extends HttpServlet {
 	catch (java.lang.Exception ex)
 	{
             ex.printStackTrace ();
-	}        
+	}       
+        
+        request.setAttribute("activeRooms",activeRooms);
     }
-    
-    /**
-     * Extracts file name from HTTP header content-disposition
-     */
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length()-1);
-            }
-        }
-        return "";
-    }
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

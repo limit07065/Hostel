@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package admin;
+package application;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Pang
+ * @author wenhe
  */
-@WebServlet(name = "GetActiveRoomTypeServlet", urlPatterns = {"/GetActiveRoomTypeServlet"})
-public class GetActiveRoomTypeServlet extends HttpServlet {
+@WebServlet(name = "InsertApplicationServlet", urlPatterns = {"/InsertApplicationServlet"})
+public class InsertApplicationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class GetActiveRoomTypeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GetActiveRoomTypeServlet</title>");            
+            out.println("<title>Servlet InsertApplicationServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GetActiveRoomTypeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet InsertApplicationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
