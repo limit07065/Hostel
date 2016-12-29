@@ -8,38 +8,37 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.*;
 
 /**
  *
  * @author Ray
  */
-@WebFilter(filterName = "auth", urlPatterns = {"/*"})
-public class auth implements Filter {
+@WebFilter(filterName = "Auth", urlPatterns = {"/*"})
+public class Auth implements Filter {
 
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
-    // configured.
+    // configured. 
     private FilterConfig filterConfig = null;
 
-    public auth() {
+    public Auth() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("auth:DoBeforeProcessing");
+            log("Auth:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -67,13 +66,13 @@ public class auth implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("auth:DoAfterProcessing");
+            log("Auth:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
         // the rest of the filter chain is invoked.
         // For example, a logging filter might log the attributes on the
-        // request object after the request has been processed.
+        // request object after the request has been processed. 
         /*
 	for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
 	    String name = (String)en.nextElement();
@@ -101,56 +100,47 @@ public class auth implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
-        if (debug) {
-            log("auth:doFilter()");
-        }
-
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        
         doBeforeProcessing(request, response);
-
         Throwable problem = null;
+        //if user not logon
+        if (req.getSession().getAttribute("user") == null) {
+            String url = ((HttpServletRequest) request).getRequestURL().toString();
+            if (url.endsWith("Login")||url.endsWith(".css")||url.endsWith(".js")||url.endsWith(".jpg")||url.endsWith(".png")) {
+                //proceed with request
 
-        //get session
-        HttpSession session = ((HttpServletRequest) request).getSession();
-
-        if (session.getAttribute("user") == null) {
-
-            if (session.getAttribute("user") == null) {
-                //get url of request page
-                String url = ((HttpServletRequest) request).getRequestURL().toString();
-
-                //allow request to proceed for Login.java, css, js, jpg and png files
-                if (url.endsWith("Login") || url.endsWith(".css") || url.endsWith(".js") || url.endsWith(".jpg") || url.endsWith(".png")) {
-                    try {
-
-                        chain.doFilter(request, response);
-                    } catch (Throwable t) {
-                        // If an exception is thrown somewhere down the filter chain,
-                        // we still want to execute our after processing, and then
-                        // rethrow the problem after that.
-                        problem = t;
-                        t.printStackTrace();
-                    }
-                } else {
-                    //redirect to Login servlet
-                    ((HttpServletResponse) response).sendRedirect("Login");
-
+                try {
+                    chain.doFilter(request, response);
+                } catch (Throwable t) {
+                    // If an exception is thrown somewhere down the filter chain,
+                    // we still want to execute our after processing, and then
+                    // rethrow the problem after that.
+                    problem = t;
+                    t.printStackTrace();
                 }
+            } else {
+                //redirect to Login servlet
+                ((HttpServletResponse) response).sendRedirect("Login");
             }
 
-            doAfterProcessing(request, response);
-
-            // If there was a problem, we want to rethrow it if it is
-            // a known type, otherwise log it.
-            if (problem != null) {
-                if (problem instanceof ServletException) {
-                    throw (ServletException) problem;
-                }
-                if (problem instanceof IOException) {
-                    throw (IOException) problem;
-                }
-                sendProcessingError(problem, response);
+        } else {
+            //proceed with request
+           
+            try {
+                chain.doFilter(request, response);
+            } catch (Throwable t) {
+                // If an exception is thrown somewhere down the filter chain,
+                // we still want to execute our after processing, and then
+                // rethrow the problem after that.
+                problem = t;
+                t.printStackTrace();
             }
         }
+        doAfterProcessing(request, response);
+
+      
     }
 
     /**
@@ -182,7 +172,7 @@ public class auth implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("auth:Initializing filter");
+                log("Auth:Initializing filter");
             }
         }
     }
@@ -193,9 +183,9 @@ public class auth implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("auth()");
+            return ("Auth()");
         }
-        StringBuffer sb = new StringBuffer("auth(");
+        StringBuffer sb = new StringBuffer("Auth(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

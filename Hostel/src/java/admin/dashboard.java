@@ -162,7 +162,7 @@ public class dashboard extends HttpServlet {
         request.setAttribute("sessions", sessions);
         
         //redirect to managedestination.jsp
-        sendPage(request, response, "admin/dashboard.jsp");
+        sendPage(request, response, "/admin/dashboard.jsp");
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException

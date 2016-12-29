@@ -26,7 +26,7 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(name = "Login", urlPatterns = {"/Login",""})
 public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         //if user not logon
-        if (session == null || session.getAttribute("user") == null) {
+        if ( session.getAttribute("user") == null) {
             request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
         } else {
@@ -77,6 +77,7 @@ public class Login extends HttpServlet {
             if (user.getLevel() == 0) {
                 response.sendRedirect("dashboard");
             } else {
+                /*
                 RoomType rt;
 
                 try {
@@ -99,8 +100,8 @@ public class Login extends HttpServlet {
                     session.setAttribute("roomtype", roomtypeList);
                 } catch (SQLException ex) {
                 }
-
-                sendPage(request, response, "Apply");
+*/
+                response.sendRedirect("Apply");
             }
         }
     }
@@ -162,6 +163,7 @@ public class Login extends HttpServlet {
                 userBean.setUsername(rs.getString("Username"));
                 userBean.setLevel(rs.getInt("Level"));
                 userBean.setGender(rs.getInt("Gender"));
+                userBean.setId(rs.getString("Id"));
                 userBean.setName(rs.getString("Name"));
                 userBean.setContact(rs.getString("Contact"));
                 userBean.setEmail(rs.getString("Email"));
@@ -197,9 +199,10 @@ public class Login extends HttpServlet {
                             session.setAttribute("roomtype", roomtypeList);
                         } catch (SQLException ex) {
                         }
+                        response.sendRedirect("Apply");
                     }
 
-                    response.sendRedirect("Apply");
+                    
                 }
 
             } else if (!status) {
