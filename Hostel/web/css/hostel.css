@@ -15,12 +15,24 @@ and open the template in the editor.
     }
    
 }
+
+@media (min-width:768px)
+{
+    .nav-logo{
+        border-right: solid rgb(204, 193, 193) 1px;
+    }
+}
 html, body {
     font-family: 'Merriweather', serif;
     /*height: 100%;*/
     background-color: white;
 }
 
+.alert{
+    font-family: Montserrat, serif;
+    padding: 10px;
+    
+}
 .btn{
     font-family: 'Montserrat', serif;
 }
