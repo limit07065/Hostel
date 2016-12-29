@@ -14,6 +14,7 @@ public class User {
     private String password;
     private int level;
     private int gender;
+    private String id;
     private String name;
     private String contact;
     private String email;
@@ -129,5 +130,19 @@ public class User {
      */
     public void setPic(String pic) {
         this.pic = pic;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 }
