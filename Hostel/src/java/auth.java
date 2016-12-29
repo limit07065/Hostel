@@ -23,10 +23,8 @@ import javax.servlet.annotation.WebFilter;
  *
  * @author Ray
  */
-
 @WebFilter(filterName = "auth", urlPatterns = {"/*"})
 public class auth implements Filter {
-
 
     private static final boolean debug = true;
 
@@ -115,23 +113,27 @@ public class auth implements Filter {
         //get session
         HttpSession session = ((HttpServletRequest) request).getSession();
 
-        //get url of request page
-        String url = ((HttpServletRequest) request).getRequestURL().toString();
-        if (!url.endsWith("Login")) {
-            try {
+        if (session.getAttribute("user") == null) {
+            //get url of request page
+            String url = ((HttpServletRequest) request).getRequestURL().toString();
+            
+            //allow request to proceed for Login.java, css, js, jpg and png files
+            if (url.endsWith("Login")||url.endsWith(".css")||url.endsWith(".js")||url.endsWith(".jpg")||url.endsWith(".png")) {
+                try {
 
-                chain.doFilter(request, response);
-            } catch (Throwable t) {
-                // If an exception is thrown somewhere down the filter chain,
-                // we still want to execute our after processing, and then
-                // rethrow the problem after that.
-                problem = t;
-                t.printStackTrace();
+                    chain.doFilter(request, response);
+                } catch (Throwable t) {
+                    // If an exception is thrown somewhere down the filter chain,
+                    // we still want to execute our after processing, and then
+                    // rethrow the problem after that.
+                    problem = t;
+                    t.printStackTrace();
+                }
+            } else {
+                //redirect to Login servlet
+                ((HttpServletResponse) response).sendRedirect("Login");
+
             }
-        } else {
-            //redirect to Login servlet
-            ((HttpServletResponse) response).sendRedirect("Login");
-
         }
 
         doAfterProcessing(request, response);

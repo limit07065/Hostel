@@ -66,7 +66,7 @@ public class dashboard extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession httpsession = request.getSession(true);
+        //HttpSession httpsession = request.getSession(true);
         
         ArrayList applications = new ArrayList();
         Application application = null;    
@@ -157,10 +157,10 @@ public class dashboard extends HttpServlet {
 	}              
     
         //put into sessions
-        httpsession.setAttribute("applications", applications);
-        httpsession.setAttribute("rooms", rooms);
-        httpsession.setAttribute("roomTypes", roomTypes);
-        httpsession.setAttribute("sessions", sessions);
+        request.setAttribute("applications", applications);
+        request.setAttribute("rooms", rooms);
+        request.setAttribute("roomTypes", roomTypes);
+        request.setAttribute("sessions", sessions);
         
         //redirect to managedestination.jsp
         sendPage(request, response, "admin/dashboard.jsp");

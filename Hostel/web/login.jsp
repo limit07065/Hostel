@@ -6,8 +6,8 @@
 
 <%@include file="header.jsp" %>
 <div class="container-fluid greenbg">
-    <form class="loginform form-group col-md-4 col-md-offset-4" method="post" action="Home">
-        <img id="loginlogo" class="img-responsive center-block" alt="ktdi logo">
+    <form class="loginform form-group col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" method="post" action="Home">
+        <img id="loginlogo" class="img-circle img-thumbnail center-block" alt="ktdi logo" src="img/loginlogo.jpg">
         <div class="input-group">
             <span class="input-group-addon" style="padding-right:15px">
                 <i class="fa fa-user"></i>
@@ -22,16 +22,17 @@
             <input type="password" class="form-control"
                    placeholder="Password" id="password" name="password" />
         </div>
+
         <c:if test="${not empty loginError}">
         <div class="form-group">
-            <div class="col-lg-10">
-                <span class="help-block" style="color: red"><c:out value="${loginError}" /></span>
+            <div class="col-sm-10 col-sm-offset-2">
+                <span class="danger" ><i class="fa fa-exclamation-triangle"></i><c:out value="${loginError}" /></span>
             </div>
         </div>
         </c:if>
-        <br />
+       
         <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
+            <div class="text-center">
                 <button type="reset" class="btn btn-default">Cancel</button>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
