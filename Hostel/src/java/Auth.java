@@ -78,6 +78,7 @@ public class Auth implements Filter {
 	    String name = (String)en.nextElement();
 	    Object value = request.getAttribute(name);
 	    log("attribute: " + name + "=" + value.toString());
+
 	}
          */
         // For example, a filter might append something to the response.
