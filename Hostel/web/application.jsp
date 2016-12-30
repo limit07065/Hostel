@@ -9,7 +9,7 @@
 <div class="container">
 
 
-    <div class="alert alert-success ">Application for new year is <strong>open</strong> now! Click <a href="InsertApplicationServlet">here</a> to apply.</div>     
+    <div class="alert alert-success ">Application for new year is <strong>open</strong> now! Click <a href="Apply?apply=true">here</a> to apply.</div>     
 
     <div class="container hidden">
         <div class="page-header">

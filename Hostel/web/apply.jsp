@@ -17,7 +17,7 @@
             <div id="rooms" class="carousel slide" data-ride="carousel" data-interval="false">
                 <!-- Indicators-->
                 <ol class="carousel-indicators">
-                    <c:forEach items="${roomtype}" var="type" varStatus="loop">
+                    <c:forEach items="${roomTypes}" var="type" varStatus="loop">
                         <c:choose>
                             <c:when test="${loop.index==0}">
                                 <li data-target="#rooms" data-slide-to="${loop.index}" class="active"></li>
@@ -31,7 +31,7 @@
 
                 <!-- Wrapper for slides -->                
                 <div class="carousel-inner" role="listbox">
-                    <c:forEach items="${roomtype}" var="type" varStatus="loop">
+                    <c:forEach items="${roomTypes}" var="type" varStatus="loop">
                         <c:choose>
                             <c:when test="${loop.index==0}">
                                 <div class="item active">
@@ -55,7 +55,7 @@
 
                 <select id="roomtype" name="roomtype" class="form-control" onChange="slidetoroom()">
                     <!--                    <option value=" " selected disabled>Select Room Type</option>-->
-                    <c:forEach items="${roomtype}" var="currentRoomtype" varStatus="loop">
+                    <c:forEach items="${roomTypes}" var="currentRoomtype" varStatus="loop">
                         <option value="${currentRoomtype.getRoomType_PK()}'" data-target="#rooms" data-slide-to="${loop.index}" > <c:out value="${currentRoomtype.getType()}" /> </option>
                     </c:forEach>
                 </select>

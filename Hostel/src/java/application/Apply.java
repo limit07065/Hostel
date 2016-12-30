@@ -66,11 +66,22 @@ public class Apply extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        getApplicationRecord(request, response);
-        
+        getApplicationRecord(request, response);        
         getRoomType(request, response);
+         if(request.getParameter("apply")==null)
+         {
+              request.getRequestDispatcher("/application.jsp").forward(request,response);
+         }
+         else{
+             request.getRequestDispatcher("/apply.jsp").forward(request,response);
+         }
         
-        request.getRequestDispatcher("/application.jsp").forward(request,response);
+       
+        
+        
+            
+        
+        
     }
     
     void getApplicationRecord(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
