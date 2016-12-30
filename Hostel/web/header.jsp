@@ -81,14 +81,14 @@
                                 <li class="dropdown user user-menu ">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 
-                                        <img src="img/profile/${user.getPic()}" class="user-image" alt="User Image">
+                                        <div class="img-nav img-thumbnail img-circle" style="background-image: url('img/profile/${user.getPic()}')"></div>
                                         <span class="hidden-xs">${user.getName()}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
 
-                                            <img src="img/profile/${user.getPic()}" class="img-responsive img-circle" alt="User Image">
+                                            <div class="img-user-header img-thumbnail img-circle" style="background-image: url('img/profile/${user.getPic()}')"></div>
 
 
                                             <p>
