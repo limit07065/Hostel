@@ -11,9 +11,12 @@ package bean;
  */
 public class Application {
     private int application_PK;
+    private String session;
     private String username;
     private String number;
     private String block;
+    private String roomtype;
+    private double price;
     private String applyDate;
     private int status;
     private String approvedDate;
@@ -114,5 +117,47 @@ public class Application {
      */
     public void setApprovedDate(String approvedDate) {
         this.approvedDate = approvedDate;
+    }
+
+    /**
+     * @return the session
+     */
+    public String getSession() {
+        return session;
+    }
+
+    /**
+     * @param session the session to set
+     */
+    public void setSession(String session) {
+        this.session = session;
+    }
+
+    /**
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    /**
+     * @return the roomtype
+     */
+    public String getRoomtype() {
+        return roomtype;
+    }
+
+    /**
+     * @param roomtype the roomtype to set
+     */
+    public void setRoomtype(String roomtype) {
+        this.roomtype = roomtype;
     }
 }
