@@ -5,15 +5,21 @@
  */
 package user;
 
+import bean.User;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import jdbc.JDBCUtility;
 
 /**
@@ -21,7 +27,7 @@ import jdbc.JDBCUtility;
  * @author wenhe
  */
 @WebServlet(name = "UploadUserImageServlet", urlPatterns = {"/UploadUserImageServlet"})
-@MultipartConfig(location="C:\\Users\\wenhe\\Documents\\GitHub\\Hostel\\Hostel\\build\\img",
+@MultipartConfig(location="C:\\Users\\wenhe\\Documents\\GitHub\\Hostel\\Hostel\\build\\web\\img\\profile",
                  fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
@@ -34,7 +40,7 @@ public class UploadUserImageServlet extends HttpServlet {
     {
         String driver = "com.mysql.jdbc.Driver";
 
-        String dbName = "";
+        String dbName = "db_hostel";
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String password = "";
@@ -66,19 +72,77 @@ public class UploadUserImageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UploadUserImageServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UploadUserImageServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        
+        HttpSession session = request.getSession();
+        String username = ((User)session.getAttribute("user")).getUsername();
+        
+        String appPath = request.getServletContext().getRealPath("");
+        String savePath = appPath + File.separator + SAVE_DIR;
+        
+        // creates the save directory if it does not exists
+        File fileSaveDir = new File(savePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
         }
+        
+        String fileName = "";
+        for (Part part : request.getParts()) {
+            fileName = extractFileName(part);
+            part.write(fileName);
+        }
+        
+        //update in table
+        try {                    
+            PreparedStatement preparedStatement = jdbcUtility.getPsUpdateProfilePicViaUsername();
+            preparedStatement.setString(1, fileName);
+            preparedStatement.setString(2, username);
+            preparedStatement.executeUpdate();
+        }
+	catch (SQLException ex)
+	{
+            while (ex != null)
+            {
+                System.out.println ("SQLState: " +
+                                 ex.getSQLState ());
+                System.out.println ("Message:  " +
+                                 ex.getMessage ());
+		System.out.println ("Vendor:   " +
+                                 ex.getErrorCode ());
+                ex = ex.getNextException ();
+		      System.out.println ("");
+            }
+            
+            System.out.println("Connection to the database error");
+	}
+	catch (java.lang.Exception ex)
+	{
+            ex.printStackTrace ();
+	}
+        
+        
+        // update session attribute before redirect back
+        User user = (User)session.getAttribute("user");
+        user.setPic(fileName);
+        session.setAttribute("user", user);
+        
+        response.sendRedirect("Profile");
+        
+        
+    }
+    
+    /**
+     * Extracts file name from HTTP header content-disposition
+     */
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length()-1);
+            }
+        }
+        return "";
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

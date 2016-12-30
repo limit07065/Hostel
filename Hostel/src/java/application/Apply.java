@@ -206,41 +206,53 @@ public class Apply extends HttpServlet {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String applyDate = format.format(dt);
         
-        // Get roomtype name and room price from database 
+        
         try{
+            
+            // Get roomtype name and room price from database 
             ResultSet rs = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+            String typeName="";
             
             while(rs.next()){
                 if(rs.getString("RoomType_PK").equals(roomtype)){
                     price = rs.getDouble("Price");
-                    roomtype = rs.getString("Type");
+                    typeName = rs.getString("Type");
                 }
-                
             }
-        } catch(SQLException ex){}
         
-        // starting to insert record
-        try{
+            // starting to insert record
             PreparedStatement ps = jdbcUtility.getPsInsertApplication();
             ps.setString(1, activeSession);
             ps.setString(2, username);
             ps.setString(3, roomNo);
             ps.setString(4, block);
-            ps.setString(5, roomtype);
+            ps.setString(5, typeName);
             ps.setDouble(6, price);
             ps.setString(7, applyDate);
-            
             ps.executeUpdate();
             
+            // Get Room_PK from database
+            ps = jdbcUtility.getPsSelectRoomViaTypeNBlock();
+            ps.setString(1, roomtype);
+            ps.setString(2, block);
+            
+            rs = ps.executeQuery();
+            
+            String id="";
+            while(rs.next()){
+                if(rs.getString("Number").equals(roomNo))
+                    id = rs.getString("Room_PK");
+            }
+            
             // Update room status to 1 == occupied
-            ps = jdbcUtility.getPsUpdateRoomStatusViaNumberNBlock();
+            ps = jdbcUtility.getPsUpdateRoomStatusViaId();
             ps.setString(1, "1");
-            ps.setString(2, roomNo);
-            ps.setString(3, block);
+            ps.setString(2, id);
             ps.executeUpdate();
             
             session.setAttribute("open", "0");
             
+            //reload session attr before forwarding view
             getApplicationRecord(request, response);
             request.getRequestDispatcher("/application.jsp").forward(request,response);
         }catch(SQLException ex){}
