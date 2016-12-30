@@ -56,14 +56,14 @@ and open the template in the editor.
 
 @media (min-width:1024px) and (max-width:1439px){
     .upload-icon{
-        right: 420px;
+        right: 590px;
         bottom: 30px;
     }
 
 }
-@media (min-width:1440px) and (max-width:2559){
+@media (min-width:1440px) and (max-width:2559px){
     .upload-icon{
-        right: 700px;
+        right: 630px;
         bottom: 30px;
 
     }

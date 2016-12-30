@@ -82,8 +82,8 @@
                         <c:choose>
                             <c:when test="${not empty user}">                           
                                 
-                                <li class="dropdown user user-menu open">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <li class="dropdown user user-menu ">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         <img src="img/${user.getPic()}" class="user-image" alt="User Image">
                                         <span class="hidden-xs">${user.getName()}</span>
                                     </a>
