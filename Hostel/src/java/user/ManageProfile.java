@@ -60,6 +60,7 @@ public class ManageProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        
        
             sendPage(request, response, "/profile.jsp");
 

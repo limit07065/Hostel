@@ -21,11 +21,12 @@ public class JDBCUtility {
    PreparedStatement psSelectAllFromUserViaUsername = null;
    PreparedStatement psSelectUserViaUserPass = null;
    PreparedStatement psUpdateUserViaUsername= null;
+   PreparedStatement psUpdateProfilePicViaUsername = null;
    PreparedStatement psInsertRoom = null;
    PreparedStatement psSelectAllFromRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
    PreparedStatement psUpdateRoomViaId = null;
-   PreparedStatement psUpdateRoomStatusViaNumberNBlock = null;
+   PreparedStatement psUpdateRoomStatusViaId = null;
    PreparedStatement psDeleteRoomViaId = null;
    PreparedStatement psInsertRoomType = null;
    PreparedStatement psSelectAllFromRoomType = null;
@@ -125,6 +126,11 @@ public class JDBCUtility {
             
             psUpdateUserViaUsername = con.prepareStatement(sqlUpdateUserViaUsername);
             
+            //update user profile picture via username
+            String sqlUpdateProfilePicViaUsername = "UPDATE user SET Pic = ? WHERE Username = ?";
+            
+            psUpdateProfilePicViaUsername = con.prepareStatement(sqlUpdateProfilePicViaUsername);
+            
             //insert room
             String sqlInsertRoom = "INSERT INTO room(Number, Block, Gender, RoomType_FK) " +
                                       "VALUES(?, ?, ?, ?, ?)";
@@ -148,10 +154,10 @@ public class JDBCUtility {
             psUpdateRoomViaId = con.prepareStatement(sqlUpdateRoomViaId);
             
             //update room status via id
-            String sqlUpdateRoomStatusViaNumberNBlock = "UPDATE room SET Occupied = ? " +
-                                                "WHERE Number = ? AND Block = ?";
+            String sqlUpdateRoomStatusViaId = "UPDATE room SET Occupied = ? " +
+                                                "WHERE Room_PK = ?";
             
-            psUpdateRoomStatusViaNumberNBlock = con.prepareStatement(sqlUpdateRoomStatusViaNumberNBlock);
+            psUpdateRoomStatusViaId = con.prepareStatement(sqlUpdateRoomStatusViaId);
             
             //insert roomtype
             String sqlInsertRoomType = "INSERT INTO roomtype(Type, Price, Description) " +
@@ -285,6 +291,11 @@ public class JDBCUtility {
        return psUpdateUserViaUsername;
    }
    
+   public PreparedStatement getPsUpdateProfilePicViaUsername()
+   {
+      return psUpdateProfilePicViaUsername;
+   }
+   
    public PreparedStatement getPsInsertRoom()
    {
        return psInsertRoom;
@@ -305,9 +316,9 @@ public class JDBCUtility {
        return psUpdateRoomViaId;
    }
    
-   public PreparedStatement getPsUpdateRoomStatusViaNumberNBlock()
+   public PreparedStatement getPsUpdateRoomStatusViaId()
    {
-       return psUpdateRoomStatusViaNumberNBlock;
+       return psUpdateRoomStatusViaId;
    }
    
    public PreparedStatement getPsInsertRoomType()

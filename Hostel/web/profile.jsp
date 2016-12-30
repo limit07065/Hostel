@@ -8,10 +8,12 @@
 <div class="container-fluid greenbg text-center">
     <div class="col-md-12 ">
 
+
         <div id="modalPhoto" data-photo="${user.getPic()}" data-toggle="modal" data-target="#uploadPhoto" ><img class="upload-icon" src="img/upload.png"></div>
         <div id="profilepic" class="img-circle img-thumbnail img-circle img-modal" style="background-image: url('img/${user.getPic()}')">                
                 </div>
 <!--        <img class="profile-pic" src="img/<c:out value='${user.getPic()}' />" alt="x"/>-->
+
 
     </div>
     <div class="col-md-12">
@@ -40,7 +42,9 @@
             <div class="modal-body">
                 <div id="imgUpload" class="img-circle img-thumbnail img-circle img-modal">                
                 </div>
-                     <form id="frmuploadphoto" action="UploadUserImageServlet" method="POST" class="text-center">
+    
+                <form id="frmuploadphoto" action="UploadUserImageServlet" method="POST" class="text-center" enctype="multipart/form-data">
+
                     <label class="btn btn-primary ">
                         Choose Photo
                         <input type="file" class="hidden" id="upload" name="upload">
