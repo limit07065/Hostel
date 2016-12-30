@@ -25,7 +25,7 @@ public class JDBCUtility {
    PreparedStatement psSelectAllFromRoom = null;
    PreparedStatement psSelectAllFromRoomViaId = null;
    PreparedStatement psUpdateRoomViaId = null;
-   PreparedStatement psUpdateRoomStatusViaId = null;
+   PreparedStatement psUpdateRoomStatusViaNumberNBlock = null;
    PreparedStatement psDeleteRoomViaId = null;
    PreparedStatement psInsertRoomType = null;
    PreparedStatement psSelectAllFromRoomType = null;
@@ -39,6 +39,7 @@ public class JDBCUtility {
    PreparedStatement psUpdateSessionStatusViaId = null;
    PreparedStatement psInsertApplication = null;
    PreparedStatement psSelectAllFromApplication = null;
+   PreparedStatement psSelectApplicationViaUserName = null;
    PreparedStatement psUpdateApplicationStatusViaId = null;
    PreparedStatement psSelectBlockViaRoomType = null;
    PreparedStatement psSelectRoomViaTypeNBlock = null;
@@ -147,10 +148,10 @@ public class JDBCUtility {
             psUpdateRoomViaId = con.prepareStatement(sqlUpdateRoomViaId);
             
             //update room status via id
-            String sqlUpdateRoomStatusViaId = "UPDATE room SET Occupied = ? " +
-                                                "WHERE Room_PK = ?";
+            String sqlUpdateRoomStatusViaNumberNBlock = "UPDATE room SET Occupied = ? " +
+                                                "WHERE Number = ? AND Block = ?";
             
-            psUpdateRoomStatusViaId = con.prepareStatement(sqlUpdateRoomStatusViaId);
+            psUpdateRoomStatusViaNumberNBlock = con.prepareStatement(sqlUpdateRoomStatusViaNumberNBlock);
             
             //insert roomtype
             String sqlInsertRoomType = "INSERT INTO roomtype(Type, Price, Description) " +
@@ -193,8 +194,8 @@ public class JDBCUtility {
             psUpdateSessionStatusViaId = con.prepareStatement(sqlUpdateSessionStatusViaId);
                      
             //insert application
-            String sqlInsertApplication = "INSERT INTO application(Username, Number, Block, ApplyDate, ApprovedDate) " +
-                                      "VALUES(?, ?, ?, ?, ?)";
+            String sqlInsertApplication = "INSERT INTO application(Session, Username, Number, Block, RoomType, Price, ApplyDate) " +
+                                      "VALUES(?, ?, ?, ?, ?, ?, ?)";
             
             psInsertApplication = con.prepareStatement(sqlInsertApplication);
             
@@ -203,6 +204,11 @@ public class JDBCUtility {
             
             psSelectAllFromApplication = con.prepareStatement(sqlSelectAllFromApplication);
             
+            //select application via username
+            String sqlSelectApplicationViaUserName = "SELECT * FROM application WHERE Username = ? ORDER BY Session DESC";
+                    
+            psSelectApplicationViaUserName = con.prepareStatement(sqlSelectApplicationViaUserName);
+            
             //update session via id
             String sqlUpdateApplicationStatusViaId = "UPDATE application SET Status = ?, ApprovedDate = ? " +
                                                 "WHERE Application_PK = ?";
@@ -210,7 +216,7 @@ public class JDBCUtility {
             psUpdateApplicationStatusViaId = con.prepareStatement(sqlUpdateApplicationStatusViaId);
             
             //select available block via roomtype
-            String sqlSelectBlockViaRoomType = "SELECT DISTINCT Block FROM room WHERE RoomType_FK = ?";
+            String sqlSelectBlockViaRoomType = "SELECT DISTINCT Block FROM room WHERE RoomType_FK = ? AND Occupied = '0'";
             
             psSelectBlockViaRoomType = con.prepareStatement(sqlSelectBlockViaRoomType);
             
@@ -299,9 +305,9 @@ public class JDBCUtility {
        return psUpdateRoomViaId;
    }
    
-   public PreparedStatement getPsUpdateRoomStatusViaId()
+   public PreparedStatement getPsUpdateRoomStatusViaNumberNBlock()
    {
-       return psUpdateRoomStatusViaId;
+       return psUpdateRoomStatusViaNumberNBlock;
    }
    
    public PreparedStatement getPsInsertRoomType()
@@ -347,6 +353,11 @@ public class JDBCUtility {
    public PreparedStatement getPsSelectAllFromApplication()
    {
        return psSelectAllFromApplication;
+   }
+ 
+   public PreparedStatement getPsSelectApplicationViaUserName()
+   {
+      return psSelectApplicationViaUserName;
    }
    
    public PreparedStatement getPsUpdateApplicationStatusViaId()

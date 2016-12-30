@@ -5,14 +5,18 @@
  */
 package application;
 
+import bean.Application;
+import bean.Room;
 import bean.RoomType;
+import bean.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,8 +66,66 @@ public class Apply extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        getApplicationRecord(request, response);
+        
+        getRoomType(request, response);
+        
+        request.getRequestDispatcher("/application.jsp").forward(request,response);
+    }
+    
+    void getApplicationRecord(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         HttpSession session = request.getSession();
-
+        
+        try {
+            //Get active session
+            ResultSet rs = jdbcUtility.getPsSelectAllFromSession().executeQuery();
+            
+            while(rs.next()) {
+                if(rs.getInt("Status") == 0) // 0 == active | 1 == inactive      WTF~
+                    session.setAttribute("activeSession", rs.getString("Name"));
+                
+            }
+            
+            PreparedStatement ps = jdbcUtility.getPsSelectApplicationViaUserName();
+            ps.setString(1, ((User)session.getAttribute("user")).getUsername());
+            
+            rs = ps.executeQuery();
+            
+            Application application;
+            ArrayList appList = new ArrayList();
+            session.setAttribute("open", "1");
+            
+            while(rs.next()) {
+                application = new Application();
+                application.setSession(rs.getString("Session"));
+                application.setUsername(rs.getString("Username"));
+                application.setNumber(rs.getString("Number"));
+                application.setBlock(rs.getString("Block"));
+                application.setRoomtype(rs.getString("RoomType"));
+                application.setPrice(rs.getDouble("Price"));
+                application.setStatus(rs.getInt("Status"));
+                
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                String date = format.format(rs.getDate("ApplyDate"));
+                application.setApplyDate(date);
+                
+                appList.add(application);
+                
+                //reset open to 0 when user already applied for room
+                if(application.getSession().equals(session.getAttribute("activeSession")))
+                    session.setAttribute("open", "0");
+            }
+            
+            session.setAttribute("applications", appList);
+            
+        }catch(SQLException ex){}
+    }
+    
+    void getRoomType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        
         RoomType rt;
 
         try {
@@ -86,8 +148,6 @@ public class Apply extends HttpServlet {
         }
         catch(SQLException ex)
         {}
-        
-        request.getRequestDispatcher("/application.jsp").forward(request,response);
     }
 
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
@@ -131,8 +191,62 @@ public class Apply extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = request.getSession();
+        
+        String activeSession = (String)session.getAttribute("activeSession");
+        String username = ((User)session.getAttribute("user")).getUsername();
+        String roomNo = request.getParameter("room");
+        String block = request.getParameter("block");
+        String roomtype = request.getParameter("roomtype");
+        double price = 0.0;
+        
+        // Get ApplyDate from server time
+        Date dt = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String applyDate = format.format(dt);
+        
+        // Get roomtype name and room price from database 
+        try{
+            ResultSet rs = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+            
+            while(rs.next()){
+                if(rs.getString("RoomType_PK").equals(roomtype)){
+                    price = rs.getDouble("Price");
+                    roomtype = rs.getString("Type");
+                }
+                
+            }
+        } catch(SQLException ex){}
+        
+        // starting to insert record
+        try{
+            PreparedStatement ps = jdbcUtility.getPsInsertApplication();
+            ps.setString(1, activeSession);
+            ps.setString(2, username);
+            ps.setString(3, roomNo);
+            ps.setString(4, block);
+            ps.setString(5, roomtype);
+            ps.setDouble(6, price);
+            ps.setString(7, applyDate);
+            
+            ps.executeUpdate();
+            
+            // Update room status to 1 == occupied
+            ps = jdbcUtility.getPsUpdateRoomStatusViaNumberNBlock();
+            ps.setString(1, "1");
+            ps.setString(2, roomNo);
+            ps.setString(3, block);
+            ps.executeUpdate();
+            
+            session.setAttribute("open", "0");
+            
+            getApplicationRecord(request, response);
+            request.getRequestDispatcher("/application.jsp").forward(request,response);
+        }catch(SQLException ex){}
+        
     }
+    
 
     /**
      * Returns a short description of the servlet.
