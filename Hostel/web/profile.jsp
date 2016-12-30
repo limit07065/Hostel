@@ -14,12 +14,14 @@
     </div>
     <div class="col-md-12">
         <label> ${user.getName()}</label>    <br>
-        <label>${user.getId()}</label>
+        <label><span><i class="fa fa-id-badge"></i></span> ${user.getId()}</label>       <br> 
+        <label><span><i class="fa fa-phone"></i></span> ${user.getContact()}</label>    <br>
+        <label><span><i class="fa fa-send"></i></span> ${user.getEmail()}</label>    <br>
     </div>
 </div>     
 
 <div class="col-md-12 btn-menu">   
-    <button class="btn btn-default btn-profile ">Edit Profile</button>
+    <button class="btn btn-default btn-profile" data-toggle="modal" data-target="#edit">Edit Profile</button>
     <button class="btn btn-default btn-profile">Change Password</button>
 
 </div>
@@ -36,8 +38,7 @@
             <div class="modal-body">
                 <div id="imgUpload" class="img-circle img-thumbnail img-circle img-modal">                
                 </div>
-     <!--        <img  class="img-thumbnail img-circle img-modal" src="img/${user.getPic()}">-->
-                <form id="frmuploadphoto" action="UploadUserImageServlet" method="POST" class="text-center">
+                     <form id="frmuploadphoto" action="UploadUserImageServlet" method="POST" class="text-center">
                     <label class="btn btn-primary ">
                         Choose Photo
                         <input type="file" class="hidden" id="upload" name="upload">
@@ -51,4 +52,33 @@
         </div>
     </div>
 </div>
+<!--END Modal for upload-->
+
+
+<!--Modal for Edit-->
+
+<div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+                <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
+            </div>
+            <div class="modal-body">  
+                <form id="frmedit" action="Profile" method="POST">
+                    
+                    <label class="" for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="${user.getEmail()}" >                    
+                    <label class="" for="contact" id="contact">Contact</label>
+                    <input type="text" class="form-control" name="contact" id="contact" placeholder="${user.getContact()}">    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" form="frmedit" class="btn btn-primary">Save </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END Modal for Edit-->
 <%@include file="footer.jsp"%>

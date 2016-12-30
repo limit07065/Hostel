@@ -21,12 +21,7 @@ $('.dropdown').on('hide.bs.dropdown', function (e) {
 // 
 //js for display choosen image for profile upload
 
-$("#modalPhoto").click(function(){
-    var pic = $("#modalPhoto").data("photo");
-    var url="url('img/"+pic+"')";
-    
-    $('.img-modal').css("background-image", url);
-});
+
 
 
 function readURL(input) {
