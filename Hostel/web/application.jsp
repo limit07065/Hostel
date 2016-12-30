@@ -7,9 +7,10 @@
 <%@include file="header.jsp" %>
 
 <div class="container">
+
     <c:choose>
     <c:when test="${open == 1}">
-    <h2>Next-Year Application</h2>
+    <div class="alert alert-success">Application for new year is <strong>open</strong> now!</div>     
     <form id="form" class="form-group" method="post" action="Apply">
         <label for="roomtype" >Room Type</label>
 
@@ -98,7 +99,7 @@
     </c:when>
     </c:choose>
     
-    <div class="container">
+    <div class="container" id="roomHistroy">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
                 Room History
@@ -131,14 +132,13 @@
 </div>
 <%@include file="footer.jsp" %>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $("h2.clickable-header").click(function(){
-            if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down"){
+        $("h2.clickable-header").click(function () {
+            if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down") {
                 $(this).parents(".container").children("table").slideDown("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-            }
-            else{
+            } else {
                 $(this).parents(".container").children("table").slideUp("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }
@@ -180,7 +180,7 @@
             else{
                 $("#submit").attr("disabled", "disabled");
             }
-        }, 2000)
+        }, 2000);
     });
     
 </script>

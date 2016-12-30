@@ -26,7 +26,7 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login",""})
+@WebServlet(name = "Login", urlPatterns = {"/Login", ""})
 public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         //if user not logon
-        if ( session.getAttribute("user") == null) {
+        if (session.getAttribute("user") == null) {
             request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
         } else {
@@ -77,6 +77,7 @@ public class Login extends HttpServlet {
             //admin
             if(user.getLevel() == 0) 
                 response.sendRedirect("dashboard");
+
             else
             //student
                 response.sendRedirect("Apply");
@@ -151,11 +152,13 @@ public class Login extends HttpServlet {
 
                 if(userBean.getLevel() == 0)
                     response.sendRedirect("dashboard");
+
                 else
                     response.sendRedirect("Apply");    
             }
             else if(!status){
-                request.setAttribute("loginError", "Username and Password do not matched");
+                request.setAttribute("loginError", "Username and Password do not match");
+
                 sendPage(request, response, "/login.jsp");
             }
 

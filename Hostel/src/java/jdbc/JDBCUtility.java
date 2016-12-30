@@ -205,7 +205,7 @@ public class JDBCUtility {
             psSelectAllFromApplication = con.prepareStatement(sqlSelectAllFromApplication);
             
             //select application via username
-            String sqlSelectApplicationViaUserName = "SELECT * FROM application WHERE Username = ?";
+            String sqlSelectApplicationViaUserName = "SELECT * FROM application WHERE Username = ? ORDER BY Session DESC";
                     
             psSelectApplicationViaUserName = con.prepareStatement(sqlSelectApplicationViaUserName);
             
