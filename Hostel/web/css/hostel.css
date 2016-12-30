@@ -13,7 +13,7 @@ and open the template in the editor.
     #footer{
         text-align:center;
     }
-
+    
 }
 
 @media (min-width:768px)
@@ -99,24 +99,46 @@ html, body {
     margin: 10px;
 }
 
+.btn-menu{
+    text-align:center;
+}
+
+
+.btn-profile{
+    margin:5px;
+    width: 200px;
+}
+
 .full-screen{
     min-height: 100%;
 }
 
 .greenbg
 {
-    height: 67%;
+
     background:rgba(92, 214, 60, 0.46) ;
     background: -webkit-linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
     background: -o-linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
     background: -moz-linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
     background: linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
 }
-
+.img-modal
+{
+    margin: 0px auto 10px auto;
+    display: block;
+    width: 190px;
+    height: 190px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    
+} 
 .input-group
 {
     margin-bottom: 10px;
 }    
+
 
 .nav-logo
 {
@@ -152,7 +174,11 @@ html, body {
     margin-top: -2px;
 }
 
+#footer
+{
 
+    border-top: solid #ddd 1px;
+}
 
 #loginlogo{
     margin-top: 20px;

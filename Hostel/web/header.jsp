@@ -79,8 +79,7 @@
                             
                         </c:choose>
 
-
-                        <c:choose>    
+ 
                             
                         <c:choose>
 
