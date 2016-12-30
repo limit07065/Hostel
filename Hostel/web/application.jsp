@@ -7,8 +7,10 @@
 <%@include file="header.jsp" %>
 
 <div class="container">
+    <c:choose>
+    <c:when test="${open == 1}">
     <h2>Next-Year Application</h2>
-    <form id="form" class="form-group" method="get" action="InsertApplicationServlet">
+    <form id="form" class="form-group" method="post" action="Apply">
         <label for="roomtype" >Room Type</label>
 
         <select id="roomtype" name="roomtype" class="inline-control">
@@ -31,15 +33,17 @@
         <label for="room" >Room Number</label>
         <select id="room" name="room" class="inline-control" disabled>
             <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
-                <option value="<c:out value='${currentRoom.getRoom_PK()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
+                <option value="<c:out value='${currentRoom.getNumber()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
             </c:forEach>
             <option value=" " selected disabled hidden>Select Room</option>
         </select>
         <input id="submit" type="submit" class="inline-control  btn btn-success" disabled>
-
     </form>
+    </c:when>
+    
+    <c:when test="${open == 0}">
     <div class="container">
-        <div class="page-header">
+        <div class="page-header">   
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
                 Current Application
                 <span style="font-size:20px;" class="glyphicon glyphicon-chevron-down">
@@ -56,8 +60,44 @@
                 <th>Status</th>
                 <th>Action</th>
             </tr> 
+            <c:forEach items="${sessionScope.applications}" var="currentApp" varStatus="loop">
+                <c:if test="${currentApp.getSession() == activeSession}">
+                <tr>
+                    <td><c:out value="${currentApp.getSession()}" /></td>
+                    <td><c:out value="${currentApp.getBlock()}" /></td>
+                    <td><c:out value="${currentApp.getNumber()}" /></td>
+                    <td><c:out value="${currentApp.getRoomtype()}" /></td>   
+                    <td><c:out value="${currentApp.getPrice()}" /></td>
+                    <td><c:out value="${currentApp.getPrice() * 130}" /></td>
+                    
+                    <c:choose>
+                        <c:when test="${currentApp.getStatus() == 0}">
+                        <td>Pending</td>
+                        </c:when>
+                        <c:when test="${currentApp.getStatus() == 1}">
+                        <td>Approved</td>
+                        </c:when>
+                        <c:when test="${currentApp.getStatus() == 2}">
+                        <td>Cancelled</td>
+                        </c:when>
+                        <c:when test="${currentApp.getStatus() == 3}">
+                        <td>Rejected</td>
+                        </c:when>
+                    </c:choose>
+                        
+                    <c:url value="Apply" var="cancelApplicationURL">
+                        <c:param name="session"   value="${currentApp.getSession()}" />
+                    </c:url>
+                        
+                    <td><a href="<c:out value='${cancelApplicationURL}' />">Cancel</a></td>
+                </tr>
+                </c:if>
+            </c:forEach>
         </table>
     </div>
+    </c:when>
+    </c:choose>
+    
     <div class="container">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
@@ -74,6 +114,18 @@
                 <th>Price/Day</th>
                 <th>Total</th>
             </tr> 
+            <c:forEach items="${sessionScope.applications}" var="currentApp" varStatus="loop">
+                <c:if test="${currentApp.getSession() != activeSession}">
+                <tr>
+                    <td><c:out value="${currentApp.getSession()}" /></td>
+                    <td><c:out value="${currentApp.getBlock()}" /></td>
+                    <td><c:out value="${currentApp.getNumber()}" /></td>
+                    <td><c:out value="${currentApp.getRoomtype()}" /></td>
+                    <td><c:out value="${currentApp.getPrice()}" /></td>
+                    <td><c:out value="${currentApp.getPrice() * 130}" /></td>
+                </tr>
+                </c:if>
+            </c:forEach>
         </table>
     </div>
 </div>
