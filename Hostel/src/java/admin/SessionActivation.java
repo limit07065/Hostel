@@ -22,12 +22,12 @@ import jdbc.JDBCUtility;
  *
  * @author Ryan Hoo
  */
-@WebServlet(name = "SessionActivationgit", urlPatterns = {"/SessionActivation"})
+@WebServlet(name = "SessionActivation", urlPatterns = {"/SessionActivation"})
 public class SessionActivation extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
-    
+
     public void init() throws ServletException
     {
         String driver = "com.mysql.jdbc.Driver";
@@ -45,8 +45,8 @@ public class SessionActivation extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }    
-    
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,37 +59,37 @@ public class SessionActivation extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         int id = Integer.parseInt(request.getParameter("id"));
         int status = Integer.parseInt(request.getParameter("status"));
-        
+
         if(status ==  0)
         {
             status = 1;
         }
-        
+
         else if(status == 1)
         {
             status = 0;
         }
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try{
             //PrintWriter out = response.getWriter();
-            
+
             PreparedStatement preparedStatement = jdbcUtility.getPsUpdateSessionStatusViaId();
-            
+
             preparedStatement.setInt(1, status);
             preparedStatement.setInt(2, id);
-            
+
             preparedStatement.executeUpdate();
-            
+
             /*out.println("<script>");
             out.println("    alert('Destination status updated success');");
             out.println("</script>");
-            
+
             out.println("<p>Please click <a href='/ServletDatev5/GetDestinationsServlet'>here</a> to view destination details</p>");*/
-            
+
             response.sendRedirect("dashboard");
 
         }
@@ -106,16 +106,16 @@ public class SessionActivation extends HttpServlet {
                 ex = ex.getNextException ();
 		      System.out.println ("");
             }
-            
+
             System.out.println("Connection to the database error");
 	}
 	catch (java.lang.Exception ex)
 	{
             ex.printStackTrace ();
-	} 
-        
+	}
+
     }
-    
+
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
     {
         // Get the dispatcher; it gets the main page to the user
@@ -129,7 +129,7 @@ public class SessionActivation extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }  
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
