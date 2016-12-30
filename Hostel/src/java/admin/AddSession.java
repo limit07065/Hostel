@@ -27,7 +27,7 @@ public class AddSession extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
-    
+
     public void init() throws ServletException
     {
         String driver = "com.mysql.jdbc.Driver";
@@ -45,8 +45,8 @@ public class AddSession extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }    
-    
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,25 +59,25 @@ public class AddSession extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String name = request.getParameter("Name");
-        
+
         try{
-            PreparedStatement preparedStatement = jdbcUtility.getPsInsertRoomType();
-            
+            PreparedStatement preparedStatement = jdbcUtility.getPsInsertSession();
+
             preparedStatement.setString(1, name);
-            
+
             preparedStatement.executeUpdate();
-            
+
             PrintWriter out = response.getWriter();
-            
+
             out.println("<script>");
             out.println("    alert('Session is added');");
             out.println("</script>");
-            
+
             response.sendRedirect("dashboard");
         }
-        
+
         catch (SQLException ex)
 	{
             while (ex != null)
@@ -91,15 +91,15 @@ public class AddSession extends HttpServlet {
                 ex = ex.getNextException ();
 		      System.out.println ("");
             }
-            
+
             System.out.println("Connection to the database error");
 	}
 	catch (java.lang.Exception ex)
 	{
             ex.printStackTrace ();
-	} 
+	}
     }
-    
+
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
     {
         // Get the dispatcher; it gets the main page to the user
@@ -113,7 +113,7 @@ public class AddSession extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }  
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
