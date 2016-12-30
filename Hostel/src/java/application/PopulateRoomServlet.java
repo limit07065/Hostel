@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +35,7 @@ public class PopulateRoomServlet extends HttpServlet {
     {
         String driver = "com.mysql.jdbc.Driver";
 
-        String dbName = "hostel";
+        String dbName = "db_hostel";
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String password = "";
@@ -60,30 +59,59 @@ public class PopulateRoomServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+ 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         HttpSession session = request.getSession();
         
         String roomtype;
-        String block;        
-        Room room = new Room();
+        String block;    
         
-        String type = request.getParameter("type");
-        if(type != null){            
+        roomtype = request.getParameter("type");
+        if(roomtype != null){            
            try{
                 PreparedStatement ps = jdbcUtility.getPsSelectBlockViaRoomType();
-                ps.setString(1, type);
+                ps.setString(1, roomtype);
                 ResultSet rs = ps.executeQuery();
                 ArrayList blockList = new ArrayList();
-
-                while(rs.next())
-                    blockList.add(rs.getString("Block"));
-
+                Room rm;
+                
+                while(rs.next()){
+                    rm = new Room();
+                    rm.setBlock(rs.getString("Block"));
+                    blockList.add(rm);
+                }
+                
                 session.setAttribute("block", blockList);
             }
             catch (SQLException ex) 
             {            
             }  
+        }
+       
+        block = request.getParameter("block");
+        if(block != null){
+            try{
+                PreparedStatement ps = jdbcUtility.getPsSelectRoomViaTypeNBlock();
+                ps.setString(1, roomtype);
+                ps.setString(2, block);
+                ResultSet rs = ps.executeQuery();
+                ArrayList roomList = new ArrayList();
+                Room rm;
+                
+                while(rs.next()){
+                    rm = new Room();
+                    rm.setRoom_PK(rs.getInt("Room_PK"));
+                    rm.setBlock(rs.getString("Block"));
+                    rm.setNumber(rs.getString("Number"));
+                    
+                    roomList.add(rm);
+                }
+                
+                session.setAttribute("roomAvailable", roomList);
+            }
+            catch(SQLException ex){}
         }
     }
     

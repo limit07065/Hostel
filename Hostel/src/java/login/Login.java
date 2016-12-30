@@ -73,36 +73,13 @@ public class Login extends HttpServlet {
             User user = (User) session.getAttribute("user");
 
             //Redirect user according to their user level
+
             //admin
-            if (user.getLevel() == 0) {
+            if(user.getLevel() == 0) 
                 response.sendRedirect("dashboard");
-            } else {
-                /*
-                RoomType rt;
-
-                try {
-                    PreparedStatement ps = jdbcUtility.getPsSelectAllFromRoomType();
-                    ResultSet rs = ps.executeQuery();
-
-                    ArrayList roomtypeList = new ArrayList();
-
-                    while (rs.next()) {
-                        rt = new RoomType();
-                        rt.setRoomType_PK(rs.getInt("RoomType_PK"));
-                        rt.setType(rs.getString("Type"));
-                        rt.setDescription(rs.getString("Description"));
-                        rt.setPic(rs.getString("Pic"));
-                        rt.setPrice(rs.getDouble("Price"));
-
-                        roomtypeList.add(rt);
-                    }
-
-                    session.setAttribute("roomtype", roomtypeList);
-                } catch (SQLException ex) {
-                }
-*/
+            else
+            //student
                 response.sendRedirect("Apply");
-            }
         }
     }
 
@@ -151,7 +128,7 @@ public class Login extends HttpServlet {
 
         try {
             PreparedStatement ps = jdbcUtility.getPsSelectUserViaUserPass();
-
+            
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -169,49 +146,24 @@ public class Login extends HttpServlet {
                 userBean.setEmail(rs.getString("Email"));
                 userBean.setPic(rs.getString("Pic"));
 
-                HttpSession session = request.getSession(true);
+                HttpSession session = request.getSession();
                 session.setAttribute("user", userBean);
 
-                if (userBean.getLevel() == 0) {
+                if(userBean.getLevel() == 0)
                     response.sendRedirect("dashboard");
-                } else {
-
-                    if (session.getAttribute("roomtype") == null) {
-                        RoomType rt;
-
-                        try {
-                            ps = jdbcUtility.getPsSelectAllFromRoomType();
-                            rs = ps.executeQuery();
-
-                            ArrayList roomtypeList = new ArrayList();
-
-                            while (rs.next()) {
-                                rt = new RoomType();
-                                rt.setRoomType_PK(rs.getInt("RoomType_PK"));
-                                rt.setType(rs.getString("Type"));
-                                rt.setDescription(rs.getString("Description"));
-                                rt.setPic(rs.getString("Pic"));
-                                rt.setPrice(rs.getDouble("Price"));
-
-                                roomtypeList.add(rt);
-                            }
-
-                            session.setAttribute("roomtype", roomtypeList);
-                        } catch (SQLException ex) {
-                        }
-                        response.sendRedirect("Apply");
-                    }
-
-                    
-                }
-
-            } else if (!status) {
-                request.setAttribute("loginError", "Username and Password do not match");
+                else
+                    response.sendRedirect("Apply");    
+            }
+            else if(!status){
+                request.setAttribute("loginError", "Username and Password do not matched");
                 sendPage(request, response, "/login.jsp");
             }
-        } catch (SQLException ex) {
-        }
 
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     /**

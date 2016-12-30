@@ -78,7 +78,7 @@
         var roomtype = $("#roomtype").val();
         
         $.post("PopulateRoomServlet", {type: roomtype}, function(){ 
-            $("#room").load(" #room");
+            $("#room").load(" #room>*");
         });
     });
     

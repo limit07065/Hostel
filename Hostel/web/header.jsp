@@ -63,13 +63,6 @@
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
 
-                        <c:if test="${not empty user}">
-                            <li>
-                                <a href="Profile">Welcome, <c:out value="${user.getName()}" /></a>
-                            </li>                            
-                        </c:if>
-                        
-
                         <c:choose>
                             <c:when test="${user.getLevel()==1}">
                                 <li>
@@ -86,19 +79,15 @@
 
                         <c:choose>
                             <c:when test="${not empty user}">                            
-                                <li>
-                                    <a href="Logout">Logout</a>
-
-                                </li>
                                 <li class="dropdown user user-menu open">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                        <img src="${user.getPic()}" class="user-image" alt="User Image">
+                                        <img src="img/${user.getPic()}" class="user-image" alt="User Image">
                                         <span class="hidden-xs">${user.getName()}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
-                                            <img src="${user.getPic()}" class="img-circle" alt="User Image">
+                                            <img src="img/${user.getPic()}" class="img-circle" alt="User Image">
 
                                             <p>
                                                 ${user.getName()} 
@@ -120,7 +109,7 @@
                             </c:when>
                             <c:otherwise>
                                 <li>
-                                    <a href="">Login</a>
+                                    <a href="Login">Login</a>
                                 </li>
                             </c:otherwise>
 
