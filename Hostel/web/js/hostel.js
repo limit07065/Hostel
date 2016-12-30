@@ -43,12 +43,13 @@ $("#upload").change(function () {
 
 //END js for display choosen image for profile upload
 
-//js for display upload icon when hover
+//js for slide img to selected room type
 
-$("profile-pic").hover(function(){
-    $(".upload-icon").show();    
-},
-function(){
-    $(".upload-icon").hide();    
-});
+function slidetoroom()
+{
+    input =$("#roomtype").find(":selected").data("slide-to");
+    
+    $("ol li:eq("+input+")").click();
+   
+}
     

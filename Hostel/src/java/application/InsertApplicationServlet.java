@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import bean.*;
+import java.util.*;
 
 /**
  *
@@ -31,6 +33,20 @@ public class InsertApplicationServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        RoomType room = new RoomType();
+        room.setPic("default_room.jpg");
+        room.setType("Single");
+        room.setPrice(4.00);
+        ArrayList<RoomType> rooms = new ArrayList();
+        rooms.add(room);
+        RoomType room1 = new RoomType();
+        room1.setType("double");
+        room1.setPic("logo1.png");
+        rooms.add(room1);
+        request.setAttribute("roomtype",rooms);        
+        request.getRequestDispatcher("apply.jsp").forward(request, response);
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -86,3 +102,4 @@ public class InsertApplicationServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
