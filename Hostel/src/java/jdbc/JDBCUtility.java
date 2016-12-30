@@ -191,7 +191,7 @@ public class JDBCUtility {
                                                 "WHERE Session_PK = ?";
             
             psUpdateSessionStatusViaId = con.prepareStatement(sqlUpdateSessionStatusViaId);
-            
+                     
             //insert application
             String sqlInsertApplication = "INSERT INTO application(Username, Number, Block, ApplyDate, ApprovedDate) " +
                                       "VALUES(?, ?, ?, ?, ?)";
@@ -232,7 +232,7 @@ public class JDBCUtility {
             //delete session
             String sqlDeleteSessionViaId = "DELETE FROM session WHERE Session_PK = ?";
             
-            psDeleteRoomTypeViaId = con.prepareStatement(sqlDeleteRoomTypeViaId);
+            psDeleteSessionViaId = con.prepareStatement(sqlDeleteSessionViaId);
             
             //update destination image
             String sqlUpdateRoomTypeImage = "UPDATE roomtype SET Pic = ? WHERE RoomType_PK = ?"; 

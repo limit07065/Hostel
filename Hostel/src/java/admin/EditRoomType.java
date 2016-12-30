@@ -22,12 +22,12 @@ import jdbc.JDBCUtility;
  *
  * @author Ryan Hoo
  */
-@WebServlet(name = "EditRoomTypeServlet", urlPatterns = {"/EditRoomTypeServlet"})
+@WebServlet(name = "EditRoomType", urlPatterns = {"/EditRoomType"})
 public class EditRoomType extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
     private Connection con;
-    
+
     public void init() throws ServletException
     {
         String driver = "com.mysql.jdbc.Driver";
@@ -45,8 +45,8 @@ public class EditRoomType extends HttpServlet {
         jdbcUtility.jdbcConnect();
         con = jdbcUtility.jdbcGetConnection();
         jdbcUtility.prepareSQLStatement();
-    }    
-    
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,30 +59,30 @@ public class EditRoomType extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         int id = Integer.parseInt(request.getParameter("id"));
         String type = request.getParameter("Number");
         double price = Double.parseDouble(request.getParameter("Price"));
         String description = request.getParameter("Description");
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try{
             PreparedStatement preparedStatement = jdbcUtility.getPsUpdateRoomTypeViaId();
-            
+
             preparedStatement.setString(1, type);
             preparedStatement.setDouble(2, price);
             preparedStatement.setString(3, description);
             preparedStatement.setInt(4, id);
-            
+
             preparedStatement.executeUpdate();
-            
+
             PrintWriter out = response.getWriter();
-            
+
             out.println("<script type='text/javascript'>");
             out.println("    alert('Room type info is updated!');");
             out.println("</script>");
-           
-            
+
+
             response.sendRedirect("dashboard");
         }
         catch (SQLException ex)
@@ -98,15 +98,15 @@ public class EditRoomType extends HttpServlet {
                 ex = ex.getNextException ();
 		      System.out.println ("");
             }
-            
+
             System.out.println("Connection to the database error");
 	}
 	catch (java.lang.Exception ex)
 	{
             ex.printStackTrace ();
-	} 
+	}
     }
-    
+
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
     {
         // Get the dispatcher; it gets the main page to the user
@@ -120,7 +120,7 @@ public class EditRoomType extends HttpServlet {
 	}
 	else
 	    dispatcher.forward(req, res);
-    }  
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
