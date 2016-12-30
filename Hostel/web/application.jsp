@@ -7,37 +7,10 @@
 <%@include file="header.jsp" %>
 
 <div class="container">
-    <h2>Next-Year Application</h2>
-    <form id="form" class="form-group" method="get" action="InsertApplicationServlet">
-        <label for="roomtype" >Room Type</label>
 
-        <select id="roomtype" name="roomtype" class="inline-control">
-            <option value=" " selected disabled hidden>Select Room Type</option>
-            <c:forEach items="${sessionScope.roomTypes}" var="currentRoomtype" varStatus="loop">
-                <option value="<c:out value='${currentRoomtype.getRoomType_PK()}' />"> <c:out value="${currentRoomtype.getType()}" /> </option>
-            </c:forEach>
-        </select>
-
-        <label for="block"  >Block </label>
-        <select id="block" name="block" class="inline-control" disabled>
-            <c:if test="${not empty block}">
-                <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
-                    <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
-                </c:forEach>
-            </c:if>
-            <option value=" " selected disabled hidden>Select Available Block</option>
-        </select>
-
-        <label for="room" >Room Number</label>
-        <select id="room" name="room" class="inline-control" disabled>
-            <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
-                <option value="<c:out value='${currentRoom.getRoom_PK()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
-            </c:forEach>
-            <option value=" " selected disabled hidden>Select Room</option>
-        </select>
-        <input id="submit" type="submit" class="inline-control  btn btn-success" disabled>
-
-    </form>
+    
+        <div class="alert alert-success">Application for new year is <strong>open</strong> now! Click <a href="#Application">here</a> to apply.</div>     
+ 
     <div class="container">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
@@ -58,7 +31,7 @@
             </tr> 
         </table>
     </div>
-    <div class="container">
+    <div class="container" id="roomHistory">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
                 Room History
@@ -79,14 +52,13 @@
 </div>
 <%@include file="footer.jsp" %>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $("h2.clickable-header").click(function(){
-            if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down"){
+        $("h2.clickable-header").click(function () {
+            if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down") {
                 $(this).parents(".container").children("table").slideDown("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-            }
-            else{
+            } else {
                 $(this).parents(".container").children("table").slideUp("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }

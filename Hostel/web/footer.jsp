@@ -8,11 +8,13 @@
     <div class="col-sm-4">
         <h3>Developers</h3>
         <p>
+            <small>
             Hoo Boon Keong <br>
             Lim Tze Soon <br>
             Loh Wen He <br>
             Pang Cheng Hao <br>
             Raymond Tan Wei Yi 
+            </small>
         </p>
 
     </div>
@@ -27,6 +29,9 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="js/hostel.js"></script>
 
 </body>
 

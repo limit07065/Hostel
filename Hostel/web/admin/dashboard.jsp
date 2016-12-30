@@ -88,6 +88,9 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+
+<!-- Hostel custom JavaScript -->
+<script src="js/hostel.js"></script>
 </body>
 </html>
 

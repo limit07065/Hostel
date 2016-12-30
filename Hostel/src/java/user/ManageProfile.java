@@ -60,19 +60,10 @@ public class ManageProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Check if user login already
-        HttpSession session = request.getSession(false);
-        
+       
+            sendPage(request, response, "/profile.jsp");
 
-        if(session == null || session.getAttribute("user") == null){
-            request.setAttribute("loginError", "Session timeout, please login again");
-            sendPage(request, response, "/login.jsp");
-        }
-        else {
-            sendPage(request, response, "profile.jsp");
-
-        }
-        
+                
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
