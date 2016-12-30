@@ -63,9 +63,25 @@
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
 
+<<<<<<< HEAD
                        
                         
 
+                       <c:choose>
+                            <c:when test="${user.getLevel()==1}">
+                                <li>
+                                    <a href="#roomHistory">Room History</a>
+                                </li>
+                                 <li>
+                                    <a href="#">Applications</a>
+                                </li>
+                            </c:when>
+                            
+                        </c:choose>
+
+
+                        <c:choose>
+                            
                         <c:choose>
                             <c:when test="${user.getLevel()==1}">
                                 <li>
@@ -80,17 +96,21 @@
 
 
                         <c:choose>
+
                             <c:when test="${not empty user}">                           
                                 
                                 <li class="dropdown user user-menu ">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+
                                         <img src="img/${user.getPic()}" class="user-image" alt="User Image">
                                         <span class="hidden-xs">${user.getName()}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
+
                                             <img src="img/${user.getPic()}" class="img-responsive img-circle" alt="User Image">
+
 
                                             <p>
                                                 ${user.getName()} 
@@ -110,7 +130,7 @@
                                 </li>
 
                             </c:when>
-                           
+
 
                         </c:choose>
 

@@ -7,9 +7,10 @@
 <%@include file="header.jsp" %>
 
 <div class="container">
+
     
         <div class="alert alert-success">Application for new year is <strong>open</strong> now! Click <a href="#Application">here</a> to apply.</div>     
-    
+ 
     <div class="container">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
@@ -63,4 +64,43 @@
             }
         });
     });
+</script>
+
+
+<script>
+    
+    $("#roomtype").change( function(){ 
+        var roomtype = $("#roomtype").val();
+        
+        $.post("PopulateRoomServlet", {type: roomtype}, function(){ 
+            $("#block").load(" #block>*");
+        });
+        
+        $("#block").removeAttr("disabled");
+    });
+    
+    $("#block").change( function(){ 
+        var block = $("#block").val();
+        var roomtype = $("#roomtype").val();
+        
+        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function(){ 
+            $("#room").load(" #room>*");
+        });
+        
+        $("#room").removeAttr("disabled");
+    });
+    
+    $(function(){ 
+        setInterval(function(){
+            var room = $("#room").val();
+
+            if(room !== null){
+                $("#submit").removeAttr("disabled");
+            }
+            else{
+                $("#submit").attr("disabled", "disabled");
+            }
+        }, 2000)
+    });
+    
 </script>
