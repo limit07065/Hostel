@@ -7,24 +7,9 @@
 <%@include file="header.jsp" %>
 
 <div class="container">
-    <h2>Next-Year Application</h2>
-    <form id="form" class="form-group">
-        <label for="roomtype" >Room Type</label>
-
-        <select id="roomtype" name="roomtype" class="inline-control">
-        </select>
-
-        <label for="block"  >Block </label>
-        <select id="block" name="block" class="inline-control">
-        </select>
-
-        <label for="room" >Room Number</label>
-        <select id="room" name="room" class="inline-control">
-        </select>
-
-        <input type="submit" class="inline-control  btn btn-success">
-
-    </form>
+    
+        <div class="alert alert-success">Application for new year is <strong>open</strong> now! Click <a href="#Application">here</a> to apply.</div>     
+    
     <div class="container">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
@@ -45,7 +30,7 @@
             </tr> 
         </table>
     </div>
-    <div class="container">
+    <div class="container" id="roomHistory">
         <div class="page-header">
             <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
                 Room History
@@ -66,14 +51,13 @@
 </div>
 <%@include file="footer.jsp" %>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $("h2.clickable-header").click(function(){
-            if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down"){
+        $("h2.clickable-header").click(function () {
+            if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down") {
                 $(this).parents(".container").children("table").slideDown("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-            }
-            else{
+            } else {
                 $(this).parents(".container").children("table").slideUp("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }

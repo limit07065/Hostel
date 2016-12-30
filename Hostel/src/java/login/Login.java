@@ -26,7 +26,7 @@ import jdbc.JDBCUtility;
  *
  * @author wenhe
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login",""})
+@WebServlet(name = "Login", urlPatterns = {"/Login", ""})
 public class Login extends HttpServlet {
 
     private JDBCUtility jdbcUtility;
@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         //if user not logon
-        if ( session.getAttribute("user") == null) {
+        if (session.getAttribute("user") == null) {
             request.setAttribute("loginError", "");   //Reset loginError attr, just in case
             sendPage(request, response, "/login.jsp");
         } else {
@@ -100,7 +100,7 @@ public class Login extends HttpServlet {
                     session.setAttribute("roomtype", roomtypeList);
                 } catch (SQLException ex) {
                 }
-*/
+                 */
                 response.sendRedirect("Apply");
             }
         }
@@ -175,34 +175,7 @@ public class Login extends HttpServlet {
                 if (userBean.getLevel() == 0) {
                     response.sendRedirect("dashboard");
                 } else {
-
-                    if (session.getAttribute("roomtype") == null) {
-                        RoomType rt;
-
-                        try {
-                            ps = jdbcUtility.getPsSelectAllFromRoomType();
-                            rs = ps.executeQuery();
-
-                            ArrayList roomtypeList = new ArrayList();
-
-                            while (rs.next()) {
-                                rt = new RoomType();
-                                rt.setRoomType_PK(rs.getInt("RoomType_PK"));
-                                rt.setType(rs.getString("Type"));
-                                rt.setDescription(rs.getString("Description"));
-                                rt.setPic(rs.getString("Pic"));
-                                rt.setPrice(rs.getDouble("Price"));
-
-                                roomtypeList.add(rt);
-                            }
-
-                            session.setAttribute("roomtype", roomtypeList);
-                        } catch (SQLException ex) {
-                        }
-                        response.sendRedirect("Apply");
-                    }
-
-                    
+                    response.sendRedirect("Apply");
                 }
 
             } else if (!status) {

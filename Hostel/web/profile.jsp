@@ -5,34 +5,24 @@
 --%>
 
 <%@include file="header.jsp"%>
-<div class="container">
-    <div class="col-md-4 col-md-offset-4">
+<div class="container-fluid greenbg text-center">
+    <div class="col-md-12 ">
 
         <img class="upload-icon" src="img/upload.png">
-        <img class="img img-circle center-block img-thumbnail profile-pic" src="img/<c:out value='${user.getPic()}' />" alt="x"/>
-        
-    </div>
-    <div class="col-md-6 col-md-offset-3">
-        <div class="row">
+        <img class="profile-pic" src="img/<c:out value='${user.getPic()}' />" alt="x"/>
 
-            <div class="col-md-3 ">
-                <label> Name</label>    <br>
-                <label> Matric Number</label>
-
-            </div>
-            <div class="col-md-1">
-                <label>:</label> <br>   
-                <label>:</label>
-            </div>
-            <div class="col-md-8">
-                <label> <c:out value="${user.getName()}" /></label>    <br>
-                <label> <c:out value="${user.getEmail()}" /></label>
-            </div>
-        </div>
-       
-            <button class="btn btn-default center-block">Change Password</button>
-        
     </div>
+    <div class="col-md-12">
+        <label> ${user.getName()}</label>    <br>
+        <label>${user.getId()}</label>
+    </div>
+</div>     
+
+<div class="col-md-12">   
+    <button class="btn btn-default center-block">Edit Profile</button>
+    <button class="btn btn-default center-block">Change Password</button>
+    
 </div>
+
 
 <%@include file="footer.jsp"%>

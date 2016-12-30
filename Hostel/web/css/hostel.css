@@ -21,6 +21,60 @@ and open the template in the editor.
     .nav-logo{
         border-right: solid rgb(204, 193, 193) 1px;
     }
+
+    #navbar
+    {
+        height: 80px;
+    }
+
+}
+@media (max-width:375px){
+    .upload-icon{
+        right: 60px;
+        bottom: 15px;
+    }
+}
+@media (min-width:375px) and (max-width:425px){
+    .upload-icon{
+        right: 115px;
+        bottom: 15px;
+    }
+}
+@media (min-width:425px) and (max-width:768px){
+    .upload-icon{
+        right: 115px;
+        bottom: 15px;
+    }
+}
+
+@media (min-width:768px) and (max-width:1023px){
+    .upload-icon{
+        right: 275px;
+        bottom: 30px;
+    }
+}
+
+@media (min-width:1024px) and (max-width:1439px){
+    .upload-icon{
+        right: 420px;
+        bottom: 30px;
+    }
+
+}
+@media (min-width:1440px) and (max-width:2559){
+    .upload-icon{
+        right: 700px;
+        bottom: 30px;
+
+    }
+}
+
+@media (min-width:2560px){
+    .upload-icon{
+        right: 1190px;
+        bottom: 30px;
+
+    }
 }
 html, body {
     font-family: 'Merriweather', serif;
@@ -33,8 +87,16 @@ html, body {
     padding: 10px;
 
 }
+
+.alert,alert-success{
+    margin-top:10px;
+}
 .btn{
     font-family: 'Montserrat', serif;
+}
+
+.btn-flat{
+    margin: 10px;
 }
 
 .full-screen{
@@ -44,11 +106,11 @@ html, body {
 .greenbg
 {
     height: 67%;
-    background:rgba(92, 214, 60, 0.23) ;
-    background: -webkit-linear-gradient(180deg, rgba(92, 214, 60, 0.23), #6fe367);
-    background: -o-linear-gradient(180deg, rgba(92, 214, 60, 0.23), #6fe367);
-    background: -moz-linear-gradient(180deg,rgba(92, 214, 60, 0.23), #6fe367);
-    background: linear-gradient(180deg, rgba(92, 214, 60, 0.23), #6fe367);
+    background:rgba(92, 214, 60, 0.46) ;
+    background: -webkit-linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
+    background: -o-linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
+    background: -moz-linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
+    background: linear-gradient(0, rgba(92, 214, 60, 0.46), rgb(140, 213, 135));
 }
 
 .input-group
@@ -61,12 +123,24 @@ html, body {
     height:50px;
     width: 200px;
 }
-
 .upload-icon{
-    position:absolute;
+    position: absolute;
     z-index: 1;
-    right:95px;
-    bottom: 30px;
+    height: 35px;
+}
+.user-header {
+    background-color: #f8f8f8;
+    height: 175px;
+    padding: 10px;
+    text-align: center;
+}
+
+.user-header>img
+{
+    margin-left:auto;
+    margin-right:auto;
+    max-width: 50%;
+    height: auto;
 }
 
 .user-image{
@@ -85,6 +159,22 @@ html, body {
     margin-bottom: 20px;
     height: 150px;
 
+}
+
+.profile-pic{
+    border: 1px solid #ddd;    
+    border-radius: 50%;
+    background-color: white;
+    display:block;    
+    height: auto;
+    line-height: 1.42857143;
+    margin:20px auto;
+    max-height: 200px;
+    padding: 4px;
+    width: 200px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
 }
 
 /*admin lte*/
