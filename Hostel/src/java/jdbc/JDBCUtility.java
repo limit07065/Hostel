@@ -21,6 +21,7 @@ public class JDBCUtility {
    PreparedStatement psSelectAllFromUserViaUsername = null;
    PreparedStatement psSelectUserViaUserPass = null;
    PreparedStatement psUpdateUserViaUsername= null;
+   PreparedStatement psChangePasswordViaUsername = null;
    PreparedStatement psUpdateProfilePicViaUsername = null;
    PreparedStatement psInsertRoom = null;
    PreparedStatement psSelectAllFromRoom = null;
@@ -42,8 +43,8 @@ public class JDBCUtility {
    PreparedStatement psSelectAllFromApplication = null;
    PreparedStatement psSelectApplicationViaUserName = null;
    PreparedStatement psUpdateApplicationStatusViaId = null;
-   PreparedStatement psSelectBlockViaRoomType = null;
-   PreparedStatement psSelectRoomViaTypeNBlock = null;
+   PreparedStatement psSelectBlockViaRoomTypeNGender = null;
+   PreparedStatement psSelectRoomViaTypeBlockNGender = null;
    PreparedStatement psUpdateRoomTypeImage = null;
    
    //use this constructor if using ConnectionPool
@@ -111,9 +112,9 @@ public class JDBCUtility {
             psInsertUser = con.prepareStatement(sqlInsertUser);
             
             //select all from user
-            String sqlSelectAllFromUser = "SELECT * FROM user";
+            String sqlSelectAllFromUserViaUsername = "SELECT * FROM user WHERE Username = ?";
             
-            psSelectAllFromUserViaUsername = con.prepareStatement(sqlSelectAllFromUser);
+            psSelectAllFromUserViaUsername = con.prepareStatement(sqlSelectAllFromUserViaUsername);
             
             //select user via username & password (for login)
             String sqlSelectUserViaUserPass = "SELECT * FROM user WHERE Username = ? AND Password = ?";
@@ -121,10 +122,15 @@ public class JDBCUtility {
             psSelectUserViaUserPass = con.prepareStatement(sqlSelectUserViaUserPass);
             
             //update user via username
-            String sqlUpdateUserViaUsername = "UPDATE user SET Password = ?, Contact = ?, Email = ? " +
+            String sqlUpdateUserViaUsername = "UPDATE user SET Email = ?, Contact = ?" +
                                                 "WHERE Username = ?";
             
             psUpdateUserViaUsername = con.prepareStatement(sqlUpdateUserViaUsername);
+            
+            // Change password
+            String sqlChangePasswordViaUsername = "UPDATE user SET Password = ? WHERE Username = ?";
+            
+            psChangePasswordViaUsername = con.prepareStatement(sqlChangePasswordViaUsername);
             
             //update user profile picture via username
             String sqlUpdateProfilePicViaUsername = "UPDATE user SET Pic = ? WHERE Username = ?";
@@ -222,14 +228,14 @@ public class JDBCUtility {
             psUpdateApplicationStatusViaId = con.prepareStatement(sqlUpdateApplicationStatusViaId);
             
             //select available block via roomtype
-            String sqlSelectBlockViaRoomType = "SELECT DISTINCT Block FROM room WHERE RoomType_FK = ? AND Occupied = '0'";
+            String sqlSelectBlockViaRoomTypeNGender = "SELECT DISTINCT Block FROM room WHERE RoomType_FK = ? AND Gender = ? AND Occupied = '0'";
             
-            psSelectBlockViaRoomType = con.prepareStatement(sqlSelectBlockViaRoomType);
+            psSelectBlockViaRoomTypeNGender = con.prepareStatement(sqlSelectBlockViaRoomTypeNGender);
             
             //select rooms via roomtype and block
-            String sqlSelectRoomViaTypeNBlock = "SELECT * FROM room WHERE RoomType_FK = ? AND Block = ? AND Occupied = '0'";
+            String sqlSelectRoomViaTypeBlockNGender = "SELECT * FROM room WHERE RoomType_FK = ? AND Block = ? AND Gender = ? AND Occupied = '0'";
             
-            psSelectRoomViaTypeNBlock = con.prepareStatement(sqlSelectRoomViaTypeNBlock);
+            psSelectRoomViaTypeBlockNGender = con.prepareStatement(sqlSelectRoomViaTypeBlockNGender);
             
             //delete room
             String sqlDeleteRoomViaId = "DELETE FROM room WHERE Room_PK = ?";
@@ -289,6 +295,11 @@ public class JDBCUtility {
    public PreparedStatement getPsUpdateUserViaUsername()
    {
        return psUpdateUserViaUsername;
+   }
+
+   public PreparedStatement getPsChangePasswordViaUsername()
+   {
+      return psChangePasswordViaUsername;
    }
    
    public PreparedStatement getPsUpdateProfilePicViaUsername()
@@ -376,14 +387,14 @@ public class JDBCUtility {
        return psUpdateApplicationStatusViaId;
    }
    
-   public PreparedStatement getPsSelectBlockViaRoomType()
+   public PreparedStatement getPsSelectBlockViaRoomTypeNGender()
    {
-       return psSelectBlockViaRoomType;
+       return psSelectBlockViaRoomTypeNGender;
    }
    
-   public PreparedStatement getPsSelectRoomViaTypeNBlock()
+   public PreparedStatement getPsSelectRoomViaTypeBlockNGender()
    {
-       return psSelectRoomViaTypeNBlock;
+       return psSelectRoomViaTypeBlockNGender;
    }
    
    public PreparedStatement getPsDeleteRoomViaId()

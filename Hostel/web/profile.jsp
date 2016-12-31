@@ -10,7 +10,7 @@
 
 
         <div id="modalPhoto" data-photo="${user.getPic()}" data-toggle="modal" data-target="#uploadPhoto" ><img class="upload-icon" src="img/upload.png"></div>
-        <div id="profilepic" class="img-circle img-thumbnail img-circle img-modal" style="background-image: url('img/${user.getPic()}')">                
+        <div id="profilepic" class="img-circle img-thumbnail img-circle img-modal" style="background-image: url('img/profile/${user.getPic()}')">                
                 </div>
 <!--        <img class="profile-pic" src="img/<c:out value='${user.getPic()}' />" alt="x"/>-->
 
@@ -75,7 +75,7 @@
                     
                     <label class="" for="email">Email</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="${user.getEmail()}" >                    
-                    <label class="" for="contact" id="contact">Contact</label>
+                    <label class="" for="contact">Contact</label>
                     <input type="text" class="form-control" name="contact" id="contact" placeholder="${user.getContact()}">    
                 </form>
             </div>
@@ -101,10 +101,10 @@
                     
                     <label class="" for="oldpassword">Old Password</label>
                     <input type="password" class="form-control" name="oldpassword" id="oldpassword" placeholder="Enter Old Password" >                    
-                    <label class="" for="newpassword" id="contact">New Password</label>
+                    <label class="" for="newpassword">New Password</label>
                     <input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="Enter New Password">    
-                    <label class="" for="cnewpassword" id="contact">Confirm New Password</label>
-                    <input type="password" class="form-control" name="cnewpassword" id="newpassword" placeholder="Enter New Password Again">    
+                    <label class="" for="cnewpassword">Confirm New Password</label>
+                    <input type="password" class="form-control" name="cnewpassword" id="cnewpassword" placeholder="Enter New Password Again">    
                 </form>
             </div>
             <div class="modal-footer">
@@ -116,3 +116,18 @@
 </div>
 <!--END Modal for Edit-->
 <%@include file="footer.jsp"%>
+
+<c:if test="${not empty passNotMatch}">
+    <script>
+        alert('<c:out value="${passNotMatch}" />');
+        $(document).ready(function(){
+            $("#changepassword").modal("show");
+        });
+    </script>
+</c:if>
+    
+<c:if test="${not empty changeSuccess}">
+<script>
+    alert('<c:out value="${changeSuccess}" />');
+</script>
+</c:if>
