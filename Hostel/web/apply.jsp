@@ -21,11 +21,11 @@
                         <c:choose>
                             <c:when test="${loop.index==0}">
                                 <li data-target="#rooms" data-slide-to="${loop.index}" class="active"></li>
-                                </c:when>
-                                <c:otherwise>
+                            </c:when>
+                            <c:otherwise>
                                 <li data-target="#rooms" data-slide-to="${loop.index}"></li>
-                                </c:otherwise>
-                            </c:choose>
+                            </c:otherwise>
+                        </c:choose>
                         </c:forEach>
                 </ol>
 
@@ -50,53 +50,34 @@
             </div>
         </div>
         <div class="col-md-5 ">
-            <form id="form" class="form-group1">
+            <form id="form" class="form-group1" method="post" action="Apply">
                 <label for="roomtype" >Room Type</label>
 
                 <select id="roomtype" name="roomtype" class="form-control" onChange="slidetoroom()">
-                    <!--                    <option value=" " selected disabled>Select Room Type</option>-->
+                    <option value=" " selected disabled hidden>Select Room Type</option>
                     <c:forEach items="${roomTypes}" var="currentRoomtype" varStatus="loop">
-                        <option value="${currentRoomtype.getRoomType_PK()}'" data-target="#rooms" data-slide-to="${loop.index}" > <c:out value="${currentRoomtype.getType()}" /> </option>
+                        <option value="${currentRoomtype.getRoomType_PK()}" data-target="#rooms" data-slide-to="${loop.index}" > <c:out value="${currentRoomtype.getType()}" /> </option>
                     </c:forEach>
                 </select>
 
                 <div class=" row">
                     <div class=" col-sm-6">
                         <label for="block"  >Block </label>
-                        <c:choose>
-                            <c:when test="${empty block}">
-                                <select id="block" name="block" class="form-control" disabled>
-                                    <option value=" " selected disabled>Select Available Block</option>
-                                </select>
-                            </c:when>
-                            <c:otherwise>
-                                <select id="block" name="block" class="form-control">
-                                    <option value=" " selected disabled>Select Available Block</option>
-                                    <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
-                                        <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
-                                    </c:forEach>
-                                </select>
-                            </c:otherwise>
-                        </c:choose>
+                        <select id="block" name="block" class="form-control" disabled>
+                            <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
+                                <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
+                            </c:forEach>
+                            <option value=" " selected disabled hidden>Select Available Block</option>
+                        </select>
                     </div>
                     <div class="col-sm-6">
                         <label for="room" >Room Number</label>
-
-                        <c:choose>
-                            <c:when test="${empty block}">
-                                <select id="room" name="room" class="form-control" disabled>
-                                    <option value=" " selected disabled>Select Room</option>
-                                </select>
-                            </c:when>
-                            <c:otherwise>
-                                <select id="room" name="room" class="form-control">
-                                    <option value=" " selected disabled>Select Room</option>
-                                    <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
-                                        <option value="<c:out value='${currentRoom.getRoom_PK()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
-                                    </c:forEach>
-                                </select>
-                            </c:otherwise>
-                        </c:choose>
+                        <select id="room" name="room" class="form-control" disabled>
+                            <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
+                                <option value="<c:out value='${currentRoom.getNumber()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
+                            </c:forEach>
+                            <option value=" " selected disabled hidden>Select Room</option>
+                        </select>
                     </div>
                 </div>
                 <input type="submit" class="pull-right btn btn-success">
@@ -112,37 +93,42 @@
 
 <script type="text/javascript">
 
-                    $("#roomtype").change(function () {
+    $("#roomtype").change(function () {
 
-                        var roomtype = $("#roomtype").val();
+        var roomtype = $("#roomtype").val();
 
-                        $.post("PopulateRoomServlet", {type: roomtype}, function () {
-                            $("#room").load(" #room>*");
-                        });
-                    });
-                    
-                    $("#block").change(function () {
-                        var block = $("#block").val();
-                        var roomtype = $("#roomtype").val();
+        $.post("PopulateRoomServlet", {type: roomtype}, function () {
+            $("#block").load(" #block>*");
+        });
+        
+        // Reset dropdownlist #room before activating #block
+        $("#room").val(" ");
+        $("#room").attr("disabled", "disabled");
+        $("#block").removeAttr("disabled");
+    });
 
-                        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function () {
-                            $("#room").load(" #room>*");
-                        });
+    $("#block").change(function () {
+        var block = $("#block").val();
+        var roomtype = $("#roomtype").val();
 
-                        $("#room").removeAttr("disabled");
-                    });
+        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function () {
+            $("#room").load(" #room>*");
+        });
 
-                    $(function () {
-                        setInterval(function () {
-                            var room = $("#room").val();
+        $("#room").removeAttr("disabled");
+    });
 
-                            if (room !== null) {
-                                $("#submit").removeAttr("disabled");
-                            } else {
-                                $("#submit").attr("disabled", "disabled");
-                            }
-                        }, 2000);
-                    });
+    $(function () {
+        setInterval(function () {
+            var room = $("#room").val();
+
+            if (room !== null) {
+                $("#submit").removeAttr("disabled");
+            } else {
+                $("#submit").attr("disabled", "disabled");
+            }
+        }, 2000);
+    });
 </script>
 
 

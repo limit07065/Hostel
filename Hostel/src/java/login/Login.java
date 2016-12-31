@@ -139,6 +139,7 @@ public class Login extends HttpServlet {
             if (status) {
                 User userBean = new User();
                 userBean.setUsername(rs.getString("Username"));
+                userBean.setPassword(rs.getString("Password"));
                 userBean.setLevel(rs.getInt("Level"));
                 userBean.setGender(rs.getInt("Gender"));
                 userBean.setId(rs.getString("Id"));

@@ -9,6 +9,8 @@ import bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,9 +62,32 @@ public class ManageProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Check if POST data is not null. If not null, then updating profile
+        String email = request.getParameter("email");
+        String contact = request.getParameter("contact");
         
-       
-            sendPage(request, response, "/profile.jsp");
+        if(email != null || contact != null)
+            updateProfile(request, response);
+        // End Updating profile
+        
+        // Check if POST data is not null. If not null, then changing password
+        String oldpass = request.getParameter("oldpassword");
+        String newpass = request.getParameter("newpassword");
+        String cnewpass = request.getParameter("cnewpassword");
+        
+        if(oldpass != null && newpass != null && cnewpass != null){
+            // Check if 2 new password match or not. Can be done in front end but need front end UI to display maybe? 
+            if(!newpass.equals(cnewpass)){
+                request.setAttribute("passNotMatch", "New password do not match each other");
+                sendPage(request, response, "/profile.jsp");
+            }
+            else // If new password matched then call changePassword method
+                changePassword(request, response);
+        }
+        // End changing password
+        
+        // Dispatch to view after all actions done
+        sendPage(request, response, "/profile.jsp");
 
                 
     }
@@ -121,4 +146,71 @@ public class ManageProfile extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+   void updateProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   {
+       HttpSession session = request.getSession();
+       
+       String email = request.getParameter("email");
+       String contact = request.getParameter("contact");
+       String username = ((User)session.getAttribute("user")).getUsername();
+       
+       // If user left blank for one of the field then use default, getting default value
+       if(email == null || email.equals(""))
+           email = ((User)session.getAttribute("user")).getEmail();
+       if(contact == null || contact.equals(""))
+           contact = ((User)session.getAttribute("user")).getContact();
+       
+       try{
+           
+           PreparedStatement ps = jdbcUtility.getPsUpdateUserViaUsername();
+           ps.setString(1, email);
+           ps.setString(2, contact);
+           ps.setString(3, username);
+           
+           ps.executeUpdate();
+           
+       }catch(SQLException ex){}
+       
+       // to reflect data changed immediately after update (because we get data from session attribute so have to update here)
+       User user = (User)session.getAttribute("user");
+       user.setEmail(email);
+       user.setContact(contact);
+       session.setAttribute("user", user);
+       request.setAttribute("changeSuccess", "Email and Contact No update successfully!");
+   }
+   
+   void changePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   {
+       HttpSession session = request.getSession();
+       
+       String oldPass = ((User)session.getAttribute("user")).getPassword();
+       String cOldPass = request.getParameter("oldpassword"); 
+       
+       // Check if old password matched or not
+       if(!oldPass.equals(cOldPass)){
+           request.setAttribute("passNotMatch", "Old password does not match with database");
+           sendPage(request, response, "/profile.jsp");
+       }
+       else{
+            String newpass = request.getParameter("newpassword");
+            String username = ((User)session.getAttribute("user")).getUsername();
+
+            try {
+                PreparedStatement ps = jdbcUtility.getPsChangePasswordViaUsername();
+                ps.setString(1, newpass);
+                ps.setString(2, username);
+
+                ps.executeUpdate();
+
+            }catch(SQLException ex){}
+
+            // to reflect data changed immediately after update
+            User user = (User)session.getAttribute("user");
+            user.setPassword(newpass);
+            session.setAttribute("user", user);
+            request.setAttribute("passNotMatch", "");
+            request.setAttribute("changeSuccess", "Password Update Successfully!");
+       }
+   }
+   
 }
