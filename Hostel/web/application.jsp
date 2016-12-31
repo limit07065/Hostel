@@ -12,7 +12,6 @@
         <c:when test="${sessionScope.open == 1}">
             <div class="alert alert-success ">Application for new year is <strong>open</strong> now! Click <a href="Apply?apply=true">here</a> to apply.</div>     
         </c:when>
-
         <c:when test="${sessionScope.open == 0}">
             <div class="container ">
                 <div class="page-header">

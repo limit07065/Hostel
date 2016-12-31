@@ -11,7 +11,7 @@
 
         <div id="modalPhoto" data-photo="${user.getPic()}" data-toggle="modal" data-target="#uploadPhoto" ><img class="upload-icon" src="img/upload.png"></div>
         <div id="profilepic" class="img-circle img-thumbnail img-circle img-modal" style="background-image: url('img/profile/${user.getPic()}')">                
-                </div>
+        </div>
 <!--        <img class="profile-pic" src="img/<c:out value='${user.getPic()}' />" alt="x"/>-->
 
 
@@ -42,7 +42,7 @@
             <div class="modal-body">
                 <div id="imgUpload" class="img-circle img-thumbnail img-circle img-modal">                
                 </div>
-    
+
                 <form id="frmuploadphoto" action="UploadUserImageServlet" method="POST" class="text-center" enctype="multipart/form-data">
 
                     <label class="btn btn-primary ">
@@ -72,7 +72,7 @@
             </div>
             <div class="modal-body">  
                 <form id="frmedit" action="Profile" method="POST">
-                    
+
                     <label class="" for="email">Email</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="${user.getEmail()}" >                    
                     <label class="" for="contact">Contact</label>
@@ -98,7 +98,7 @@
             </div>
             <div class="modal-body">  
                 <form id="frmchangepassword" action="Profile" method="POST">
-                    
+
                     <label class="" for="oldpassword">Old Password</label>
                     <input type="password" class="form-control" name="oldpassword" id="oldpassword" placeholder="Enter Old Password" >                    
                     <label class="" for="newpassword">New Password</label>
@@ -114,20 +114,46 @@
         </div>
     </div>
 </div>
+<!--END Modal for Change Password-->
+
+<div id="message" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:100px">
+
+        <c:if test="${not empty changeSuccess}">
+            <div class="alert alert-success">
+               <span><i class="fa fa-child"></i></span> ${changeSuccess}
+            </div>      
+        </c:if>
+        <c:if test="${not empty passNotMatch}">
+            <div class="alert alert-danger">
+                <span><i class="fa fa-exclamation-circle"></i></span> ${passNotMatch}
+            </div>
+        </c:if>
+
+    </div>
+</div>
+
+
+
+
+
 <!--END Modal for Edit-->
 <%@include file="footer.jsp"%>
 
-<c:if test="${not empty passNotMatch}">
+<c:if test="${not empty passNotMatch || not empty changeSuccess}">
     <script>
-        alert('<c:out value="${passNotMatch}" />');
-        $(document).ready(function(){
-            $("#changepassword").modal("show");
+
+        $().ready(function () {
+            $('#message').modal('show');
+            //close after 3seconds doesn't work. Lazy do.
+            /*
+            $('#message').on('show.bs.modal', function () {
+                var myModal = $(this);
+                clearTimeout(myModal.data('hideInterval'));
+                myModal.data('hideInterval', setTimeout(function () {
+                    myModal.modal('hide');
+                }, 3000));
+            });*/
         });
     </script>
-</c:if>
-    
-<c:if test="${not empty changeSuccess}">
-<script>
-    alert('<c:out value="${changeSuccess}" />');
-</script>
 </c:if>
