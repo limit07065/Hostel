@@ -10,9 +10,11 @@
     <form class="loginform form-group col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" method="post" action="">
         <img id="loginlogo" class="img-circle img-thumbnail center-block" alt="ktdi logo" src="img/loginlogo.jpg">
         <c:if test="${not empty loginError}">  
-                <span class="col-xs-12 alert alert-danger text-center" ><i class="fa fa-exclamation-triangle"></i> <c:out value="${loginError}" /></span>
-                </c:if>
-
+            <span class="col-xs-12 alert alert-danger text-center" ><i class="fa fa-exclamation-triangle"></i> <c:out value="${loginError}" /></span>
+        </c:if>
+        <c:if test="${not empty registerSuccess}">
+            <span class="col-xs-12 alert alert-success text-center" ><i class="fa fa-check-circle-o"></i> <c:out value="${registerSuccess}" /></span>
+        </c:if>
         <div class="input-group">
             <span class="input-group-addon" style="padding-right:15px">
                 <i class="fa fa-user"></i>
