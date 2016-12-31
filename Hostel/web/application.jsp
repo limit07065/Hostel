@@ -14,14 +14,10 @@
         </c:when>
         <c:when test="${sessionScope.open == 0}">
             <div class="container ">
-                <div class="page-header">
-
-                    <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
-                        Current Application
-                        <span style="font-size:20px;" class="glyphicon glyphicon-chevron-down">
-                    </h2>
-                </div>
-                <table class="table table-responsive table-hover" style="display:none;">
+                <h2>
+                    Current Application
+                </h2>
+                <table class="table table-responsive table-hover" >
                     <tr>
                         <th>Session</th>
                         <th>Block</th>
@@ -68,12 +64,12 @@
                                 </c:if>
                             </c:forEach>
                         </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td colspan="7" class="text-center">No application.<td>
-                        </tr>
-                    </c:otherwise>
-                    
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" class="text-center">No application.<td>
+                            </tr>
+                        </c:otherwise>
+
                     </c:choose>
 
                 </table>

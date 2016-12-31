@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package filter;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,13 +17,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.*;
+import bean.User;
 
 /**
  *
  * @author Ray
  */
-@WebFilter(filterName = "Auth", urlPatterns = {"/*"})
-public class Auth implements Filter {
+@WebFilter(filterName = "AdminAccess", urlPatterns = {"/Apply"})
+public class NormalUserAccess implements Filter {
 
     private static final boolean debug = true;
 
@@ -32,13 +33,13 @@ public class Auth implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public Auth() {
+    public NormalUserAccess() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("Auth:DoBeforeProcessing");
+            log("AdminAccess:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -66,7 +67,7 @@ public class Auth implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("Auth:DoAfterProcessing");
+            log("AdminAccess:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -103,45 +104,28 @@ public class Auth implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        
-        doBeforeProcessing(request, response);
-        Throwable problem = null;
-        //if user not logon
-        if (req.getSession().getAttribute("user") == null) {
-            String url = ((HttpServletRequest) request).getRequestURL().toString();
-            if (url.endsWith("Login")||url.endsWith("Register")||url.endsWith(".css")||url.endsWith(".js")||url.endsWith(".jpg")||url.endsWith(".png")||url.endsWith(".svg")||url.endsWith(".eot")||url.endsWith(".woff2")||url.endsWith(".ttf")) {
-                //proceed with request
-
-                try {
-                    chain.doFilter(request, response);
-                } catch (Throwable t) {
-                    // If an exception is thrown somewhere down the filter chain,
-                    // we still want to execute our after processing, and then
-                    // rethrow the problem after that.
-                    problem = t;
-                    t.printStackTrace();
-                }
-            } else {
-                //redirect to Login servlet
-                ((HttpServletResponse) response).sendRedirect("Login");
-            }
-
-        } else {
-            //proceed with request
-           
+        HttpSession session = req.getSession(false);
+        User user = (User)session.getAttribute("user");
+        if (user.getLevel() == 1) {
+            
             try {
                 chain.doFilter(request, response);
             } catch (Throwable t) {
                 // If an exception is thrown somewhere down the filter chain,
                 // we still want to execute our after processing, and then
                 // rethrow the problem after that.
-                problem = t;
+               
                 t.printStackTrace();
             }
         }
+        else
+        {
+            res.sendRedirect("Login");
+        }
+
         doAfterProcessing(request, response);
 
-      
+        
     }
 
     /**
@@ -173,7 +157,7 @@ public class Auth implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("Auth:Initializing filter");
+                log("AdminAccess:Initializing filter");
             }
         }
     }
@@ -184,9 +168,9 @@ public class Auth implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("Auth()");
+            return ("AdminAccess()");
         }
-        StringBuffer sb = new StringBuffer("Auth(");
+        StringBuffer sb = new StringBuffer("AdminAccess(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
