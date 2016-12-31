@@ -75,7 +75,7 @@
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <form action="AddRoomType" method="post">          
+                        <form action="AddRoomType" method="post" id="AddRoomTypeForm">          
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">New Room Type</h4>
@@ -128,30 +128,19 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${roomTypes}" var="roomtype" varStatus="loop">
-                                
-                                <!-- Url With Parameters To Be Passed To Servlet -->
-                                <c:url value="UploadRoomImageServlet" var="UploadRoomImageURL">
-                                    <c:param name="id"   value="${roomtype.roomType_PK}" />
-                                </c:url>
-                                <c:url value="DeleteRoomType" var="DeleteRoomTypeURL">
-                                    <c:param name="id"   value="${roomtype.roomType_PK}" />
-                                </c:url>  
-                                <!-- Url With Parameters To Be Passed To Servlet -->
-                                
                                 <tr>
                                     <td><c:out value="${loop.index + 1}" /></td>
-                                    <td><c:out value="${roomtype.type}" /></td>
+                                    <td><c:out value="${roomtype.getType()}" /></td>
                                     <td>
-                                        <img src="img/<c:out value="${roomtype.pic}" />" width="70" data-toggle="modal" data-target="#changeImageModal${loop.index}" style="cursor: pointer;"/>
+                                        <img src="img/<c:out value="${roomtype.getPic()}" />" width="70"/>
                                     </td>
-                                    <td><c:out value="${roomtype.price}" /></td>
-                                    <td><c:out value="${roomtype.description}" /></td>
+                                    <td><c:out value="${roomtype.getPrice()}" /></td>
+                                    <td><c:out value="${roomtype.getDescription()}" /></td>
                                     <td>
                                         <span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editRTModal${loop.index}" style="cursor: pointer; color: blue;"></span>
                                         &nbsp;
-                                        <a href="<c:out value='${DeleteRoomTypeURL}' />" onclick="return confirm('Are you sure you want to delete the room type?')">
-                                            <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color: red;"></span>
-                                        </a>
+                                        <span class="glyphicon glyphicon-trash deleteRT" aria-hidden="true" style="color: red; cursor: pointer;"></span>
+                                        <input type="hidden" value="${roomtype.getRoomType_PK()}" name="id">
                                     </td>
                                     
                                     <!-- Modal -->
@@ -159,29 +148,29 @@
                                         <div class="modal-dialog">
                                             <!-- Modal content-->
                                             <div class="modal-content">
-                                                <form action="UploadRoomImageServlet" method="post" enctype="multipart/form-data">
+                                                <form action="UploadRoomImageServlet" method="post" enctype="multipart/form-data" class="UploadRoomImageForm">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         <h4 class="modal-title">Change Room Type Image</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${roomtype.roomType_PK}">
+                                                        <input type="hidden" name="id" value="${roomtype.getRoomType_PK()}">
                                                         <div class="form-group row">
-                                                            <label for="type" class="col-xs-4 col-form-label">Type</label>
+                                                            <label class="col-xs-4 col-form-label">Type</label>
                                                             <div class="col-xs-8">
-                                                                <label id="type" class="form-control"><c:out value='${roomtype.type}'/></label>
+                                                                <label id="type" class="form-control"><c:out value='${roomtype.getType()}'/></label>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label for="curImage" class="col-xs-4 col-form-label">Current Image</label>
+                                                            <label class="col-xs-4 col-form-label">Current Image</label>
                                                             <div class="col-xs-8">
-                                                                <img src="img/<c:out value='${roomtype.pic}' />" width="140" id="curImage"/>
+                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="140"/>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label for="filetoupload" class="col-xs-4 col-form-label">Choose File to Upload</label>
+                                                            <label class="col-xs-4 col-form-label">Choose File to Upload</label>
                                                             <div class="col-xs-8">
-                                                                <input type="file" name="filetoupload" id="filetoupload" size="50" />
+                                                                <input type="file" name="filetoupload" size="50" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -199,35 +188,36 @@
                                         <div class="modal-dialog">
                                             <!-- Modal content-->
                                             <div class="modal-content">
-                                                <form action="EditRoomType" method="post">
+                                                <form action="EditRoomType" method="post" class="EditRoomTypeForm">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         <h4 class="modal-title">Room Type</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${roomtype.roomType_PK}">
+                                                        <input type="hidden" name="id" value="${roomtype.getRoomType_PK()}">
                                                         <div class="form-group row">
-                                                            <label for="type" class="col-xs-2 col-form-label">Type</label>
+                                                            <label class="col-xs-2 col-form-label">Type</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.type}" name="Number" id="type">
+                                                                <input class="form-control" type="text" value="${roomtype.getType()}" name="Number">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label for="price" class="col-xs-2 col-form-label">Price</label>
+                                                            <label class="col-xs-2 col-form-label">Price</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.price}" name="Price" id="price">
+                                                                <input class="form-control" type="text" value="${roomtype.getPrice()}" name="Price">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label for="description" class="col-xs-2 col-form-label">Description</label>
+                                                            <label class="col-xs-2 col-form-label">Description</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.description}" name="Description" id="description">
+                                                                <input class="form-control" type="text" value="${roomtype.getDescription()}" name="Description">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label for="curImage" class="col-xs-2 col-form-label">Image</label>
+                                                            <label class="col-xs-2 col-form-label">Image</label>
                                                             <div class="col-xs-10">
-                                                                <img src="img/<c:out value='${roomtype.pic}' />" width="100" id="curImage"/>
+                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal${loop.index}"
+                                                                     style="cursor: pointer;" onclick="closeEditModal(${loop.index})"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -259,16 +249,16 @@
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <form action="AddSession" method="post">          
+                        <form action="AddSession" method="post" id="AddSessionForm">          
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">New Session</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group row">
-                                    <label for="name" class="col-xs-2 col-form-label">Name</label>
+                                    <label class="col-xs-2 col-form-label">Name</label>
                                     <div class="col-xs-10">
-                                        <input class="form-control" type="text" name="Name" id="name">
+                                        <input class="form-control" type="text" name="Name">
                                     </div>
                                 </div>
                             </div>
@@ -297,55 +287,45 @@
                             <td colspan="7" style="text-align: center;">No Record</td>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach items="${sessions}" var="currentSession" varStatus="loop">
-                                
-                                <!-- Url With Parameters To Be Passed To Servlet -->
-                                <c:url value="SessionActivation" var="SessionActivationURL">
-                                    <c:param name="id"   value="${currentSession.id}" />
-                                    <c:param name="status"   value="${currentSession.status}" />
-                                </c:url>
-                                <c:url value="DeleteSession" var="DeleteSessionURL">
-                                    <c:param name="id"   value="${currentSession.id}" />
-                                </c:url>  
-                                <!-- Url With Parameters To Be Passed To Servlet -->
-                                
+                            <c:forEach items="${sessions}" var="currentSession" varStatus="loop">   
                                 <tr>
                                     <td><c:out value="${loop.index + 1}" /></td>
-                                    <td><c:out value="${currentSession.name}" /></td>
+                                    <td><c:out value="${currentSession.getName()}" /></td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${currentSession.status == 0}">
-                                                <a href="<c:out value='${SessionActivationURL}' />"><span class="glyphicon glyphicon-ok" style="color: green;"></span>
+                                            <c:when test="${currentSession.getStatus() == 1}">
+                                                <span class="glyphicon glyphicon-ok toggleStatus" style="color: green; cursor: pointer;"></span>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="<c:out value='${SessionActivationURL}' />"><span class="glyphicon glyphicon-remove" style="color: red;"></span>
+                                                <span class="glyphicon glyphicon-remove toggleStatus" style="color: red; cursor: pointer;"></span>
                                             </c:otherwise>    
                                         </c:choose>
+                                        <input type="hidden" name="id" value="${currentSession.getId()}">
+                                        <input type="hidden" name="status" value="${currentSession.getStatus()}">
                                     </td>
                                     <td>
                                         <span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editSModal${loop.index}" style="cursor:pointer; color: blue;"></span>
                                         &nbsp;
-                                        <a href="<c:out value='${DeleteSessionURL}' />" onclick="return confirm('Are you sure you want to delete the session?')">
-                                            <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color: red;"></span>
-                                        </a>
+                                        <span class="glyphicon glyphicon-trash deleteS" aria-hidden="true" style="color: red; cursor: pointer;"></span>
+                                        <input type="hidden" name="id" value="${currentSession.getId()}">
                                     </td>
-                                                                       
+                                    
                                     <!-- Modal -->
                                     <div class="modal fade" id="editSModal${loop.index}" role="dialog">
                                         <div class="modal-dialog">
                                             <!-- Modal content-->
                                             <div class="modal-content">
-                                                <form action="EditSession" method="post">
+                                                <form action="EditSession" method="post" class="EditSessionForm">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         <h4 class="modal-title">Session</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${currentSession.id}">
+                                                        <input type="hidden" name="id" value="${currentSession.getId()}">
                                                         <div class="form-group row">
-                                                            <label for="name" class="col-xs-2 col-form-label">Name</label>
+                                                            <label class="col-xs-2 col-form-label">Name</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${currentSession.name}" name="Name" id="name">
+                                                                <input class="form-control" type="text" value="${currentSession.getName()}" name="Name">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -385,6 +365,132 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+
+<!-- Hostel custom JavaScript -->
+<script src="js/hostel.js"></script>
+
+<script>
+    // Room Type JQuery AJAX
+    $(document).on('submit', 'form#AddRoomTypeForm', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "AddRoomType",
+            data: $("#AddRoomTypeForm").serialize(), // serializes the form's elements.
+            success: function(){
+                $('#addRTModal').modal('hide');
+                $('.modal-backdrop').remove();
+                $("#roomtype").load(" #roomtype>*");
+                alert("Successfully add the room type.");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+//    $(document).on('submit', 'form.UploadRoomImageForm', function (e) {
+//        $.ajax({
+//            type: "POST",
+//            url: "UploadRoomImageServlet",
+//            data: $(this).serialize(), // serializes the form's elements.
+//            success: function(){
+//                $(this).parents(".modal fade").modal('hide');
+//                $("#roomtype").load(" #roomtype>*");
+//                alert("Successfully change the image.");
+//            }
+//        });
+//        e.preventDefault(); // avoid to execute the actual submit of the form.
+//    });
+    $(document).on('submit', 'form.EditRoomTypeForm', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "EditRoomType",
+            data: $(this).serialize(), // serializes the form's elements.
+            success: function(){
+                $(this).parents(".modal").modal('toggle');
+                $('.modal-backdrop').remove();
+                $("#roomtype").load(" #roomtype>*");
+                alert("Successfully edit the room type.");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    $(document).on('click', 'span.deleteRT', function (e) {
+        if ( confirm('Are you sure you want to delete the room type?') === true )
+        {
+            $.ajax({
+                type: "POST",
+                url: "DeleteRoomType",
+                data: 'id=' + $(this).siblings("input").val(),
+                success: function(){
+                    $("#roomtype").load(" #roomtype>*");
+                    alert("Successfully delete the room type.");
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        }
+    });
+    // End of Room Type JQuery AJAX
+    
+    // Session JQuery AJAX
+    $(document).on('submit', 'form#AddSessionForm', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "AddSession",
+            data: $("#AddSessionForm").serialize(), // serializes the form's elements.
+            success: function(){
+                $('#addSModal').modal('hide');
+                $('.modal-backdrop').remove();
+                $("#session").load(" #session>*");
+                alert("Successfully add the session.");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    $(document).on('click', 'span.toggleStatus', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "SessionActivation",
+            data: 'id=' + $(this).siblings("input").val() + '&status=' + $(this).siblings("input").next().val(),
+            success: function(){
+                $("#session").load(" #session>*");
+                alert("Successfully toggle the session's status.");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    $(document).on('submit', 'form.EditSessionForm', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "EditSession",
+            data: $(this).serialize(), // serializes the form's elements.
+            success: function(){
+                $(this).parents(".modal fade").modal('hide');
+                $('.modal-backdrop').remove();
+                $("#session").load(" #session>*");
+                alert("Successfully edit the session.");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    $(document).on('click', 'span.deleteS', function (e) {
+        if ( confirm('Are you sure you want to delete the room type?') === true )
+        {
+            $.ajax({
+                type: "POST",
+                url: "DeleteSession",
+                data: 'id=' + $(this).siblings("input").val(),
+                success: function(){
+                    $("#session").load(" #session>*");
+                    alert("Successfully delete the session.");
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        }
+    });
+    // End of Session JQuery AJAX
+    
+    function closeEditModal(id){
+        $("#editRTModal"+id).modal('hide');
+    }
+</script>
 </body>
 </html>
 
