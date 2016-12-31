@@ -110,7 +110,7 @@
             <!-- Modal -->
             
             <h3>Room Types</h3>
-            <table class="table table-responsive table-hover">
+            <table class="table table-responsive table-hover vertical-text-align-middle">
                 <thead>
                     <tr>
                         <th>No.</th>

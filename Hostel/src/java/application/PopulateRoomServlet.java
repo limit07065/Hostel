@@ -7,6 +7,7 @@ package application;
 
 import bean.Room;
 import bean.RoomType;
+import bean.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,14 +66,15 @@ public class PopulateRoomServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         
-        String roomtype;
-        String block;    
+        String roomtype = request.getParameter("type");
+        String block = request.getParameter("block");    
+        int gender = ((User)session.getAttribute("user")).getGender();
         
-        roomtype = request.getParameter("type");
         if(roomtype != null){            
            try{
-                PreparedStatement ps = jdbcUtility.getPsSelectBlockViaRoomType();
+                PreparedStatement ps = jdbcUtility.getPsSelectBlockViaRoomTypeNGender();
                 ps.setString(1, roomtype);
+                ps.setInt(2, gender);
                 ResultSet rs = ps.executeQuery();
                 ArrayList blockList = new ArrayList();
                 Room rm;
@@ -90,12 +92,12 @@ public class PopulateRoomServlet extends HttpServlet {
             }  
         }
        
-        block = request.getParameter("block");
         if(block != null){
             try{
-                PreparedStatement ps = jdbcUtility.getPsSelectRoomViaTypeNBlock();
+                PreparedStatement ps = jdbcUtility.getPsSelectRoomViaTypeBlockNGender();
                 ps.setString(1, roomtype);
                 ps.setString(2, block);
+                ps.setInt(3, gender);
                 ResultSet rs = ps.executeQuery();
                 ArrayList roomList = new ArrayList();
                 Room rm;

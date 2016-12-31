@@ -8,12 +8,31 @@ and open the template in the editor.
     Author     : Ray
 */
 @import url('https://fonts.googleapis.com/css?family=Merriweather|Montserrat');
+@media (max-width:425px)
+{
+    .img-carousel{
+        display: block;
+        margin: 10px auto;
+        width: auto;
+        height: 230px !important;
+    }
+
+    .formbg{
+        padding: 5px 30px 50px 30px!important;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+}
 
 @media (max-width:768px){
     #footer{
         text-align:center;
     }
-    
+
+
+
+
+
 }
 
 @media (min-width:768px)
@@ -27,6 +46,42 @@ and open the template in the editor.
         height: 80px;
     }
 
+    .form-group1
+    {
+
+        padding:0px 100px;
+    }
+    .img-carousel{
+        margin: 10px auto;
+        display: block;
+        width: auto;
+        height: 270px !important;
+    }
+
+    .formbg{
+        margin-top: 30px;
+    }
+
+}
+
+@media (min-width:1024px)
+{
+    .form-group1
+    {
+        margin-top: 50px;
+        padding:0 60px 0 0;
+    }
+
+    .img-carousel{
+        margin: 10px auto;
+        display: block;
+        width: auto;
+        height: 290px !important;
+    }
+
+    .formbg{
+        padding-left:60px;
+    }
 }
 @media (max-width:375px){
     .upload-icon{
@@ -88,8 +143,8 @@ html, body {
 
 }
 
-.alert,alert-success{
-    margin-top:10px;
+.alert.alert-success{
+    margin-top:30px;
 }
 .btn{
     font-family: 'Montserrat', serif;
@@ -105,14 +160,48 @@ html, body {
 
 
 .btn-profile{
-    margin:5px;
+    margin:10px;
     width: 200px;
 }
+.btn-success{
+    background:rgba(92, 214, 60, 0.8) ;
+    border-color:rgba(92, 214, 60, 0.8) ;         
+
+}
+
+
 
 .full-screen{
     min-height: 100%;
 }
+.formbg{
+    background: white;
+    -webkit-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.48);
+    -moz-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.48);
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.48);    
+    padding-bottom: 10px;
+    margin-bottom:30px;
 
+
+}
+.form-control{
+    margin-bottom: 10px;
+}
+
+.gender-radio{       
+    background: white;
+    border-radius: 4px;
+    color:rgba(92, 214, 60, 1) ;
+    margin: 0px -3px 10px -3px;
+    max-width: 50%;
+
+    padding: 10px 20%;
+}
+.green
+{
+    background:rgba(92, 214, 60, 0.46) ;
+    color:white
+}
 .greenbg
 {
 
@@ -131,9 +220,43 @@ html, body {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    
-    
+    background-image: url("../img/no-image-found.jpg");
+    border: solid 4px #fff;
+
 } 
+
+.img-nav{
+    float: left;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: -2px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.img-user-header
+{
+    margin: 0px auto 10px auto;
+    display: block;
+    width: 130px;
+    height: 130px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: solid 4px #fff;
+}
+
+input[type="radio"].toggle {
+    display: none;
+}
+
+input[type="radio"].toggle:checked + label {
+    background:rgba(92, 214, 60, 0.8) ;
+    color: white;
+}
 .input-group
 {
     margin-bottom: 10px;
@@ -157,22 +280,9 @@ html, body {
     text-align: center;
 }
 
-.user-header>img
-{
-    margin-left:auto;
-    margin-right:auto;
-    max-width: 50%;
-    height: auto;
-}
 
-.user-image{
-    float: left;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    margin-right: 10px;
-    margin-top: -2px;
-}
+
+
 
 #footer
 {
@@ -251,6 +361,15 @@ html, body {
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.vertical-text-align-middle>tr,td,th{
+    vertical-align: middle!important;
+}
+
+.table>tr>th,td
+{
+    font-size: 18px;
 }
 
 

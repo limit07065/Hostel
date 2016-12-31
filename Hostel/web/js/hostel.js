@@ -21,12 +21,7 @@ $('.dropdown').on('hide.bs.dropdown', function (e) {
 // 
 //js for display choosen image for profile upload
 
-$("#modalPhoto").click(function(){
-    var pic = $("#modalPhoto").data("photo");
-    var url="url('img/"+pic+"')";
-    
-    $('.img-modal').css("background-image", url);
-});
+
 
 
 function readURL(input) {
@@ -48,12 +43,13 @@ $("#upload").change(function () {
 
 //END js for display choosen image for profile upload
 
-//js for display upload icon when hover
+//js for slide img to selected room type
 
-$("profile-pic").hover(function(){
-    $(".upload-icon").show();    
-},
-function(){
-    $(".upload-icon").hide();    
-});
+function slidetoroom()
+{
+    input =$("#roomtype").find(":selected").data("slide-to");
+    
+    $("ol li:eq("+input+")").click();
+   
+}
     

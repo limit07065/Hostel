@@ -18,6 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
+        <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
 
         <title>Hostel Management System</title>
 
@@ -27,11 +28,7 @@
         <!-- Custom CSS -->
         <link href="css/logo-nav.css" rel="stylesheet">
         <link href="css/hostel.css" rel="stylesheet">
-
-        <!-- Font Awesome  -->
-        <script src="js/font-awesome.min.js"></script>
-
-
+        <link href="css/font-awesome.min.css" rel="stylesheet">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,40 +59,36 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav ">
-
-
-                       
-                        
-
-                       <c:choose>
-                            <c:when test="${user.getLevel()==1}">
-                                <li>
-                                    <a href="#roomHistory">Room History</a>
-                                </li>
-                                 <li>
-                                    <a href="#">Applications</a>
-                                </li>
-                            </c:when>
-                            
-                        </c:choose>
-
- 
-                            
                         <c:choose>
 
-                            <c:when test="${not empty user}">                           
-                                
+                            <c:when test="${not empty user}">  
+
+                                <c:choose>
+                                    <c:when test="${user.getLevel()==1}">
+                                        <li>
+                                            <a href="Apply">Applications</a>
+                                        </li>
+                                    </c:when>
+
+                                    <c:when test="${user.getLevel()==0}">
+                                        <li>
+                                            <a href="dashboard">Dashboard</a>
+                                        </li>
+                                    </c:when>
+
+                                </c:choose>
+
                                 <li class="dropdown user user-menu ">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 
-                                        <img src="img/profile/${user.getPic()}" class="user-image" alt="User Image">
+                                        <div class="img-nav img-thumbnail img-circle" style="background-image: url('img/profile/${user.getPic()}')"></div>
                                         <span class="hidden-xs">${user.getName()}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
 
-                                            <img src="img/profile/${user.getPic()}" class="img-responsive img-circle" alt="User Image">
+                                            <div class="img-user-header img-thumbnail img-circle" style="background-image: url('img/profile/${user.getPic()}')"></div>
 
 
                                             <p>

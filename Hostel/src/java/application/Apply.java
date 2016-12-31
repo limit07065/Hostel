@@ -66,11 +66,18 @@ public class Apply extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        getApplicationRecord(request, response);
-        
+        getApplicationRecord(request, response);        
         getRoomType(request, response);
         
-        request.getRequestDispatcher("/application.jsp").forward(request,response);
+        if(request.getParameter("apply")==null)
+              request.getRequestDispatcher("/application.jsp").forward(request,response);
+         else
+             request.getRequestDispatcher("/apply.jsp").forward(request,response);
+         
+        
+            
+        
+        
     }
     
     void getApplicationRecord(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -82,9 +89,8 @@ public class Apply extends HttpServlet {
             ResultSet rs = jdbcUtility.getPsSelectAllFromSession().executeQuery();
             
             while(rs.next()) {
-                if(rs.getInt("Status") == 0) // 0 == active | 1 == inactive      WTF~
+                if(rs.getInt("Status") == 1)
                     session.setAttribute("activeSession", rs.getString("Name"));
-                
             }
             
             PreparedStatement ps = jdbcUtility.getPsSelectApplicationViaUserName();
@@ -118,6 +124,10 @@ public class Apply extends HttpServlet {
             }
             
             session.setAttribute("applications", appList);
+            
+            // In case no any active session found
+            if(session.getAttribute("activeSession") == null)
+                session.setAttribute("open", 0);
             
         }catch(SQLException ex){}
     }
@@ -177,7 +187,10 @@ public class Apply extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         processRequest(request, response);
+       
     }
 
     /**
@@ -199,6 +212,7 @@ public class Apply extends HttpServlet {
         String roomNo = request.getParameter("room");
         String block = request.getParameter("block");
         String roomtype = request.getParameter("roomtype");
+        int gender = ((User)session.getAttribute("user")).getGender();
         double price = 0.0;
         
         // Get ApplyDate from server time
@@ -229,12 +243,14 @@ public class Apply extends HttpServlet {
             ps.setString(5, typeName);
             ps.setDouble(6, price);
             ps.setString(7, applyDate);
+            
             ps.executeUpdate();
             
             // Get Room_PK from database
-            ps = jdbcUtility.getPsSelectRoomViaTypeNBlock();
+            ps = jdbcUtility.getPsSelectRoomViaTypeBlockNGender();
             ps.setString(1, roomtype);
             ps.setString(2, block);
+            ps.setInt(3, gender);
             
             rs = ps.executeQuery();
             
@@ -248,6 +264,7 @@ public class Apply extends HttpServlet {
             ps = jdbcUtility.getPsUpdateRoomStatusViaId();
             ps.setString(1, "1");
             ps.setString(2, id);
+            
             ps.executeUpdate();
             
             session.setAttribute("open", "0");

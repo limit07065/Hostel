@@ -109,7 +109,7 @@ public class Auth implements Filter {
         //if user not logon
         if (req.getSession().getAttribute("user") == null) {
             String url = ((HttpServletRequest) request).getRequestURL().toString();
-            if (url.endsWith("Login")||url.endsWith(".css")||url.endsWith(".js")||url.endsWith(".jpg")||url.endsWith(".png")) {
+            if (url.endsWith("Login")||url.endsWith("Register")||url.endsWith(".css")||url.endsWith(".js")||url.endsWith(".jpg")||url.endsWith(".png")||url.endsWith(".svg")||url.endsWith(".eot")||url.endsWith(".woff2")||url.endsWith(".ttf")) {
                 //proceed with request
 
                 try {
