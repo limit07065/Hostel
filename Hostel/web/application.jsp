@@ -8,64 +8,68 @@
 
 <div class="container">
 
+    <c:choose>
+        <c:when test="${open == 1}">
+            <div class="alert alert-success ">Application for new year is <strong>open</strong> now! Click <a href="Apply?apply=true">here</a> to apply.</div>     
+        </c:when>
 
-    <div class="alert alert-success ">Application for new year is <strong>open</strong> now! Click <a href="Apply?apply=true">here</a> to apply.</div>     
+        <c:when test="${open == 0}">
+            <div class="container ">
+                <div class="page-header">
 
-    <div class="container hidden">
-        <div class="page-header">
-
-            <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
-                Current Application
-                <span style="font-size:20px;" class="glyphicon glyphicon-chevron-down">
-            </h2>
-        </div>
-        <table class="table table-responsive table-hover" style="display:none;">
-            <tr>
-                <th>Session</th>
-                <th>Block</th>
-                <th>Room No.</th>
-                <th>Room Type</th>
-                <th>Price/Day</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr> 
-            <c:forEach items="${sessionScope.applications}" var="currentApp" varStatus="loop">
-                <c:if test="${currentApp.getSession() == activeSession}">
+                    <h2 class="clickable-header" data-toggle="tooltip" title="Click to show more." style="cursor:pointer;">
+                        Current Application
+                        <span style="font-size:20px;" class="glyphicon glyphicon-chevron-down">
+                    </h2>
+                </div>
+                <table class="table table-responsive table-hover" style="display:none;">
                     <tr>
-                        <td><c:out value="${currentApp.getSession()}" /></td>
-                        <td><c:out value="${currentApp.getBlock()}" /></td>
-                        <td><c:out value="${currentApp.getNumber()}" /></td>
-                        <td><c:out value="${currentApp.getRoomtype()}" /></td>   
-                        <td><c:out value="${currentApp.getPrice()}" /></td>
-                        <td><c:out value="${currentApp.getPrice() * 130}" /></td>
+                        <th>Session</th>
+                        <th>Block</th>
+                        <th>Room No.</th>
+                        <th>Room Type</th>
+                        <th>Price/Day</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr> 
+                    <c:forEach items="${sessionScope.applications}" var="currentApp" varStatus="loop">
+                        <c:if test="${currentApp.getSession() == activeSession}">
+                            <tr>
+                                <td><c:out value="${currentApp.getSession()}" /></td>
+                                <td><c:out value="${currentApp.getBlock()}" /></td>
+                                <td><c:out value="${currentApp.getNumber()}" /></td>
+                                <td><c:out value="${currentApp.getRoomtype()}" /></td>   
+                                <td><c:out value="${currentApp.getPrice()}" /></td>
+                                <td><c:out value="${currentApp.getPrice() * 130}" /></td>
 
-                        <c:choose>
-                            <c:when test="${currentApp.getStatus() == 0}">
-                                <td>Pending</td>
-                            </c:when>
-                            <c:when test="${currentApp.getStatus() == 1}">
-                                <td>Approved</td>
-                            </c:when>
-                            <c:when test="${currentApp.getStatus() == 2}">
-                                <td>Cancelled</td>
-                            </c:when>
-                            <c:when test="${currentApp.getStatus() == 3}">
-                                <td>Rejected</td>
-                            </c:when>
-                        </c:choose>
+                                <c:choose>
+                                    <c:when test="${currentApp.getStatus() == 0}">
+                                        <td>Pending</td>
+                                    </c:when>
+                                    <c:when test="${currentApp.getStatus() == 1}">
+                                        <td>Approved</td>
+                                    </c:when>
+                                    <c:when test="${currentApp.getStatus() == 2}">
+                                        <td>Cancelled</td>
+                                    </c:when>
+                                    <c:when test="${currentApp.getStatus() == 3}">
+                                        <td>Rejected</td>
+                                    </c:when>
+                                </c:choose>
 
-                        <c:url value="Apply" var="cancelApplicationURL">
-                            <c:param name="session"   value="${currentApp.getSession()}" />
-                        </c:url>
+                                <c:url value="Apply" var="cancelApplicationURL">
+                                    <c:param name="session"   value="${currentApp.getSession()}" />
+                                </c:url>
 
-                        <td><a href="<c:out value='${cancelApplicationURL}' />">Cancel</a></td>
-                    </tr>
-                </c:if>
-            </c:forEach>
-        </table>
-    </div>
-
+                                <td><a href="<c:out value='${cancelApplicationURL}' />">Cancel</a></td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </table>
+            </div>
+        </c:when>
+    </c:choose>
 
 
     <div class="container" id="roomHistroy">

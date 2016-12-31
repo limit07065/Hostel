@@ -9,7 +9,7 @@
         margin:10px 0px ;
     }
 </style>
-    
+
 <div class="container-fluid">
     <div class="row hostelbg">
         <!-- carousel roomtype gallery -->
@@ -91,7 +91,7 @@
                             <c:otherwise>
                                 <select id="room" name="room" class="form-control">
                                     <option value=" " selected disabled>Select Room</option>
-                                    <c:forEach items="${sessionScope.room}" var="currentRoom" varStatus="loop">
+                                    <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
                                         <option value="<c:out value='${currentRoom.getRoom_PK()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
                                     </c:forEach>
                                 </select>
@@ -120,7 +120,29 @@
                             $("#room").load(" #room>*");
                         });
                     });
+                    
+                    $("#block").change(function () {
+                        var block = $("#block").val();
+                        var roomtype = $("#roomtype").val();
 
+                        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function () {
+                            $("#room").load(" #room>*");
+                        });
+
+                        $("#room").removeAttr("disabled");
+                    });
+
+                    $(function () {
+                        setInterval(function () {
+                            var room = $("#room").val();
+
+                            if (room !== null) {
+                                $("#submit").removeAttr("disabled");
+                            } else {
+                                $("#submit").attr("disabled", "disabled");
+                            }
+                        }, 2000);
+                    });
 </script>
 
 
