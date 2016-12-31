@@ -11,57 +11,12 @@
 <%@ page import="bean.RoomType" %>
 <%@ page import="bean.Session" %>
 <%@ page import="java.util.ArrayList" %>
+
 <div class="container-fluid">
     <div class="col-md-9 tab-content">
-        <div id="application" class="tab-pane fade in active">
-            <div class="col-md-6" id="applicationlist" style="height:530px;">
-                <h3>Application list</h3>
-                <table class="table table-responsive table-hover" >
-                    <tr>
-                        <th>No.</th>
-                        <th>Name.</th>
-                        <th>Matric No.</th>
-                        <th>Block</th>
-                        <th>Room </th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr>
-                        <c:choose>
-                            <c:when test="${$application}">
-                                
-                            </c:when>
-                            <c:when test="${application ==null}">
-                                <td colspan="7">No Record</td>
-                            </c:when>
-                                
-                        </c:choose>
-                    </tr>
-                
-                
-                    
-                </table>
-
-
-            </div>
-<!--            hidden-->
-            <div class="col-md-6" id="studentwindow">
-                <h3>Student Window</h3>
-                <div class="col-md-6">
-                    <img alt="Profile Picture"height="150px" />
-                </div>
-                <div class="col-md-6">
-                    <label>Name:</label>
-                    <br/>
-                    <label>Matric Number:</label>
-                </div>
-            </div>
-            
-        </div>
-        <div id="room" class="tab-pane fade">
-            <!--This is for the things inside second menu-->
-            <h3>GG</h3>
-        </div>
+        <%@include file="tab-application.jsp" %>
+        <%@include file="tab-room.jsp" %>
+        
         <div id="roomtype" class="tab-pane fade">
             <!--This is for the things inside third menu-->
             <div>
