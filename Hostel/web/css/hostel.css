@@ -8,12 +8,23 @@ and open the template in the editor.
     Author     : Ray
 */
 @import url('https://fonts.googleapis.com/css?family=Merriweather|Montserrat');
+@media (max-width:425px)
+{
+    .img-carousel{
+        display: block;
+        margin: 10px auto;
+        width: auto;
+        height: 230px !important;
+    }
+}
 
 @media (max-width:768px){
     #footer{
         text-align:center;
     }
-    
+
+
+
 }
 
 @media (min-width:768px)
@@ -27,6 +38,34 @@ and open the template in the editor.
         height: 80px;
     }
 
+    .form-group1
+    {
+
+        padding:0px 100px;
+    }
+    .img-carousel{
+        margin: 10px auto;
+        display: block;
+        width: auto;
+        height: 270px !important;
+    }
+
+}
+
+@media (min-width:1024px)
+{
+    .form-group1
+    {
+        margin-top: 50px;
+        padding:0 60px 0 0;
+    }
+
+    .img-carousel{
+        margin: 10px auto;
+        display: block;
+        width: auto;
+        height: 290px !important;
+    }
 }
 @media (max-width:375px){
     .upload-icon{
@@ -88,8 +127,8 @@ html, body {
 
 }
 
-.alert,alert-success{
-    margin-top:10px;
+.alert.alert-success{
+    margin-top:30px;
 }
 .btn{
     font-family: 'Montserrat', serif;
@@ -105,14 +144,24 @@ html, body {
 
 
 .btn-profile{
-    margin:5px;
+    margin:10px;
     width: 200px;
 }
+
+
 
 .full-screen{
     min-height: 100%;
 }
 
+.form-control{
+    margin-bottom: 10px;
+}
+.green
+{
+    background:rgba(92, 214, 60, 0.46) ;
+    color:white
+}
 .greenbg
 {
 
@@ -131,9 +180,35 @@ html, body {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    
-    
+    background-image: url("../img/no-image-found.jpg");
+    border: solid 4px #fff;
+
 } 
+
+.img-nav{
+    float: left;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: -2px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.img-user-header
+{
+    margin: 0px auto 10px auto;
+    display: block;
+    width: 130px;
+    height: 130px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: solid 4px #fff;
+}
+
 .input-group
 {
     margin-bottom: 10px;
@@ -157,22 +232,9 @@ html, body {
     text-align: center;
 }
 
-.user-header>img
-{
-    margin-left:auto;
-    margin-right:auto;
-    max-width: 50%;
-    height: auto;
-}
 
-.user-image{
-    float: left;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    margin-right: 10px;
-    margin-top: -2px;
-}
+
+
 
 #footer
 {
@@ -251,6 +313,15 @@ html, body {
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.vertical-text-align-middle>tr,td,th{
+    vertical-align: middle!important;
+}
+
+.table>tr>th,td
+{
+    font-size: 18px;
 }
 
 
