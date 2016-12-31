@@ -353,12 +353,19 @@
                                                     });
                                 </script>
                                 <script>
-                                    
+
                                     $(".student").on("click", function () {
                                         var appId = $(this).data("appid");
                                         var username = $(this).text();
+                                        
                                         //query student detail and edit field in modal
+                                        $.get("test", function (data) {
+                                           var student = JSON.parse(data);
+                                           $("#studentname").text(student.fullname);
+                                           $("#studentmatrixid").text(student.matrixId);
                                         $("#studentwindow").modal();
+                                        });
+                                        
 
                                     });
                                 </script>
