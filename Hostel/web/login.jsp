@@ -32,8 +32,11 @@
        
         <div class="form-group">
             <div class="text-center">
-                <button type="reset" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+<!--                <button type="reset" class="btn btn-default">Cancel</button>-->
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p style="display: inline">
+                    <a href="Register">or Register here</a>
+                </p>
             </div>
         </div>
     </form>
