@@ -127,11 +127,16 @@ public class dashboard extends HttpServlet {
             ResultSet rs3 = jdbcUtility.getPsSelectAllFromSession().executeQuery();
             
             while (rs3.next()) {     
+                
                 session = new Session();
                 session.setId(rs3.getInt("Session_PK"));
                 session.setName(rs3.getString("Name"));
                 session.setStatus(rs3.getInt("Status"));
                 sessions.add(session);
+                
+                //set active session
+                if(rs3.getInt("Status") == 1)
+                    request.setAttribute("activeSession", rs3.getString("Name"));
             }
         }
         catch (SQLException ex)
@@ -157,9 +162,9 @@ public class dashboard extends HttpServlet {
     
         //put into sessions
         request.setAttribute("applications", applications);
-        request.setAttribute("rooms", rooms);
-        request.setAttribute("roomTypes", roomTypes);
-        request.setAttribute("sessions", sessions);
+        request.getSession().setAttribute("rooms", rooms);
+        request.getSession().setAttribute("roomTypes", roomTypes);
+        request.getSession().setAttribute("sessions", sessions);
         
         //redirect to managedestination.jsp
         sendPage(request, response, "/admin/dashboard.jsp");
