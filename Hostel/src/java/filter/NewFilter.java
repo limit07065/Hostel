@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,31 +17,28 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.*;
-import bean.User;
-import javax.servlet.DispatcherType;
 
 /**
  *
  * @author Ray
  */
-@WebFilter(filterName = "NormalUserAccess", urlPatterns = {"/Apply"})
-public class NormalUserAccess implements Filter {
-
+@WebFilter(filterName = "NewFilter", urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
+public class NewFilter implements Filter {
+    
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-
-    public NormalUserAccess() {
-    }
-
+    
+    public NewFilter() {
+    }    
+    
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AdminAccess:DoBeforeProcessing");
+            log("NewFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -63,12 +61,12 @@ public class NormalUserAccess implements Filter {
 	    log(buf.toString());
 	}
          */
-    }
-
+    }    
+    
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AdminAccess:DoAfterProcessing");
+            log("NewFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -102,31 +100,37 @@ public class NormalUserAccess implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false);
-        User user = (User)session.getAttribute("user");
-        if (user.getLevel() == 1) {
-            
-            try {
-                chain.doFilter(request, response);
-            } catch (Throwable t) {
-                // If an exception is thrown somewhere down the filter chain,
-                // we still want to execute our after processing, and then
-                // rethrow the problem after that.
-               
-                t.printStackTrace();
-            }
+        
+        if (debug) {
+            log("NewFilter:doFilter()");
         }
-        else
-        {
-            res.sendRedirect("Login");
+        
+        doBeforeProcessing(request, response);
+        
+        Throwable problem = null;
+        try {
+            chain.doFilter(request, response);
+        } catch (Throwable t) {
+            // If an exception is thrown somewhere down the filter chain,
+            // we still want to execute our after processing, and then
+            // rethrow the problem after that.
+            problem = t;
+            t.printStackTrace();
         }
-
+        
         doAfterProcessing(request, response);
 
-        
+        // If there was a problem, we want to rethrow it if it is
+        // a known type, otherwise log it.
+        if (problem != null) {
+            if (problem instanceof ServletException) {
+                throw (ServletException) problem;
+            }
+            if (problem instanceof IOException) {
+                throw (IOException) problem;
+            }
+            sendProcessingError(problem, response);
+        }
     }
 
     /**
@@ -148,17 +152,17 @@ public class NormalUserAccess implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {
+    public void destroy() {        
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {
+    public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {
-                log("AdminAccess:Initializing filter");
+            if (debug) {                
+                log("NewFilter:Initializing filter");
             }
         }
     }
@@ -169,27 +173,27 @@ public class NormalUserAccess implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AdminAccess()");
+            return ("NewFilter()");
         }
-        StringBuffer sb = new StringBuffer("AdminAccess(");
+        StringBuffer sb = new StringBuffer("NewFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
     }
-
+    
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);
-
+        String stackTrace = getStackTrace(t);        
+        
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);
+                PrintWriter pw = new PrintWriter(ps);                
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
-                pw.print(stackTrace);
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
+                pw.print(stackTrace);                
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -206,7 +210,7 @@ public class NormalUserAccess implements Filter {
             }
         }
     }
-
+    
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -220,9 +224,9 @@ public class NormalUserAccess implements Filter {
         }
         return stackTrace;
     }
-
+    
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);
+        filterConfig.getServletContext().log(msg);        
     }
-
+    
 }
