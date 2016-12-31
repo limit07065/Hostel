@@ -50,7 +50,9 @@
             </div>
         </div>
         <div class="col-md-5 ">
-            <form id="form" class="form-group1" method="post" action="Apply">
+
+            <form id="form" class="form-group1" action="Apply" method="POST">
+
                 <label for="roomtype" >Room Type</label>
 
                 <select id="roomtype" name="roomtype" class="form-control" onChange="slidetoroom()">

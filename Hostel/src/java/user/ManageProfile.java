@@ -78,7 +78,7 @@ public class ManageProfile extends HttpServlet {
         if(oldpass != null && newpass != null && cnewpass != null){
             // Check if 2 new password match or not. Can be done in front end but need front end UI to display maybe? 
             if(!newpass.equals(cnewpass)){
-                request.setAttribute("passNotMatch", "New password do not match each other");
+                request.setAttribute("passNotMatch", "New password does not match each other");
                 sendPage(request, response, "/profile.jsp");
             }
             else // If new password matched then call changePassword method
@@ -176,7 +176,7 @@ public class ManageProfile extends HttpServlet {
        user.setEmail(email);
        user.setContact(contact);
        session.setAttribute("user", user);
-       request.setAttribute("changeSuccess", "Email and Contact No update successfully!");
+       request.setAttribute("changeSuccess", "Profile updated successfully!");
    }
    
    void changePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -209,7 +209,7 @@ public class ManageProfile extends HttpServlet {
             user.setPassword(newpass);
             session.setAttribute("user", user);
             request.setAttribute("passNotMatch", "");
-            request.setAttribute("changeSuccess", "Password Update Successfully!");
+            request.setAttribute("changeSuccess", "Password updated successfully!");
        }
    }
    
