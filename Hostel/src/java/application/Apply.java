@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -93,6 +94,7 @@ public class Apply extends HttpServlet {
                     session.setAttribute("activeSession", rs.getString("Name"));
             }
             
+            // Select application via username
             PreparedStatement ps = jdbcUtility.getPsSelectApplicationViaUserName();
             ps.setString(1, ((User)session.getAttribute("user")).getUsername());
             
@@ -104,23 +106,26 @@ public class Apply extends HttpServlet {
             
             while(rs.next()) {
                 application = new Application();
-                application.setSession(rs.getString("Session"));
-                application.setUsername(rs.getString("Username"));
-                application.setNumber(rs.getString("Number"));
-                application.setBlock(rs.getString("Block"));
-                application.setRoomtype(rs.getString("RoomType"));
-                application.setPrice(rs.getDouble("Price"));
-                application.setStatus(rs.getInt("Status"));
                 
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                String date = format.format(rs.getDate("ApplyDate"));
-                application.setApplyDate(date);
-                
-                appList.add(application);
-                
-                //reset open to 0 when user already applied for room
-                if(application.getSession().equals(session.getAttribute("activeSession")))
-                    session.setAttribute("open", "0");
+                if(rs.getInt("Status") != 2){
+                    application.setSession(rs.getString("Session"));
+                    application.setUsername(rs.getString("Username"));
+                    application.setNumber(rs.getString("Number"));
+                    application.setBlock(rs.getString("Block"));
+                    application.setRoomtype(rs.getString("RoomType"));
+                    application.setPrice(rs.getDouble("Price"));
+                    application.setStatus(rs.getInt("Status"));
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    String date = format.format(rs.getDate("ApplyDate"));
+                    application.setApplyDate(date);
+
+                    appList.add(application);
+
+                    //reset open to 0 when user already applied for room
+                    if(application.getSession().equals(session.getAttribute("activeSession")))
+                        session.setAttribute("open", "0");
+                }
             }
             
             session.setAttribute("applications", appList);
@@ -188,6 +193,74 @@ public class Apply extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession();
+        
+        String selectedSession = request.getParameter("session");
+        
+        if(selectedSession != null && !selectedSession.equals("")){
+            String username = ((User)session.getAttribute("user")).getUsername();
+            int roomtype=0;
+            String block;
+            int gender;
+            String roomNo;
+            int appPK;
+
+            try{
+                PreparedStatement ps = jdbcUtility.getPsSelectApplicationViaUserName();
+                ps.setString(1, username);
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    if(rs.getString("Session").equals(selectedSession)){
+
+                        // Update application status to 2 == cancelled
+                        appPK = rs.getInt("application_PK");
+
+                        ps = jdbcUtility.getPsUpdateApplicationStatusViaId();
+                        ps.setInt(1, 2);
+                        ps.setNull(2, java.sql.Types.DATE);
+                        ps.setInt(3, appPK);
+                        
+                        ps.executeUpdate();
+
+                        // Get Room_PK from database
+                        ResultSet rs2 = jdbcUtility.getPsSelectAllFromRoomType().executeQuery();
+                        while(rs2.next())
+                            if(rs2.getString("Type").equals(rs.getString("RoomType")))
+                                roomtype = rs2.getInt("RoomType_PK");
+                        
+                        block = rs.getString("Block");
+                        gender = ((User)session.getAttribute("user")).getGender();
+                        roomNo = rs.getString("Number");
+
+                        ps = jdbcUtility.getPsSelectRoomViaTypeBlockNGender();
+                        ps.setInt(1, roomtype);
+                        ps.setString(2, block);
+                        ps.setInt(3, gender);
+                        ps.setString(4, "1");
+
+                        rs = ps.executeQuery();
+
+                        String id="";
+                        while(rs.next()){
+                            if(rs.getString("Number").equals(roomNo))
+                                id = rs.getString("Room_PK");
+                        }
+
+                        // Update room status to 0 == not occupied
+                        ps = jdbcUtility.getPsUpdateRoomStatusViaId();
+                        ps.setString(1, "0");
+                        ps.setString(2, id);
+                        
+                        ps.executeUpdate();
+                        
+                        response.sendRedirect("Apply");
+                    }
+                }
+
+            }catch(SQLException ex){}
+            
+        }
         
         processRequest(request, response);
        
@@ -251,7 +324,7 @@ public class Apply extends HttpServlet {
             ps.setString(1, roomtype);
             ps.setString(2, block);
             ps.setInt(3, gender);
-            
+            ps.setString(4, "0");
             rs = ps.executeQuery();
             
             String id="";

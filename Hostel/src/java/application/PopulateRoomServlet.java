@@ -98,6 +98,7 @@ public class PopulateRoomServlet extends HttpServlet {
                 ps.setString(1, roomtype);
                 ps.setString(2, block);
                 ps.setInt(3, gender);
+                ps.setString(4, "0");
                 ResultSet rs = ps.executeQuery();
                 ArrayList roomList = new ArrayList();
                 Room rm;
