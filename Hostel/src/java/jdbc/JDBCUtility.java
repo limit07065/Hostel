@@ -233,7 +233,7 @@ public class JDBCUtility {
             psSelectBlockViaRoomTypeNGender = con.prepareStatement(sqlSelectBlockViaRoomTypeNGender);
             
             //select rooms via roomtype and block
-            String sqlSelectRoomViaTypeBlockNGender = "SELECT * FROM room WHERE RoomType_FK = ? AND Block = ? AND Gender = ? AND Occupied = '0'";
+            String sqlSelectRoomViaTypeBlockNGender = "SELECT * FROM room WHERE RoomType_FK = ? AND Block = ? AND Gender = ? AND Occupied = ?";
             
             psSelectRoomViaTypeBlockNGender = con.prepareStatement(sqlSelectRoomViaTypeBlockNGender);
             
