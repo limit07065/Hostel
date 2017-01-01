@@ -77,21 +77,23 @@ public class dashboard extends HttpServlet {
         ArrayList roomTypes = new ArrayList();
         RoomType roomType = null;
         
-        ArrayList sessions = new ArrayList();
-        Session session = null;
+        Session session = new Session();
         
         try {   
             //select all from application
-            ResultSet rs = jdbcUtility.getPsSelectAllFromApplication().executeQuery();
+            ResultSet rs = jdbcUtility.getPsSelectAllFromApplicationViaActiveSession().executeQuery();
             
             while (rs.next()) {           
                 application = new Application();
                 application.setApplication_PK(rs.getInt("Application_PK"));
+                application.setSession(rs.getString("Session"));
                 application.setUsername(rs.getString("Username"));
                 application.setNumber(rs.getString("Number"));
                 application.setBlock(rs.getString("Block"));
-                application.setStatus(rs.getInt("Status"));
+                application.setRoomtype(rs.getString("RoomType"));
+                application.setPrice(rs.getDouble("Price"));
                 application.setApplyDate(rs.getString("ApplyDate"));
+                application.setStatus(rs.getInt("Status"));
                 application.setApprovedDate(rs.getString("ApprovedDate"));
                 applications.add(application);
             }
@@ -124,19 +126,18 @@ public class dashboard extends HttpServlet {
             }
             
             //select all from session
-            ResultSet rs3 = jdbcUtility.getPsSelectAllFromSession().executeQuery();
+            ResultSet rs3 = jdbcUtility.getPsSelectAllFromActiveSession().executeQuery();
             
             while (rs3.next()) {     
-                
-                session = new Session();
+                //session = new Session();
                 session.setId(rs3.getInt("Session_PK"));
                 session.setName(rs3.getString("Name"));
                 session.setStatus(rs3.getInt("Status"));
-                sessions.add(session);
+                //sessions.add(session);
                 
                 //set active session
-                if(rs3.getInt("Status") == 1)
-                    request.setAttribute("activeSession", rs3.getString("Name"));
+                //if(rs3.getInt("Status") == 1)
+                //    request.setAttribute("activeSession", rs3.getString("Name"));
             }
         }
         catch (SQLException ex)
@@ -164,7 +165,7 @@ public class dashboard extends HttpServlet {
         request.setAttribute("applications", applications);
         request.getSession().setAttribute("rooms", rooms);
         request.getSession().setAttribute("roomTypes", roomTypes);
-        request.getSession().setAttribute("sessions", sessions);
+        request.getSession().setAttribute("activeSession", session.getName());
         
         //redirect to managedestination.jsp
         sendPage(request, response, "/admin/dashboard.jsp");
