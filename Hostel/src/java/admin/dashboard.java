@@ -77,7 +77,8 @@ public class dashboard extends HttpServlet {
         ArrayList roomTypes = new ArrayList();
         RoomType roomType = null;
         
-        Session session = new Session();
+        ArrayList sessions = new ArrayList();
+        Session session = null;
         
         try {   
             //select all from application
@@ -92,9 +93,37 @@ public class dashboard extends HttpServlet {
                 application.setBlock(rs.getString("Block"));
                 application.setRoomtype(rs.getString("RoomType"));
                 application.setPrice(rs.getDouble("Price"));
-                application.setApplyDate(rs.getString("ApplyDate"));
                 application.setStatus(rs.getInt("Status"));
-                application.setApprovedDate(rs.getString("ApprovedDate"));
+                
+                String applyDate = rs.getString("ApplyDate");
+                String approvedDate = rs.getString("ApprovedDate");
+                
+                //convert apply date string to date (still mysql date)
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+                try {
+                   date = formatter.parse(applyDate);
+                } catch (Exception ex) {}
+                
+                //convert mysql date to MY date
+                formatter = new SimpleDateFormat("dd-MMM-yyyy");
+                applyDate = formatter.format(date); 
+                
+                application.setApplyDate(applyDate);
+                
+                //convert approved date to MY format
+                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                date = new Date();
+                
+                try {
+                   date = formatter.parse(approvedDate);
+                } catch (Exception ex) {}
+                
+                formatter = new SimpleDateFormat("dd-MMM-yyyy");
+                approvedDate = formatter.format(date);
+                
+                application.setApprovedDate(approvedDate);
+                
                 applications.add(application);
             }
             
@@ -107,7 +136,7 @@ public class dashboard extends HttpServlet {
                 room.setNumber(rs1.getString("Number"));
                 room.setBlock(rs1.getString("Block"));
                 room.setGender(rs1.getInt("Gender"));
-                room.setRoomType(rs1.getInt("RoomType_PK"));
+                room.setRoomType(rs1.getInt("RoomType_FK"));
                 room.setOccupied(rs1.getInt("Occupied"));
                 rooms.add(room);
             }
@@ -126,18 +155,18 @@ public class dashboard extends HttpServlet {
             }
             
             //select all from session
-            ResultSet rs3 = jdbcUtility.getPsSelectAllFromActiveSession().executeQuery();
+            ResultSet rs3 = jdbcUtility.getPsSelectAllFromSession().executeQuery();
             
             while (rs3.next()) {     
-                //session = new Session();
+                session = new Session();
                 session.setId(rs3.getInt("Session_PK"));
                 session.setName(rs3.getString("Name"));
                 session.setStatus(rs3.getInt("Status"));
-                //sessions.add(session);
+                sessions.add(session);
                 
                 //set active session
-                //if(rs3.getInt("Status") == 1)
-                //    request.setAttribute("activeSession", rs3.getString("Name"));
+                if(rs3.getInt("Status") == 1)
+                    request.getSession().setAttribute("activeSession", rs3.getString("Name"));
             }
         }
         catch (SQLException ex)
@@ -165,7 +194,7 @@ public class dashboard extends HttpServlet {
         request.setAttribute("applications", applications);
         request.getSession().setAttribute("rooms", rooms);
         request.getSession().setAttribute("roomTypes", roomTypes);
-        request.getSession().setAttribute("activeSession", session.getName());
+        request.getSession().setAttribute("sessions", sessions);
         
         //redirect to managedestination.jsp
         sendPage(request, response, "/admin/dashboard.jsp");
