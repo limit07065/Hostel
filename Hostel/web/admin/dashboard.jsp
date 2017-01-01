@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-default" value="Save"/>
+                                <input type="submit" class="btn btn-primary" value="Save"/>
                             </div>
                         </form>
                     </div>
@@ -77,7 +77,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBodyRT">
                     <c:choose>
                         <c:when test="${roomTypes ==null}">
 
@@ -130,26 +130,18 @@
                                                                 <input type="file" name="filetoupload" size="50" />
                                                             </div>
                                                         </div>
-
                                                     </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="filetoupload" class="col-xs-4 col-form-label">Choose File to Upload</label>
-                                                    <div class="col-xs-8">
-                                                        <input type="file" name="filetoupload" id="filetoupload" size="50" />
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary" value="Save"/>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <input type="submit" class="btn btn-default" value="Save"/>
-                                            </div>
-                                        </form>
+                                        </div>                      
                                     </div>
-
                                     <!-- Modal -->
                                     
                                     <!-- Modal -->
-                                    <div class="modal fade" id="editRTModal${loop.index}" role="dialog">
+                                    <div class="modal fade" id="editRTModal<c:out value='${loop.index}'/>" role="dialog">
                                         <div class="modal-dialog">
                                             <!-- Modal content-->
                                             <div class="modal-content">
@@ -159,55 +151,45 @@
                                                         <h4 class="modal-title">Room Type</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${roomtype.getRoomType_PK()}">
+                                                        <input type="hidden" name="id" value="<c:out value='${roomtype.getRoomType_PK()}'/>">
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Type</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.getType()}" name="Number">
+                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getType()}'/>" name="Number">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Price</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.getPrice()}" name="Price">
+                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getPrice()}'/>" name="Price">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Description</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.getDescription()}" name="Description">
+                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getDescription()}'/>" name="Description">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Image</label>
                                                             <div class="col-xs-10">
-                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal${loop.index}"
-                                                                     style="cursor: pointer;" onclick="closeEditModal(${loop.index})"/>
+                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal<c:out value='${loop.index}'/>"
+                                                                     style="cursor: pointer;" onclick="closeEditModal(<c:out value='${loop.index}'/>)"/>
                                                             </div>
                                                         </div>
-
-                          
                                                     </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="curImage" class="col-xs-2 col-form-label">Image</label>
-                                                    <div class="col-xs-10">
-                                                        <img src="img/<c:out value='${roomtype.pic}' />" width="100" id="curImage"/>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary" value="Save"/>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <input type="submit" class="btn btn-default" value="Save"/>
-                                            </div>
-                                        </form>
+                                        </div>    
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Modal -->
-                            </tr>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
+                                    <!-- Modal -->
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </tbody>
             </table>
         </div>
@@ -238,7 +220,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-default" value="Save"/>
+                                <input type="submit" class="btn btn-primary" value="Save"/>
                             </div>
                         </form>
                     </div>
@@ -256,7 +238,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBodyS">
                     <c:choose>
                         <c:when test="${sessions == null}">
                             <td colspan="7" style="text-align: center;">No Record</td>
@@ -301,82 +283,72 @@
                                                             <label class="col-xs-2 col-form-label">Name</label>
                                                             <div class="col-xs-10">
                                                                 <input class="form-control" type="text" value="${currentSession.getName()}" name="Name">
-
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <input type="hidden" name="id" value="${currentSession.id}">
-                                                                <div class="form-group row">
-                                                                    <label for="name" class="col-xs-2 col-form-label">Name</label>
-                                                                    <div class="col-xs-10">
-                                                                        <input class="form-control" type="text" value="${currentSession.name}" name="Name" id="name">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <input type="submit" class="btn btn-default" value="Save"/>
-                                                            </div>
-                                                        </form>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary" value="Save"/>
+                                                    </div>
+                                                </form>      
                                             </div>
-                                            <!-- Modal -->
-                                            </tr>
-                                        </c:forEach>
-                                    </c:otherwise>
-                                </c:choose>
-                                </tbody>
-                                </table>
-                                </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
 
 
 
-                                </div>
+    </div>
 
 
-                                <div class="col-md-3">
-                                    <h4>Menu</h4>
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
-                                        <li><a data-toggle="pill" href="#room">Room</a></li>
-                                        <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
-                                        <li><a data-toggle="pill" href="#session">Session</a></li>  
-                                    </ul>
-                                </div>
-                                </div>
-                                <!-- jQuery -->
-                                <script src="js/jquery.js"></script>
+    <div class="col-md-3">
+        <h4>Menu</h4>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
+            <li><a data-toggle="pill" href="#room">Room</a></li>
+            <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
+            <li><a data-toggle="pill" href="#session">Session</a></li>  
+        </ul>
+    </div>
+    </div>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
 
-                                <!-- Bootstrap Core JavaScript -->
-                                <script src="js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
-                                <!-- Hostel custom JavaScript -->
-                                <script src="js/hostel.js"></script>
-                                <script src="js/tablesorter.js"></script>
+    <!-- Hostel custom JavaScript -->
+    <script src="js/hostel.js"></script>
+    <script src="js/tablesorter.js"></script>
 
-                                <script>
-                                                    $(document).ready(function () {
-                                                        $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
-                                                                .tablesorterPager({container: $("#pager")});
-                                                    });
-                                </script>
-                                <script>
+    <script>
+        $(document).ready(function () {
+            $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
+                    .tablesorterPager({container: $("#pager")});
+        });
+    </script>
+    <script>
 
-                                    $(".student").on("click", function () {
-                                        var appId = $(this).data("appid");
-                                        var username = $(this).text();
-                                        
-                                        //query student detail and edit field in modal
-                                        $.get("test", function (data) {
-                                           var student = JSON.parse(data);
-                                           $("#studentname").text(student.fullname);
-                                           $("#studentmatrixid").text(student.matrixId);
-                                        $("#studentwindow").modal();
-                                        });
-                                        
+        $(".student").on("click", function () {
+            var appId = $(this).data("appid");
+            var username = $(this).text();
 
+            //query student detail and edit field in modal
+            $.get("test", function (data) {
+               var student = JSON.parse(data);
+               $("#studentname").text(student.fullname);
+               $("#studentmatrixid").text(student.matrixId);
+            $("#studentwindow").modal();
+            });
+        });
 
-<!-- Hostel custom JavaScript -->
-<script src="js/hostel.js"></script>
+    </script>
 
 <script>
     // Room Type JQuery AJAX

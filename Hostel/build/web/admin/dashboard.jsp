@@ -5,63 +5,19 @@
 --%>
 
 
-<%@include file="../header.jsp"%>
+
 <%@ page import="bean.Application" %>
 <%@ page import="bean.Room" %>
 <%@ page import="bean.RoomType" %>
 <%@ page import="bean.Session" %>
 <%@ page import="java.util.ArrayList" %>
+
+<%@include file="../header.jsp"%>
 <div class="container-fluid">
     <div class="col-md-9 tab-content">
-        <div id="application" class="tab-pane fade in active">
-            <div class="col-md-6" id="applicationlist" style="height:530px;">
-                <h3>Application list</h3>
-                <table class="table table-responsive table-hover" >
-                    <tr>
-                        <th>No.</th>
-                        <th>Name.</th>
-                        <th>Matric No.</th>
-                        <th>Block</th>
-                        <th>Room </th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr>
-                        <c:choose>
-                            <c:when test="${$application}">
-                                
-                            </c:when>
-                            <c:when test="${application ==null}">
-                                <td colspan="7">No Record</td>
-                            </c:when>
-                                
-                        </c:choose>
-                    </tr>
-                
-                
-                    
-                </table>
+        <%@include file="tab-application.jsp" %>
+        <%@include file="tab-room.jsp" %>
 
-
-            </div>
-<!--            hidden-->
-            <div class="col-md-6" id="studentwindow">
-                <h3>Student Window</h3>
-                <div class="col-md-6">
-                    <img alt="Profile Picture"height="150px" />
-                </div>
-                <div class="col-md-6">
-                    <label>Name:</label>
-                    <br/>
-                    <label>Matric Number:</label>
-                </div>
-            </div>
-            
-        </div>
-        <div id="room" class="tab-pane fade">
-            <!--This is for the things inside second menu-->
-            <h3>GG</h3>
-        </div>
         <div id="roomtype" class="tab-pane fade">
             <!--This is for the things inside third menu-->
             <div>
@@ -69,7 +25,7 @@
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Room Type
                 </a>
             </div>
-            
+
             <!-- Modal -->
             <div class="modal fade" id="addRTModal" role="dialog">
                 <div class="modal-dialog">
@@ -101,14 +57,14 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-default" value="Save"/>
+                                <input type="submit" class="btn btn-primary" value="Save"/>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <!-- Modal -->
-            
+
             <h3>Room Types</h3>
             <table class="table table-responsive table-hover vertical-text-align-middle">
                 <thead>
@@ -121,9 +77,10 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBodyRT">
                     <c:choose>
                         <c:when test="${roomTypes ==null}">
+
                             <td colspan="7" style="text-align: center;">No Record</td>
                         </c:when>
                         <c:otherwise>
@@ -175,16 +132,16 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-default" value="Save"/>
+                                                        <input type="submit" class="btn btn-primary" value="Save"/>
                                                     </div>
                                                 </form>
                                             </div>
-                                        </div>
+                                        </div>                      
                                     </div>
                                     <!-- Modal -->
                                     
                                     <!-- Modal -->
-                                    <div class="modal fade" id="editRTModal${loop.index}" role="dialog">
+                                    <div class="modal fade" id="editRTModal<c:out value='${loop.index}'/>" role="dialog">
                                         <div class="modal-dialog">
                                             <!-- Modal content-->
                                             <div class="modal-content">
@@ -194,39 +151,39 @@
                                                         <h4 class="modal-title">Room Type</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${roomtype.getRoomType_PK()}">
+                                                        <input type="hidden" name="id" value="<c:out value='${roomtype.getRoomType_PK()}'/>">
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Type</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.getType()}" name="Number">
+                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getType()}'/>" name="Number">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Price</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.getPrice()}" name="Price">
+                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getPrice()}'/>" name="Price">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Description</label>
                                                             <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${roomtype.getDescription()}" name="Description">
+                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getDescription()}'/>" name="Description">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-xs-2 col-form-label">Image</label>
                                                             <div class="col-xs-10">
-                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal${loop.index}"
-                                                                     style="cursor: pointer;" onclick="closeEditModal(${loop.index})"/>
+                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal<c:out value='${loop.index}'/>"
+                                                                     style="cursor: pointer;" onclick="closeEditModal(<c:out value='${loop.index}'/>)"/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-default" value="Save"/>
+                                                        <input type="submit" class="btn btn-primary" value="Save"/>
                                                     </div>
                                                 </form>
                                             </div>
-                                        </div>
+                                        </div>    
                                     </div>
                                     <!-- Modal -->
                                 </tr>
@@ -243,7 +200,7 @@
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Session
                 </a>
             </div>
-            
+
             <!-- Modal -->
             <div class="modal fade" id="addSModal" role="dialog">
                 <div class="modal-dialog">
@@ -263,14 +220,14 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-default" value="Save"/>
+                                <input type="submit" class="btn btn-primary" value="Save"/>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <!-- Modal -->
-            
+
             <h3>Sessions</h3>
             <table class="table table-responsive table-hover">
                 <thead>
@@ -281,7 +238,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBodyS">
                     <c:choose>
                         <c:when test="${sessions == null}">
                             <td colspan="7" style="text-align: center;">No Record</td>
@@ -330,9 +287,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-default" value="Save"/>
+                                                        <input type="submit" class="btn btn-primary" value="Save"/>
                                                     </div>
-                                                </form>
+                                                </form>      
                                             </div>
                                         </div>
                                     </div>
@@ -344,30 +301,54 @@
                 </tbody>
             </table>
         </div>
-        
-        
-        
+
+
+
     </div>
-    
-  
+
+
     <div class="col-md-3">
-    <h4>Menu</h4>
-    <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
-        <li><a data-toggle="pill" href="#room">Room</a></li>
-        <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
-        <li><a data-toggle="pill" href="#session">Session</a></li>  
-    </ul>
-</div>
-</div>
-<!-- jQuery -->
-<script src="js/jquery.js"></script>
+        <h4>Menu</h4>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
+            <li><a data-toggle="pill" href="#room">Room</a></li>
+            <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
+            <li><a data-toggle="pill" href="#session">Session</a></li>  
+        </ul>
+    </div>
+    </div>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
-<!-- Hostel custom JavaScript -->
-<script src="js/hostel.js"></script>
+    <!-- Hostel custom JavaScript -->
+    <script src="js/hostel.js"></script>
+    <script src="js/tablesorter.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
+                    .tablesorterPager({container: $("#pager")});
+        });
+    </script>
+    <script>
+
+        $(".student").on("click", function () {
+            var appId = $(this).data("appid");
+            var username = $(this).text();
+
+            //query student detail and edit field in modal
+            $.get("test", function (data) {
+               var student = JSON.parse(data);
+               $("#studentname").text(student.fullname);
+               $("#studentmatrixid").text(student.matrixId);
+            $("#studentwindow").modal();
+            });
+        });
+
+    </script>
 
 <script>
     // Room Type JQuery AJAX
@@ -493,4 +474,5 @@
 </script>
 </body>
 </html>
+
 
