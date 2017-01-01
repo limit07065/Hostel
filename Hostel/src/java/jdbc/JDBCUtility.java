@@ -36,11 +36,13 @@ public class JDBCUtility {
    PreparedStatement psDeleteRoomTypeViaId = null;
    PreparedStatement psInsertSession = null;
    PreparedStatement psSelectAllFromSession = null;
+   PreparedStatement psSelectAllFromActiveSession = null;
    PreparedStatement psUpdateSessionViaId = null;
    PreparedStatement psDeleteSessionViaId = null;
    PreparedStatement psUpdateSessionStatusViaId = null;
    PreparedStatement psInsertApplication = null;
    PreparedStatement psSelectAllFromApplication = null;
+   PreparedStatement psSelectAllFromApplicationViaActiveSession = null;
    PreparedStatement psSelectApplicationViaUserName = null;
    PreparedStatement psUpdateApplicationStatusViaId = null;
    PreparedStatement psSelectBlockViaRoomTypeNGender = null;
@@ -193,6 +195,11 @@ public class JDBCUtility {
             
             psSelectAllFromSession = con.prepareStatement(sqlSelectAllFromSession);
             
+            //select all from active session
+            String sqlSelectAllFromActiveSession = "SELECT * FROM session WHERE status = 1";
+            
+            psSelectAllFromActiveSession = con.prepareStatement(sqlSelectAllFromActiveSession);
+            
             //update session via id
             String sqlUpdateSessionViaId = "UPDATE session SET Name = ? " +
                                                 "WHERE Session_PK = ?";
@@ -215,6 +222,15 @@ public class JDBCUtility {
             String sqlSelectAllFromApplication = "SELECT * FROM application";
             
             psSelectAllFromApplication = con.prepareStatement(sqlSelectAllFromApplication);
+            
+            //select all from application via active session
+            String sqlSelectAllFromApplicationViaActiveSession = "SELECT application.Application_PK, application.Session, application.Username, "
+                                                                 + "application.Number, application.Block, application.RoomType, application.Price, "
+                                                                 + "application.ApplyDate, application.Status, application.ApprovedDate "
+                                                                 + "FROM application INNER JOIN session " 
+                                                                 + "ON application.Session = session.Name AND session.Status = 1";
+            
+            psSelectAllFromApplicationViaActiveSession = con.prepareStatement(sqlSelectAllFromApplicationViaActiveSession);
             
             //select application via username
             String sqlSelectApplicationViaUserName = "SELECT * FROM application WHERE Username = ? ORDER BY Session DESC";
@@ -357,6 +373,11 @@ public class JDBCUtility {
        return psSelectAllFromSession;
    }
    
+   public PreparedStatement getPsSelectAllFromActiveSession()
+   {
+       return psSelectAllFromActiveSession;
+   }
+   
    public PreparedStatement getPsUpdateSessionViaId()
    {
        return psUpdateSessionViaId;
@@ -375,6 +396,11 @@ public class JDBCUtility {
    public PreparedStatement getPsSelectAllFromApplication()
    {
        return psSelectAllFromApplication;
+   }
+   
+   public PreparedStatement getPsSelectAllFromApplicationViaActiveSession()
+   {
+       return psSelectAllFromApplicationViaActiveSession;
    }
  
    public PreparedStatement getPsSelectApplicationViaUserName()
