@@ -13,6 +13,7 @@
 <%@ page import="java.util.ArrayList" %>
 
 <%@include file="../header.jsp"%>
+<link href="css/datatable.bootstrap.min.css" rel="stylesheet">
 <div class="container-fluid">
     <div class="col-md-9 tab-content">
         <%@include file="tab-application.jsp" %>
@@ -329,7 +330,7 @@
     <!-- Hostel custom JavaScript -->
     <script src="js/hostel.js"></script>
     <script src="js/tablesorter.js"></script>
-
+    
     <script>
         $(document).ready(function () {
             $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
@@ -475,7 +476,38 @@
         $("#editRTModal"+id).modal('hide');
     }
 </script>
-</body>
-</html>
+
+
+
+
+
+                                <!--Data Table JavaScript-->
+                                <script src="js/bootstrap.datatable.min.js"></script>
+                                <script src="js/jquery.datatable.min.js"></script>
+
+
+                                <script>
+                                                    $(document).ready(function () {
+                                                        $("#tableapplication").dataTable({
+                                                            "iDisplayLength": 10,
+                                                            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+                                                        });
+                                                        
+                                                        $(".student").on("click", function () {
+                                                            var appId = $(this).data("appid");
+                                                            var username = $(this).text();
+
+                                                            //query student detail and edit field in modal
+                                                            $.get("test", function (data) {
+                                                                var student = JSON.parse(data);
+                                                                $("#studentname").text(student.fullname);
+                                                                $("#studentmatrixid").text(student.matrixId);
+                                                                $("#studentwindow").modal();
+                                                            });
+                                                        });
+                                                    });
+                                </script>
+                                </body>
+                                </html>
 
 

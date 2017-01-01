@@ -10,7 +10,8 @@
             Application <c:out value="${activeSession}" />
 
         </h3>
-        <table class="table table-responsive table-hover" >
+        <table id="tableapplication" class="table table-responsive table-hover tablesorter" cellspacing="0" width="100%" >
+            <thead>
             <tr>
                 <th>No.</th>
                 <th>Name.</th>            
@@ -22,7 +23,8 @@
                 <th>Approved Date</th>
                 <th>Action</th>
             </tr>
-
+            </thead>
+            <tbody>
             <c:choose>
                 <c:when test="${not empty applications}">
                     <c:forEach items="${applications}" var="currentApp" varStatus="loop">
@@ -74,6 +76,7 @@
                 </c:otherwise>
 
             </c:choose>
+        </tbody>
         </table>
 
     </div>
@@ -105,18 +108,7 @@
         </div>
     </div>
     <!--END Modal for student window-->                        
-    <!--            hidden-->
-    <div class="col-md-6" id="studentwindow">
-        <h3>Student Window</h3>
-        <div class="col-md-6">
-            <img alt="Profile Picture"height="150px" />
-        </div>
-        <div class="col-md-6">
-            <label>Name:</label>
-            <br/>
-            <label>Matric Number:</label>
-        </div>
-    </div>
+    
 
 </div>
 
