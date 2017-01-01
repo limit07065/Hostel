@@ -79,9 +79,10 @@
                 </thead>
                 <tbody id="tableBodyRT">
                     <c:choose>
-                        <c:when test="${roomTypes ==null}">
-
-                            <td colspan="7" style="text-align: center;">No Record</td>
+                        <c:when test="${empty roomTypes}">
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No Record</td>
+                            </tr>
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${roomTypes}" var="roomtype" varStatus="loop">
@@ -240,8 +241,10 @@
                 </thead>
                 <tbody id="tableBodyS">
                     <c:choose>
-                        <c:when test="${sessions == null}">
-                            <td colspan="7" style="text-align: center;">No Record</td>
+                        <c:when test="${empty sessions}">
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No Record</td>
+                            </tr>
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${sessions}" var="currentSession" varStatus="loop">   
