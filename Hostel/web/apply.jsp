@@ -21,11 +21,11 @@
                         <c:choose>
                             <c:when test="${loop.index==0}">
                                 <li data-target="#rooms" data-slide-to="${loop.index}" class="active"></li>
-                            </c:when>
-                            <c:otherwise>
+                                </c:when>
+                                <c:otherwise>
                                 <li data-target="#rooms" data-slide-to="${loop.index}"></li>
-                            </c:otherwise>
-                        </c:choose>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                 </ol>
 
@@ -66,10 +66,19 @@
                     <div class=" col-sm-6">
                         <label for="block"  >Block </label>
                         <select id="block" name="block" class="form-control" disabled>
-                            <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
-                                <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
-                            </c:forEach>
-                            <option value=" " selected disabled hidden>Select Available Block</option>
+                            <c:choose>
+                                <c:when test="${not empty block}">
+                                    <c:forEach items="${sessionScope.block}" var="currentBlock" varStatus="loop">
+                                        <option value="<c:out value='${currentBlock.getBlock()}' />"> <c:out value="${currentBlock.getBlock()}" /> </option>
+                                    </c:forEach>
+                                    <option value=" " selected disabled hidden>Select Available Block</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value=" " selected disabled >No Available Block</option>
+                                </c:otherwise>
+                            </c:choose>
+
+
                         </select>
                     </div>
                     <div class="col-sm-6">
@@ -82,7 +91,7 @@
                         </select>
                     </div>
                 </div>
-                <input type="submit" class="pull-right btn btn-success">
+                <input id="submit" type="submit" class="pull-right btn btn-success" disabled>
 
 
             </form>
@@ -95,42 +104,42 @@
 
 <script type="text/javascript">
 
-    $("#roomtype").change(function () {
+                    $("#roomtype").change(function () {
 
-        var roomtype = $("#roomtype").val();
+                        var roomtype = $("#roomtype").val();
 
-        $.post("PopulateRoomServlet", {type: roomtype}, function () {
-            $("#block").load(" #block>*");
-        });
-        
-        // Reset dropdownlist #room before activating #block
-        $("#room").val(" ");
-        $("#room").attr("disabled", "disabled");
-        $("#block").removeAttr("disabled");
-    });
+                        $.post("PopulateRoomServlet", {type: roomtype}, function () {
+                            $("#block").load(" #block>*");
+                        });
 
-    $("#block").change(function () {
-        var block = $("#block").val();
-        var roomtype = $("#roomtype").val();
+                        // Reset dropdownlist #room before activating #block
+                        $("#room").val(" ");
+                        $("#room").attr("disabled", "disabled");
+                        $("#block").removeAttr("disabled");
+                    });
 
-        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function () {
-            $("#room").load(" #room>*");
-        });
+                    $("#block").change(function () {
+                        var block = $("#block").val();
+                        var roomtype = $("#roomtype").val();
 
-        $("#room").removeAttr("disabled");
-    });
+                        $.post("PopulateRoomServlet", {type: roomtype, block: block}, function () {
+                            $("#room").load(" #room>*");
+                        });
 
-    $(function () {
-        setInterval(function () {
-            var room = $("#room").val();
+                        $("#room").removeAttr("disabled");
+                    });
 
-            if (room !== null) {
-                $("#submit").removeAttr("disabled");
-            } else {
-                $("#submit").attr("disabled", "disabled");
-            }
-        }, 2000);
-    });
+                    $("#room").change(function () {
+
+                        var room = $("#room").val();
+
+                        if (room !== null) {
+                            $("#submit").removeAttr("disabled");
+                        } else {
+                            $("#submit").attr("disabled", "disabled");
+                        }
+
+                    });
 </script>
 
 

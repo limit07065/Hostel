@@ -44,7 +44,7 @@
                 <p id="deletecontent"></p>
             </div>
             <div class="modal-footer ">
-                <a id="yes" href=""><button class="btn btn-default">Yes </button></a>
+                <a id="url" href=""><button id="yes" class="btn btn-default">Yes </button></a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
 
             </div>
@@ -108,7 +108,7 @@
             success: function () {
                 $('#addRTModal').modal('hide');
                 $('.modal-backdrop').remove();
-                $("#roomtype").load(" #roomtype>*");                
+                $("#roomtype").load(" #roomtype>*");
                 $("#messagecontent").text("Successfully add the room type.");
                 $("#message").modal("show");
             }
@@ -162,41 +162,26 @@
 
     });
     $(document).on('click', 'span.deleteRT', function (e) {
+        var id = $(this).data("rt");
         $("#deletecontent").text('Are you sure you want to delete the room type?');
         $("#delete").modal("show");
-        
-        $("#yes").on("click",function(){
-            
-        });
-        {
+
+        $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteRoomType",
-                data: 'id=' + $(this).siblings("input").val(),
+                data: 'id=' + id,
                 success: function () {
                     $("#roomtype").load(" #roomtype>*");
                     $("#messagecontent").text("Successfully delete the room type.");
-                $("#message").modal("show");
-                    
+                    $("#delete").modal("hide");
+                    $("#message").modal("show");
+
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
-        }
-//        $("#yes").on("click",function(){
-//            $.ajax({
-//                type: "POST",
-//                url: "DeleteRoomType",
-//                data: 'id=' + ele.siblings("input").val(),
-//                success: function (e) {
-//                    e.preventDefault(); // avoid to execute the actual submit of the form.
-//                    $("#roomtype").load(" #roomtype>*");
-//                    $("#messagecontent").text("Successfully delete the room type.");
-//                $("#message").modal("show");
-//                    
-//                }
-//            });
-//            
-//        });
+        });
+
     });
     // End of Room Type JQuery AJAX
 
@@ -251,21 +236,27 @@
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
-    $(document).on('click', 'span.deleteS', function (e) {
-        if (confirm('Are you sure you want to delete the room type?') === true)
-        {
+    $(document).on('click', 'span.deleteS', function () {
+        var id = $(this).data("ses");
+        $("#deletecontent").text('Are you sure you want to delete this session?');
+        $("#delete").modal("show");
+
+        $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteSession",
-                data: 'id=' + $(this).siblings("input").val(),
+                data: 'id=' + id,
                 success: function () {
-                    $("#session").load(" #session>*");                    
+                    $("#session").load(" #session>*");
                     $("#messagecontent").text("Successfully delete the session.");
+                    $("#delete").modal("hide");
                     $("#message").modal("show");
+
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
-        }
+        });
+       
     });
     // End of Session JQuery AJAX 
 </script>
@@ -279,8 +270,10 @@
     });
             $(".student").on("click", function () {
     var appId = $(this).data("appid");
-            var username = $(this).text();<!--Data Table JavaScript-->
-            < script src = "js/bootstrap.datatable.min.js" ></script>
+            var username = $(this).text();
+            //<!--Data Table JavaScript-->
+</script>
+<script src = "js/bootstrap.datatable.min.js" ></script>
 <script src="js/jquery.datatable.min.js"></script>
 
 <script>

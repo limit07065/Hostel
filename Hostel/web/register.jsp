@@ -20,7 +20,7 @@
         </div>
         <input type="text" class="form-control" name="id" id="id" placeholder="Matrix Number" required>                    
         <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Full Name" required>                    
-        <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>                    
+        <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>                    
         <input type="text" class="form-control" name="contact" id="contact" placeholder="Contact" required>   
         <c:if test="${not empty passError}">  
         <span class="col-xs-12 alert alert-danger text-center" ><i class="fa fa-exclamation-triangle"></i> <c:out value="${passError}" /></span>

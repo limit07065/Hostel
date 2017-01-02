@@ -76,8 +76,8 @@
                             <td>
                                 <span class="glyphicon glyphicon-pencil editS" data-toggle="modal" data-target="#editSModal" style="cursor:pointer; color: blue;"></span>
                                 &nbsp;
-                                <span class="glyphicon glyphicon-trash deleteS" aria-hidden="true" style="color: red; cursor: pointer;"></span>
-                                <input type="hidden" name="id" value="${currentSession.getId()}">
+                                <span class="glyphicon glyphicon-trash deleteS" data-ses="${currentSession.getId()}" aria-hidden="true" style="color: red; cursor: pointer;"></span>
+                                
                             </td>
                         </tr>
                     </c:forEach>

@@ -88,7 +88,7 @@
                                         <!-- User image -->
                                         <li class="user-header">
 
-                                            <div class="img-user-header img-thumbnail img-circle" style="background-image: url('img/profile/${user.getPic()}')"></div>
+                                            <a href="Profile"><div class="img-user-header img-thumbnail img-circle" style="background-image: url('img/profile/${user.getPic()}')"></div></a>
 
 
                                             <p>
