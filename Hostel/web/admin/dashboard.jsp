@@ -270,6 +270,38 @@
         });
     });
     // End of Session JQuery AJAX 
+    
+    // Application JQuery AJAX
+    $(document).on('click', 'button.approve', function (e) {
+        var id = $(this).data("appid");
+
+        $.ajax({
+            type: "POST",
+            url: "ApproveApplicationServlet",
+            data: 'id=' + id, 
+            success: function () {
+                $("#application").load(" #application>*");
+            }
+        });
+        
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    
+    $(document).on('click', 'button.reject', function (e) {
+        var id = $(this).data("appid");
+
+        $.ajax({
+            type: "POST",
+            url: "RejectApplicationServlet",
+            data: 'id=' + id, 
+            success: function () {
+                $("#application").load(" #application>*");
+            }
+        });
+        
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    // End of Application JQuery AJAX
 </script>
 
 <script>

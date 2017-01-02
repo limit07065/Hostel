@@ -25,12 +25,13 @@
             </tr>
             </thead>
             <tbody>
+            <c:set value="1" var="index" scope="page" />
             <c:choose>
                 <c:when test="${not empty applications}">
                     <c:forEach items="${applications}" var="currentApp" varStatus="loop">
-                        <c:if test="${currentApp.getStatus()==0}">
+                        <c:if test="${currentApp.getStatus() != 2}">
                             <tr>
-                                <td><c:out value="${loop.index+1}" /></td>
+                                <td><c:out value="${index}" /></td>  <%-- Status == 2 is not output at here, have to use another variable as counter  --%>
                             <td class="student"  data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getUsername()}" /></td>
                             <td><c:out value="${currentApp.getBlock()}" /></td>
                             <td><c:out value="${currentApp.getNumber()}" /></td>
@@ -52,21 +53,28 @@
                                     <td>Rejected</td>
                                 </c:when>
                             </c:choose>
-                            <td></td>
-                            <!--                            c:choose>
-                                                            c:when test="{currentApp.getApprovedDate()!=null}"                                  
-                                                                    <td><c:out value="{currentApp.getApplydate()}" /></td>
-                                                            /c:when> 
-                                                            c:otherwise>
-                                                                <td></td>
-                                                            /c:otherwise>
-                                                        /c:choose>-->                            
+                            <c:choose>
+                                <c:when test="${currentApp.getApprovedDate()!=null}">                                  
+                                        <td><c:out value="${currentApp.getApprovedDate()}" /></td>
+                                </c:when> 
+                                <c:otherwise>
+                                    <td></td>
+                                </c:otherwise>
+                            </c:choose>
                             <td>
-                                <button class="approve btn btn-success" data-appId="${currentApp.getApplication_PK()}">Approve</button>
-                                <button class="reject btn btn-danger" data-appId="${currentApp.getApplication_PK()}">Reject</button>
+                                <c:choose>
+                                    <c:when test="${currentApp.getStatus() != 1}">
+                                        <button class="approve btn btn-success" data-appId="${currentApp.getApplication_PK()}">Approve</button>
+                                    </c:when>
+                                    <c:when test="${currentApp.getStatus() != 3}">
+                                        <button class="reject btn btn-danger" data-appId="${currentApp.getApplication_PK()}">Reject</button>
+                                    </c:when>
+                                </c:choose>
                             </td>
                             </tr>
+                            <c:set var="index" value="${index + 1}" />
                         </c:if>
+                        
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
