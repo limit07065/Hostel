@@ -50,6 +50,72 @@
 
 
 <script>
+    // Room JQuery AJAX
+    $(document).on('submit', 'form#AddRoomForm', function (e) {
+        
+        
+        $.ajax({
+            type: "POST",
+            url: "AddRoom",
+            data: $("#AddRoomForm").serialize(), // serializes the form's elements.
+            success: function () {
+                $('#addRModal').modal('hide');
+                $('.modal-backdrop').remove();
+                $("#room").load(" #room>*");
+                $("#messagecontent").text("Successfully add the room .");
+                $("#message").modal("show");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    
+    //edit room
+     $(document).on('click', 'span.editR', function (e) {
+        $("#EditRoomForm #id").val($(this).data("id"));
+        $("#EditRoomForm #rBlock").val($(this).data("block"));
+        $("#EditRoomForm #rNumber").val($(this).data("number"));
+        $("#EditRoomForm #rGender").val($(this).data("gender"));
+        $("#EditRoomForm #rType").val($(this).data("type"));
+        
+    });
+    
+    $(document).on('submit', 'form#EditRoomForm', function (e) {        
+        
+        $.ajax({
+            type: "POST",
+            url: "EditRoom",
+            data: $(this).serialize(), // serializes the form's elements.
+            success: function () {
+                $(this).parents(".modal").modal('toggle');
+                $('.modal-backdrop').remove();
+                $("#room").load(" #room>*");
+                $("#messagecontent").text("Successfully edit the room .");
+                $("#message").modal("show");
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    //delete room    
+    $(document).on('click', 'span.deleteR', function () {
+        var id = $(this).data("id");
+
+        $("#deletecontent").text('Are you sure you want to delete the room?');        
+        $("#yes").on("click", function (e) {
+            $.ajax({
+                type: "POST",
+                url: "DeleteRoom",
+                data: 'id=' + id,
+                success: function () {
+                    $("#room").load(" #room>*");
+                    $("#messagecontent").text("Successfully delete the room.");
+                    $("#delete").modal("hide");
+                    $("#message").modal("show");
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+    });
+    
     // Room Type JQuery AJAX
     $(document).on('submit', 'form#AddRoomTypeForm', function (e) {
         $.ajax({
@@ -206,15 +272,14 @@
     // End of Session JQuery AJAX 
 </script>
 
-
-
-
-
-
-
 <script>
     $(document).ready(function () {
         $("#tableapplication").dataTable({
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        });
+        
+        $("#tableroom").dataTable({
             "iDisplayLength": 10,
             "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
         });
