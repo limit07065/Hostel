@@ -31,11 +31,11 @@
                        
                             <tr>
                                 <td><c:out value="${loop.index+1}" /></td>
-                            <td class="student"  data-appId="${currentApp.getApplication_PK()}"><c:out value="{currentApp.getName()}" /></td>
+                            <td class="student"  data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getUsername()}" /></td>
                             <td><c:out value="${currentApp.getBlock()}" /></td>
                             <td><c:out value="${currentApp.getNumber()}" /></td>
                             <td><c:out value="${currentApp.getRoomtype()}" /></td>   
-                            <td><c:out value="{currentApp.getApplydate()}" /></td>
+                            <td><c:out value="${currentApp.getApplyDate()}" /></td>
 
 
                             <c:choose>
