@@ -27,7 +27,7 @@ import jdbc.JDBCUtility;
  * @author Ryan Hoo
  */
 @WebServlet(name = "UploadRoomImageServlet", urlPatterns = {"/UploadRoomImageServlet"})
-@MultipartConfig(location="d:\\rosely\\netbeans\\ServletDate\\build\\web\\img",
+@MultipartConfig(location="C:\\Ryan\\academic\\3-SCSJ\\Sem1\\Internet Programming\\Hostel\\Hostel\\web\\img",
                  fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
@@ -72,8 +72,8 @@ public class UploadRoomImageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
-        String id = (String)session.getAttribute("id");
+        //HttpSession session = request.getSession();
+        String id = request.getParameter("id");
         
         String appPath = request.getServletContext().getRealPath("");
         String savePath = appPath + File.separator + SAVE_DIR;
@@ -98,6 +98,7 @@ public class UploadRoomImageServlet extends HttpServlet {
             preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             
+            //System.out.println(preparedStatement);
             //PrintWriter out = response.getWriter();
             //out.println("Update successfull");
             sendPage(request, response, "/dashboard");

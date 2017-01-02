@@ -39,6 +39,7 @@ public class JDBCUtility {
    PreparedStatement psSelectAllFromActiveSession = null;
    PreparedStatement psUpdateSessionViaId = null;
    PreparedStatement psDeleteSessionViaId = null;
+   PreparedStatement psDeactivateAllSession = null;
    PreparedStatement psUpdateSessionStatusViaId = null;
    PreparedStatement psInsertApplication = null;
    PreparedStatement psSelectAllFromApplication = null;
@@ -206,7 +207,12 @@ public class JDBCUtility {
             
             psUpdateSessionViaId = con.prepareStatement(sqlUpdateSessionViaId);
             
-            //update session via id
+            //deactivate all session
+            String sqlDeactivateAllSession = "UPDATE session SET Status = ? ";
+            
+            psDeactivateAllSession = con.prepareStatement(sqlDeactivateAllSession);
+            
+            //update session status via id
             String sqlUpdateSessionStatusViaId = "UPDATE session SET Status = ? " +
                                                 "WHERE Session_PK = ?";
             
@@ -381,6 +387,11 @@ public class JDBCUtility {
    public PreparedStatement getPsUpdateSessionViaId()
    {
        return psUpdateSessionViaId;
+   }
+   
+   public PreparedStatement getPsDeactivateAllSession()
+   {
+       return psDeactivateAllSession;
    }
    
    public PreparedStatement getPsUpdateSessionStatusViaId()
