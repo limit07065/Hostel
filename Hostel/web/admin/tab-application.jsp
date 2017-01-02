@@ -28,7 +28,7 @@
             <c:choose>
                 <c:when test="${not empty applications}">
                     <c:forEach items="${applications}" var="currentApp" varStatus="loop">
-                        <c:if test="${currentApp.getSession() == activeSession}">
+                        <c:if test="${currentApp.getStatus()==0}">
                             <tr>
                                 <td><c:out value="${loop.index+1}" /></td>
                             <td class="student"  data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getUsername()}" /></td>
