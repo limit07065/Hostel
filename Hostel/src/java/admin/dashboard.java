@@ -137,7 +137,7 @@ public class dashboard extends HttpServlet {
                 
                 //set active session
                 //if(rs3.getInt("Status") == 1)
-                //    request.setAttribute("activeSession", rs3.getString("Name"));
+                    request.setAttribute("activeSession", rs3.getString("Name"));
             }
         }
         catch (SQLException ex)

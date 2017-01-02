@@ -4,8 +4,6 @@
     Author     : Ray
 --%>
 
-
-
 <%@ page import="bean.Application" %>
 <%@ page import="bean.Room" %>
 <%@ page import="bean.RoomType" %>
@@ -101,97 +99,97 @@
                                         <span class="glyphicon glyphicon-trash deleteRT" aria-hidden="true" style="color: red; cursor: pointer;"></span>
                                         <input type="hidden" value="${roomtype.getRoomType_PK()}" name="id">
                                     </td>
-                                    
+
                                     <!-- Modal -->
-                                    <div class="modal fade" id="changeImageModal${loop.index}" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <form action="UploadRoomImageServlet" method="post" enctype="multipart/form-data" class="UploadRoomImageForm">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Change Room Type Image</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${roomtype.getRoomType_PK()}">
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-4 col-form-label">Type</label>
-                                                            <div class="col-xs-8">
-                                                                <label id="type" class="form-control"><c:out value='${roomtype.getType()}'/></label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-4 col-form-label">Current Image</label>
-                                                            <div class="col-xs-8">
-                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="140"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-4 col-form-label">Choose File to Upload</label>
-                                                            <div class="col-xs-8">
-                                                                <input type="file" name="filetoupload" size="50" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-primary" value="Save"/>
-                                                    </div>
-                                                </form>
+                            <div class="modal fade" id="changeImageModal${loop.index}" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <form action="UploadRoomImageServlet" method="post" enctype="multipart/form-data" class="UploadRoomImageForm">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Change Room Type Image</h4>
                                             </div>
-                                        </div>                      
-                                    </div>
-                                    <!-- Modal -->
-                                    
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="editRTModal<c:out value='${loop.index}'/>" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <form action="EditRoomType" method="post" class="EditRoomTypeForm">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Room Type</h4>
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" value="${roomtype.getRoomType_PK()}">
+                                                <div class="form-group row">
+                                                    <label class="col-xs-4 col-form-label">Type</label>
+                                                    <div class="col-xs-8">
+                                                        <label id="type" class="form-control"><c:out value='${roomtype.getType()}'/></label>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="id" value="<c:out value='${roomtype.getRoomType_PK()}'/>">
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-2 col-form-label">Type</label>
-                                                            <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getType()}'/>" name="Number">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-2 col-form-label">Price</label>
-                                                            <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getPrice()}'/>" name="Price">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-2 col-form-label">Description</label>
-                                                            <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="<c:out value='${roomtype.getDescription()}'/>" name="Description">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-2 col-form-label">Image</label>
-                                                            <div class="col-xs-10">
-                                                                <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal<c:out value='${loop.index}'/>"
-                                                                     style="cursor: pointer;" onclick="closeEditModal(<c:out value='${loop.index}'/>)"/>
-                                                            </div>
-                                                        </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-xs-4 col-form-label">Current Image</label>
+                                                    <div class="col-xs-8">
+                                                        <img src="img/<c:out value='${roomtype.getPic()}' />" width="140"/>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-primary" value="Save"/>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-xs-4 col-form-label">Choose File to Upload</label>
+                                                    <div class="col-xs-8">
+                                                        <input type="file" name="filetoupload" size="50" />
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
-                                        </div>    
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-primary" value="Save"/>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <!-- Modal -->
-                                </tr>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
+                                </div>                      
+                            </div>
+                            <!-- Modal -->
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="editRTModal<c:out value='${loop.index}'/>" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <form action="EditRoomType" method="post" class="EditRoomTypeForm">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Room Type</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" value="<c:out value='${roomtype.getRoomType_PK()}'/>">
+                                                <div class="form-group row">
+                                                    <label class="col-xs-2 col-form-label">Type</label>
+                                                    <div class="col-xs-10">
+                                                        <input class="form-control" type="text" value="<c:out value='${roomtype.getType()}'/>" name="Number">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-xs-2 col-form-label">Price</label>
+                                                    <div class="col-xs-10">
+                                                        <input class="form-control" type="text" value="<c:out value='${roomtype.getPrice()}'/>" name="Price">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-xs-2 col-form-label">Description</label>
+                                                    <div class="col-xs-10">
+                                                        <input class="form-control" type="text" value="<c:out value='${roomtype.getDescription()}'/>" name="Description">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-xs-2 col-form-label">Image</label>
+                                                    <div class="col-xs-10">
+                                                        <img src="img/<c:out value='${roomtype.getPic()}' />" width="100" data-toggle="modal" data-target="#changeImageModal<c:out value='${loop.index}'/>"
+                                                             style="cursor: pointer;" onclick="closeEditModal(<c:out value='${loop.index}'/>)"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-primary" value="Save"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>    
+                            </div>
+                            <!-- Modal -->
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
                 </tbody>
             </table>
         </div>
@@ -270,38 +268,38 @@
                                         <span class="glyphicon glyphicon-trash deleteS" aria-hidden="true" style="color: red; cursor: pointer;"></span>
                                         <input type="hidden" name="id" value="${currentSession.getId()}">
                                     </td>
-                                    
+
                                     <!-- Modal -->
-                                    <div class="modal fade" id="editSModal${loop.index}" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <form action="EditSession" method="post" class="EditSessionForm">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Session</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="id" value="${currentSession.getId()}">
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-2 col-form-label">Name</label>
-                                                            <div class="col-xs-10">
-                                                                <input class="form-control" type="text" value="${currentSession.getName()}" name="Name">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-primary" value="Save"/>
-                                                    </div>
-                                                </form>      
+                            <div class="modal fade" id="editSModal${loop.index}" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <form action="EditSession" method="post" class="EditSessionForm">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Session</h4>
                                             </div>
-                                        </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" value="${currentSession.getId()}">
+                                                <div class="form-group row">
+                                                    <label class="col-xs-2 col-form-label">Name</label>
+                                                    <div class="col-xs-10">
+                                                        <input class="form-control" type="text" value="${currentSession.getName()}" name="Name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-primary" value="Save"/>
+                                            </div>
+                                        </form>      
                                     </div>
-                                    <!-- Modal -->
-                                </tr>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
                 </tbody>
             </table>
         </div>
@@ -320,39 +318,34 @@
             <li><a data-toggle="pill" href="#session">Session</a></li>  
         </ul>
     </div>
-    </div>
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+</div>
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
 
-    <!-- Hostel custom JavaScript -->
-    <script src="js/hostel.js"></script>
-    <script src="js/tablesorter.js"></script>
-    
-    <script>
-        $(document).ready(function () {
-            $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
-                    .tablesorterPager({container: $("#pager")});
-        });
-    </script>
-    <script>
+<!-- Hostel custom JavaScript -->
+<script src="js/hostel.js"></script>
 
-        $(".student").on("click", function () {
-            var appId = $(this).data("appid");
-            var username = $(this).text();
 
-            //query student detail and edit field in modal
-            $.get("test", function (data) {
-               var student = JSON.parse(data);
-               $("#studentname").text(student.fullname);
-               $("#studentmatrixid").text(student.matrixId);
-            $("#studentwindow").modal();
-            });
-        });
 
-    </script>
+<script>
+
+                                                                 $(".student").on("click", function () {
+                                                                     var appId = $(this).data("appid");
+                                                                     var username = $(this).text();
+
+                                                                     //query student detail and edit field in modal
+                                                                     $.get("test", function (data) {
+                                                                         var student = JSON.parse(data);
+                                                                         $("#studentname").text(student.fullname);
+                                                                         $("#studentmatrixid").text(student.matrixId);
+                                                                         $("#studentwindow").modal();
+                                                                     });
+                                                                 });
+
+</script>
 
 <script>
     // Room Type JQuery AJAX
@@ -361,7 +354,7 @@
             type: "POST",
             url: "AddRoomType",
             data: $("#AddRoomTypeForm").serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $('#addRTModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#roomtype").load(" #roomtype>*");
@@ -388,7 +381,7 @@
             type: "POST",
             url: "EditRoomType",
             data: $(this).serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $(this).parents(".modal").modal('toggle');
                 $('.modal-backdrop').remove();
                 $("#roomtype").load(" #roomtype>*");
@@ -398,13 +391,13 @@
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
     $(document).on('click', 'span.deleteRT', function (e) {
-        if ( confirm('Are you sure you want to delete the room type?') === true )
+        if (confirm('Are you sure you want to delete the room type?') === true)
         {
             $.ajax({
                 type: "POST",
                 url: "DeleteRoomType",
                 data: 'id=' + $(this).siblings("input").val(),
-                success: function(){
+                success: function () {
                     $("#roomtype").load(" #roomtype>*");
                     alert("Successfully delete the room type.");
                 }
@@ -413,14 +406,14 @@
         }
     });
     // End of Room Type JQuery AJAX
-    
+
     // Session JQuery AJAX
     $(document).on('submit', 'form#AddSessionForm', function (e) {
         $.ajax({
             type: "POST",
             url: "AddSession",
             data: $("#AddSessionForm").serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $('#addSModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
@@ -434,7 +427,7 @@
             type: "POST",
             url: "SessionActivation",
             data: 'id=' + $(this).siblings("input").val() + '&status=' + $(this).siblings("input").next().val(),
-            success: function(){
+            success: function () {
                 $("#session").load(" #session>*");
                 alert("Successfully toggle the session's status.");
             }
@@ -446,7 +439,7 @@
             type: "POST",
             url: "EditSession",
             data: $(this).serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $(this).parents(".modal fade").modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
@@ -456,13 +449,13 @@
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
     $(document).on('click', 'span.deleteS', function (e) {
-        if ( confirm('Are you sure you want to delete the room type?') === true )
+        if (confirm('Are you sure you want to delete the room type?') === true)
         {
             $.ajax({
                 type: "POST",
                 url: "DeleteSession",
                 data: 'id=' + $(this).siblings("input").val(),
-                success: function(){
+                success: function () {
                     $("#session").load(" #session>*");
                     alert("Successfully delete the session.");
                 }
@@ -471,43 +464,36 @@
         }
     });
     // End of Session JQuery AJAX
-    
-    function closeEditModal(id){
-        $("#editRTModal"+id).modal('hide');
+
+    function closeEditModal(id) {
+        $("#editRTModal" + id).modal('hide');
     }
 </script>
 
+<!--Data Table JavaScript-->
+<script src="js/bootstrap.datatable.min.js"></script>
+<script src="js/jquery.datatable.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $("#tableapplication").dataTable({
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        });
 
+        $(".student").on("click", function () {
+            var appId = $(this).data("appid");
+            var username = $(this).text();
 
-
-                                <!--Data Table JavaScript-->
-                                <script src="js/bootstrap.datatable.min.js"></script>
-                                <script src="js/jquery.datatable.min.js"></script>
-
-
-                                <script>
-                                                    $(document).ready(function () {
-                                                        $("#tableapplication").dataTable({
-                                                            "iDisplayLength": 10,
-                                                            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
-                                                        });
-                                                        
-                                                        $(".student").on("click", function () {
-                                                            var appId = $(this).data("appid");
-                                                            var username = $(this).text();
-
-                                                            //query student detail and edit field in modal
-                                                            $.get("test", function (data) {
-                                                                var student = JSON.parse(data);
-                                                                $("#studentname").text(student.fullname);
-                                                                $("#studentmatrixid").text(student.matrixId);
-                                                                $("#studentwindow").modal();
-                                                            });
-                                                        });
-                                                    });
-                                </script>
-                                </body>
-                                </html>
-
-
+//query student detail and edit field in modal
+            $.get("test", function (data) {
+                var student = JSON.parse(data);
+                $("#studentname").text(student.fullname);
+                $("#studentmatrixid").text(student.matrixId);
+                $("#studentwindow").modal();
+            });
+        });
+    });
+</script>
+</body>
+</html>
