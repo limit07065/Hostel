@@ -63,7 +63,7 @@ public class SessionActivation extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         int status = Integer.parseInt(request.getParameter("status"));
 
-        if(status ==  0)
+        /*if(status ==  0)
         {
             status = 1;
         }
@@ -71,18 +71,38 @@ public class SessionActivation extends HttpServlet {
         else if(status == 1)
         {
             status = 0;
-        }
+        }*/
 
         response.setContentType("text/html;charset=UTF-8");
         try{
             //PrintWriter out = response.getWriter();
 
-            PreparedStatement preparedStatement = jdbcUtility.getPsUpdateSessionStatusViaId();
-
-            preparedStatement.setInt(1, status);
-            preparedStatement.setInt(2, id);
-
-            preparedStatement.executeUpdate();
+            //current status is inactive and we want to activate it
+            if(status == 0)
+            {
+                //deactivate all session 1st
+                PreparedStatement preparedStatement = jdbcUtility.getPsDeactivateAllSession();
+                preparedStatement.setInt(1, status);
+                preparedStatement.executeUpdate();
+                
+                //activate the intended session
+                status = 1;
+                PreparedStatement preparedStatement2 = jdbcUtility.getPsUpdateSessionStatusViaId();
+                preparedStatement2.setInt(1, status);
+                preparedStatement2.setInt(2, id);
+                preparedStatement2.executeUpdate();
+            }
+            
+            //current status is active and we want to deactivate it
+            else if(status == 1)
+            {
+                status = 0;
+                PreparedStatement preparedStatement2 = jdbcUtility.getPsUpdateSessionStatusViaId();
+                preparedStatement2.setInt(1, status);
+                preparedStatement2.setInt(2, id);
+                preparedStatement2.executeUpdate();
+            }
+            
 
             /*out.println("<script>");
             out.println("    alert('Destination status updated success');");
@@ -91,6 +111,7 @@ public class SessionActivation extends HttpServlet {
             out.println("<p>Please click <a href='/ServletDatev5/GetDestinationsServlet'>here</a> to view destination details</p>");*/
 
             response.sendRedirect("dashboard");
+            //response.sendRedirect("admin/tab-application.jsp");
 
         }
         catch (SQLException ex)

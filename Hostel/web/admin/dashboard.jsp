@@ -162,6 +162,7 @@
                 success: function(){
                     $("#session").load(" #session>*");
                     alert("Successfully toggle the session's status.");
+                    $("#application").load(" #application>*");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
