@@ -194,9 +194,9 @@ public class dashboard extends HttpServlet {
     
         //put into sessions
         request.setAttribute("applications", applications);
-        request.getSession().setAttribute("rooms", rooms);
-        request.getSession().setAttribute("roomTypes", roomTypes);
-        request.getSession().setAttribute("sessions", sessions);
+        request.setAttribute("rooms", rooms);
+        request.setAttribute("roomTypes", roomTypes);
+        request.setAttribute("sessions", sessions);
         
         //redirect to managedestination.jsp
         sendPage(request, response, "/admin/dashboard.jsp");
