@@ -32,6 +32,7 @@
         </ul>
     </div>
 </div>
+    <%@include file="modals.jsp" %>
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
 
@@ -46,6 +47,7 @@
 <script src="js/bootstrap.datatable.min.js"></script>
 <script src="js/jquery.datatable.min.js"></script>
 
+<!--Data Table -->
 <script>
     $(document).ready(function () {
         $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
@@ -79,7 +81,8 @@
                 $('#addRTModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#roomtype").load(" #roomtype>*");
-                alert("Successfully add the room type.");
+                $("#messagecontent").text("Successfully add the room type.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -122,25 +125,30 @@
                 $(this).parents(".modal").modal('toggle');
                 $('.modal-backdrop').remove();
                 $("#roomtype").load(" #roomtype>*");
-                alert("Successfully edit the room type.");
+                $("#messagecontent").text("Successfully edit the room type.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
-    $(document).on('click', 'span.deleteRT', function (e) {
-        if (confirm('Are you sure you want to delete the room type?') === true)
-        {
+    $(document).on('click', 'span.deleteRT', function () {
+        $("#deletecontent").text('Are you sure you want to delete the room type?');
+        $("#delete").modal("show");
+        $("#yes").on("click",function(e){
             $.ajax({
                 type: "POST",
                 url: "DeleteRoomType",
                 data: 'id=' + $(this).siblings("input").val(),
                 success: function () {
                     $("#roomtype").load(" #roomtype>*");
-                    alert("Successfully delete the room type.");
-                }
+                    $("#messagecontent").text("Successfully delete the room type.");
+                    $("#message").modal("show");
+                    
+                }                
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
-        }
+             
+        });        
     });
     // End of Room Type JQuery AJAX
 
@@ -154,7 +162,8 @@
                 $('#addSModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
-                alert("Successfully add the session.");
+                $("#messagecontent").text("Successfully add the session.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -166,7 +175,8 @@
             data: 'id=' + $(this).siblings("input").val() + '&status=' + $(this).siblings("input").next().val(),
             success: function () {
                 $("#session").load(" #session>*");
-                alert("Successfully toggle the session's status.");
+                $("#messagecontent").text("Successfully toggle the session's status.");
+                $("#message").modal("show");
                 $("#application").load(" #application>*");
             }
         });
@@ -185,13 +195,14 @@
                 $(this).parents(".modal fade").modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
-                alert("Successfully edit the session.");
+                $("#messagecontent").text("Successfully edit the session.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
     $(document).on('click', 'span.deleteS', function (e) {
-        if (confirm('Are you sure you want to delete the room type?') === true)
+        if (confirm('Are you sure you want to delete the session?') === true)
         {
             $.ajax({
                 type: "POST",
@@ -199,7 +210,8 @@
                 data: 'id=' + $(this).siblings("input").val(),
                 success: function () {
                     $("#session").load(" #session>*");
-                    alert("Successfully delete the session.");
+                    $("#messagecontent").text("Successfully delete the session.");
+                    $("#message").modal("show");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
