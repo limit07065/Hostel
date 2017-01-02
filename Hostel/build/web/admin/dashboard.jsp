@@ -32,7 +32,7 @@
         </ul>
     </div>
 </div>
-    <%@include file="modals.jsp" %>
+<%@include file="modals.jsp" %>
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
 
@@ -41,34 +41,13 @@
 
 <!-- Hostel custom JavaScript -->
 <script src="js/hostel.js"></script>
-<script src="js/tablesorter.js"></script>
 
 <!--Data Table JavaScript-->
 <script src="js/bootstrap.datatable.min.js"></script>
 <script src="js/jquery.datatable.min.js"></script>
 
 <!--Data Table -->
-<script>
-    $(document).ready(function () {
-        $("table").tablesorter({widthFixed: true, widgets: ['zebra']})
-                .tablesorterPager({container: $("#pager")});
 
-
-        $(".student").on("click", function () {
-            var appId = $(this).data("appid");
-            var username = $(this).text();
-
-            //query student detail and edit field in modal
-            $.get("test", function (data) {
-                var student = JSON.parse(data);
-                $("#studentname").text(student.fullname);
-                $("#studentmatrixid").text(student.matrixId);
-                $("#studentwindow").modal();
-            });
-        });
-    });
-
-</script>
 
 <script>
     // Room Type JQuery AJAX
@@ -132,23 +111,26 @@
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
     $(document).on('click', 'span.deleteRT', function () {
+        var id = $(this).data("id");
+
         $("#deletecontent").text('Are you sure you want to delete the room type?');
         $("#delete").modal("show");
-        $("#yes").on("click",function(e){
+        $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteRoomType",
-                data: 'id=' + $(this).siblings("input").val(),
+                data: 'id=' + id,
                 success: function () {
                     $("#roomtype").load(" #roomtype>*");
+                    $("#delete").modal("hide");
                     $("#messagecontent").text("Successfully delete the room type.");
                     $("#message").modal("show");
-                    
-                }                
+
+                }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
-             
-        });        
+
+        });
     });
     // End of Room Type JQuery AJAX
 
@@ -201,21 +183,25 @@
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
-    $(document).on('click', 'span.deleteS', function (e) {
-        if (confirm('Are you sure you want to delete the session?') === true)
-        {
+    $(document).on('click', 'span.deleteS', function () {
+        var id = $(this).data("id");
+
+        $("#deletecontent").text('Are you sure you want to delete the session?');
+        $("#delete").modal("show");
+        $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteSession",
-                data: 'id=' + $(this).siblings("input").val(),
+                data: 'id=' + id,
                 success: function () {
                     $("#session").load(" #session>*");
                     $("#messagecontent").text("Successfully delete the session.");
+                    $("#delete").modal("hide");
                     $("#message").modal("show");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
-        }
+        });
     });
     // End of Session JQuery AJAX 
 </script>

@@ -83,8 +83,8 @@
                             <td>
                                 <span class="glyphicon glyphicon-pencil editRT" data-toggle="modal" data-target="#editRTModal" style="cursor: pointer; color: blue;"></span>
                                 &nbsp;
-                                <span class="glyphicon glyphicon-trash deleteRT" aria-hidden="true" style="color: red; cursor: pointer;"></span>
-                                <input type="hidden" value="${roomtype.getRoomType_PK()}" name="id">
+                                <span class="glyphicon glyphicon-trash deleteRT" data-id="${roomtype.getRoomType_PK()}" aria-hidden="true" style="color: red; cursor: pointer;"></span>
+                                
                             </td>
                         </tr>
                     </c:forEach>
