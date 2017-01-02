@@ -31,6 +31,40 @@
         </ul>
     </div>
 </div>
+<!--Modal for Confirm Delete-->
+
+<div id="delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header btn-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+            </div>
+            <div class="modal-body">  
+                <p id="deletecontent"></p>
+            </div>
+            <div class="modal-footer ">
+                <a id="yes" href=""><button class="btn btn-default">Yes </button></a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--END Modal for Confirm Delete-->
+<!-- one line modal notification -->
+<div id="message" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:100px">
+
+        <div class="alert alert-success">
+            <span><i class="fa fa-child"></i></span><span id="messagecontent"></span>
+        </div>      
+
+
+
+    </div>
+</div>
+<!-- END one line modal notification -->
 
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
@@ -74,8 +108,9 @@
             success: function () {
                 $('#addRTModal').modal('hide');
                 $('.modal-backdrop').remove();
-                $("#roomtype").load(" #roomtype>*");
-                alert("Successfully add the room type.");
+                $("#roomtype").load(" #roomtype>*");                
+                $("#messagecontent").text("Successfully add the room type.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -119,14 +154,20 @@
                 $('.modal-backdrop').remove();
 
                 $("#roomtype").load(" #roomtype>*");
-                alert("Successfully edit the room type.");
+                $("#messagecontent").text("Successfully edit the room type.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
     });
     $(document).on('click', 'span.deleteRT', function (e) {
-        if (confirm('Are you sure you want to delete the room type?') === true)
+        $("#deletecontent").text('Are you sure you want to delete the room type?');
+        $("#delete").modal("show");
+        
+        $("#yes").on("click",function(){
+            
+        });
         {
             $.ajax({
                 type: "POST",
@@ -134,11 +175,28 @@
                 data: 'id=' + $(this).siblings("input").val(),
                 success: function () {
                     $("#roomtype").load(" #roomtype>*");
-                    alert("Successfully delete the room type.");
+                    $("#messagecontent").text("Successfully delete the room type.");
+                $("#message").modal("show");
+                    
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
         }
+//        $("#yes").on("click",function(){
+//            $.ajax({
+//                type: "POST",
+//                url: "DeleteRoomType",
+//                data: 'id=' + ele.siblings("input").val(),
+//                success: function (e) {
+//                    e.preventDefault(); // avoid to execute the actual submit of the form.
+//                    $("#roomtype").load(" #roomtype>*");
+//                    $("#messagecontent").text("Successfully delete the room type.");
+//                $("#message").modal("show");
+//                    
+//                }
+//            });
+//            
+//        });
     });
     // End of Room Type JQuery AJAX
 
@@ -152,7 +210,8 @@
                 $('#addSModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
-                alert("Successfully add the session.");
+                $("#messagecontent").text("Successfully add the session.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -165,7 +224,9 @@
             success: function () {
 
                 $("#session").load(" #session>*");
-                alert("Successfully toggle the session's status.");
+                $("#messagecontent").text("Successfully change the session's status.");
+                $("#message").modal("show");
+
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -184,7 +245,8 @@
                 $(this).parents(".modal fade").modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
-                alert("Successfully edit the session.");
+                $("#messagecontent").text("Successfully edit the session.");
+                $("#message").modal("show");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -197,8 +259,9 @@
                 url: "DeleteSession",
                 data: 'id=' + $(this).siblings("input").val(),
                 success: function () {
-                    $("#session").load(" #session>*");
-                    alert("Successfully delete the session.");
+                    $("#session").load(" #session>*");                    
+                    $("#messagecontent").text("Successfully delete the session.");
+                    $("#message").modal("show");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -221,23 +284,23 @@
 <script src="js/jquery.datatable.min.js"></script>
 
 <script>
-        $(document).ready(function () {
-$("#tableapplication").dataTable({
-"iDisplayLength": 10,
-        "aLengthMenu": [[10, 25, 50, 100, - 1], [10, 25, 50, 100, "All"]]
-});
-        $(".student").on("click", function () {
-var appId = $(this).data("appid");
-        var username = $(this).text();
-        //query student detail and edit field in modal
-        $.get("test", function (data) {
-        var student = JSON.parse(data);
-                $("#studentname").text(student.fullname);
-                $("#studentmatrixid").text(student.matrixId);
-                $("#studentwindow").modal();
-        });
-});
-});
+            $(document).ready(function () {
+    $("#tableapplication").dataTable({
+    "iDisplayLength": 10,
+            "aLengthMenu": [[10, 25, 50, 100, - 1], [10, 25, 50, 100, "All"]]
+    });
+            $(".student").on("click", function () {
+    var appId = $(this).data("appid");
+            var username = $(this).text();
+            //query student detail and edit field in modal
+            $.get("test", function (data) {
+            var student = JSON.parse(data);
+                    $("#studentname").text(student.fullname);
+                    $("#studentmatrixid").text(student.matrixId);
+                    $("#studentwindow").modal();
+            });
+    });
+    });
 </script>
 </body>
 </html>

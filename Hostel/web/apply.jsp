@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-sm-6">
                         <label for="room" >Room Number</label>
-                        <select id="room" name="room" class="form-control" disabled>
+                        <select id="room" name="room" class="form-control" disabled >
                             <c:forEach items="${sessionScope.roomAvailable}" var="currentRoom" varStatus="loop">
                                 <option value="<c:out value='${currentRoom.getNumber()}' />"> <c:out value="${currentRoom.getNumber()}" /> </option>
                             </c:forEach>

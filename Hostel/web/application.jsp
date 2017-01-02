@@ -58,8 +58,7 @@
                                         <c:url value="Apply" var="cancelApplicationURL">
                                             <c:param name="session"   value="${currentApp.getSession()}" />
                                         </c:url>
-
-                                        <td><a href="<c:out value='${cancelApplicationURL}' />">Cancel</a></td>
+                                        <td><button class="btn btn-danger cancel" data-toggle="modal" data-target="#cancel" data-cancel="<c:out value='${cancelApplicationURL}' />" data-toggle="modal" data-target="#cancel">Cancel</td>
                                     </tr>
                                 </c:if>
                             </c:forEach>
@@ -109,6 +108,28 @@
         </table>
     </div>
 </div>
+
+<!--Modal for Confirm Cancel-->
+
+<div id="cancel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header btn-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+                <h4 class="modal-title" id="myModalLabel">Confirm cancel</h4>
+            </div>
+            <div class="modal-body">  
+                <p>Are you sure you want to cancel application?</p>
+            </div>
+            <div class="modal-footer ">
+                <a id="url" href=""><button class="btn btn-default">Yes </button></a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--END Modal for Confirm Cancel-->
 <%@include file="footer.jsp" %>
 <script>
     $(document).ready(function () {
@@ -121,6 +142,13 @@
                 $(this).parents(".container").children("table").slideUp("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }
+        });
+
+        $(".cancel").on("click",function(){
+            var url = $(this).data("cancel");               
+            $("#url").attr("href",url);
+        
+
         });
     });
 </script>

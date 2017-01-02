@@ -116,6 +116,7 @@
 </div>
 <!--END Modal for Change Password-->
 
+<!-- one line modal notification -->
 <div id="message" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="margin-top:100px">
 
@@ -132,7 +133,7 @@
 
     </div>
 </div>
-
+<!-- END one line modal notification -->
 
 
 
