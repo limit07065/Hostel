@@ -211,7 +211,7 @@ public class Apply extends HttpServlet {
                 ResultSet rs = ps.executeQuery();
 
                 while(rs.next()){
-                    if(rs.getString("Session").equals(selectedSession)){
+                    if(rs.getString("Session").equals(selectedSession) && rs.getInt("Status") != 2){
 
                         // Update application status to 2 == cancelled
                         appPK = rs.getInt("application_PK");
