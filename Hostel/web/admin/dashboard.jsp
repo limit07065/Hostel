@@ -20,6 +20,7 @@
         <%@include file="tab-room.jsp" %>
         <%@include file="tab-roomtype.jsp" %>
         <%@include file="tab-session.jsp" %>
+        <%@include file="tab-report.jsp" %>
     </div>
 
     <div class="col-md-3">
@@ -28,7 +29,8 @@
             <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
             <li><a data-toggle="pill" href="#room">Room</a></li>
             <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
-            <li><a data-toggle="pill" href="#session">Session</a></li>  
+            <li><a data-toggle="pill" href="#session">Session</a></li>
+            <li><a data-toggle="pill" href="#report">Report</a></li>
         </ul>
     </div>
 </div>
@@ -39,7 +41,7 @@
     <script src="js/bootstrap.min.js"></script>
 
     <!-- Hostel custom JavaScript -->
-    <script src="js/hostel.js"></script>
+    <script src="js/hostel.js"></scr
     <script src="js/tablesorter.js"></script>
     
     <script>
@@ -74,24 +76,20 @@
                     $('#addRTModal').modal('hide');
                     $('.modal-backdrop').remove();
                     $("#roomtype").load(" #roomtype>*");
-                    alert("Successfully add the room type.");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
         });
-    //    $(document).on('submit', 'form.UploadRoomImageForm', function (e) {
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "UploadRoomImageServlet",
-    //            data: $(this).serialize(), // serializes the form's elements.
-    //            success: function(){
-    //                $(this).parents(".modal fade").modal('hide');
-    //                $("#roomtype").load(" #roomtype>*");
-    //                alert("Successfully change the image.");
-    //            }
-    //        });
-    //        e.preventDefault(); // avoid to execute the actual submit of the form.
-    //    });
+        $(document).on('submit', 'form#UploadRoomImageForm', function (e) {
+            $.ajax({
+                type: "POST",
+                url: "UploadRoomImageServlet",
+                data: new FormData(this),
+                contentType: false,
+                processData: false
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
         function backEditing(){ // This function is used to close the Upload Image Modal and Open the Editing Modal
             $("#editRTModal").modal('show');
         }
@@ -99,7 +97,7 @@
             $("#editRTModal").modal('hide');
             $("#UploadRoomImageForm #id").val($("#EditRoomTypeForm #id").val());
             $("#UploadRoomImageForm #Number").html($("#EditRoomTypeForm #Number").val());
-            $("#UploadRoomImageForm #Pic").attr('src',$("#EditRoomTypeForm #Pic").attr("src"));
+            //$("#UploadRoomImageForm #Pic").attr('src',$("#EditRoomTypeForm #Pic").attr("src"));
         }
         $(document).on('click', 'span.editRT', function (e) {
             $("#EditRoomTypeForm #id").val($(this).siblings("input").val());
@@ -117,7 +115,6 @@
                     $(this).parents(".modal").modal('toggle');
                     $('.modal-backdrop').remove();
                     $("#roomtype").load(" #roomtype>*");
-                    alert("Successfully edit the room type.");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -131,7 +128,6 @@
                     data: 'id=' + $(this).siblings("input").val(),
                     success: function(){
                         $("#roomtype").load(" #roomtype>*");
-                        alert("Successfully delete the room type.");
                     }
                 });
                 e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -149,7 +145,6 @@
                     $('#addSModal').modal('hide');
                     $('.modal-backdrop').remove();
                     $("#session").load(" #session>*");
-                    alert("Successfully add the session.");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -161,7 +156,6 @@
                 data: 'id=' + $(this).siblings("input").val() + '&status=' + $(this).siblings("input").next().val(),
                 success: function(){
                     $("#session").load(" #session>*");
-                    alert("Successfully toggle the session's status.");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -179,7 +173,6 @@
                     $(this).parents(".modal fade").modal('hide');
                     $('.modal-backdrop').remove();
                     $("#session").load(" #session>*");
-                    alert("Successfully edit the session.");
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -193,7 +186,6 @@
                     data: 'id=' + $(this).siblings("input").val(),
                     success: function(){
                         $("#session").load(" #session>*");
-                        alert("Successfully delete the session.");
                     }
                 });
                 e.preventDefault(); // avoid to execute the actual submit of the form.

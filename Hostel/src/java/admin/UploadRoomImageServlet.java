@@ -21,13 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import jdbc.JDBCUtility;
+import java.nio.file.Paths;
 
 /**
  *
  * @author Ryan Hoo
  */
 @WebServlet(name = "UploadRoomImageServlet", urlPatterns = {"/UploadRoomImageServlet"})
-@MultipartConfig(location="d:\\rosely\\netbeans\\ServletDate\\build\\web\\img",
+@MultipartConfig(location="C:\\Users\\User\\Desktop\\Hostel\\Hostel\\web\\img",
                  fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
@@ -72,8 +73,10 @@ public class UploadRoomImageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
-        String id = (String)session.getAttribute("id");
+        int id = Integer.parseInt(request.getParameter("id"));
+        Part filePart = request.getPart("upload");
+        String fileName = getSubmittedFileName(filePart);
+        filePart.write(fileName);
         
         String appPath = request.getServletContext().getRealPath("");
         String savePath = appPath + File.separator + SAVE_DIR;
@@ -84,23 +87,17 @@ public class UploadRoomImageServlet extends HttpServlet {
             fileSaveDir.mkdir();
         }
         
-        String fileName = "";
-        for (Part part : request.getParts()) {
-            fileName = extractFileName(part);
-            part.write(fileName);
-            //part.write(fileName);
-        }
-        
         //update in table
         try {                    
             PreparedStatement preparedStatement = jdbcUtility.getPsUpdateRoomTypeImage();
             preparedStatement.setString(1, fileName);
-            preparedStatement.setString(2, id);
+            preparedStatement.setInt(2, id);
+
             preparedStatement.executeUpdate();
             
             //PrintWriter out = response.getWriter();
             //out.println("Update successfull");
-            sendPage(request, response, "/dashboard");
+            response.sendRedirect("dashboard");
         }
 	catch (SQLException ex)
 	{
@@ -127,31 +124,15 @@ public class UploadRoomImageServlet extends HttpServlet {
     /**
      * Extracts file name from HTTP header content-disposition
      */
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length()-1);
+    private static String getSubmittedFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
             }
         }
-        return "";
-    }
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }  
+        return null;
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

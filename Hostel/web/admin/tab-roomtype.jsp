@@ -98,30 +98,21 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <form action="UploadRoomImageServlet" method="post" enctype="multipart/form-data" id="UploadRoomImageForm">
-                    <div class="modal-header">
+                    <div class="modal-header green">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Change Room Type Image</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body text-center">
                         <input type="hidden" name="id" id="id">
                         <div class="form-group row">
-                            <label class="col-xs-4 col-form-label">Type</label>
-                            <div class="col-xs-8">
-                                <label id="Number" class="form-control" style="border: none;"></label>
+                            <label id="Number" style="font-size: 140%;"></label>
+                            <div id="imgUpload" class="img-circle img-thumbnail img-circle img-modal">                
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-xs-4 col-form-label">Current Image</label>
-                            <div class="col-xs-8">
-                                <img id="Pic" src="img/" width="140"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-xs-4 col-form-label">Choose File to Upload</label>
-                            <div class="col-xs-8">
-                                <input type="file" name="filetoupload" size="50" />
-                            </div>
-                        </div>
+                        <label class="btn btn-primary ">
+                            Choose Photo
+                            <input type="file" class="hidden" name="upload" id="upload" size="50" />
+                        </label>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onclick="backEditing()">Back</button>
@@ -166,12 +157,13 @@
                         <div class="form-group row">
                             <label class="col-xs-2 col-form-label">Image</label>
                             <div class="col-xs-10">
-                                <img id="Pic" src="img/" width="100" data-toggle="modal" data-target="#changeImageModal"
+                                <img id="Pic" src="img/" class="img-circle img-thumbnail" width="130" data-toggle="modal" data-target="#changeImageModal"
                                      style="cursor: pointer;" onclick="closeEditModal()"/>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#changeImageModal" onclick="closeEditModal()">Change Image</button>
                         <input type="submit" class="btn btn-primary" value="Save"/>
                     </div>
                 </form>
