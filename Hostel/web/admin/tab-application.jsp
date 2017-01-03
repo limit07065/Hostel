@@ -20,7 +20,7 @@
                 <th>Type</th>
                 <th>Apply Date</th>
                 <th>Status</th>
-                <th>Approved Date</th>
+                <th>Processed Date</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -50,7 +50,7 @@
                                     <td>Cancelled</td>
                                 </c:when>
                                 <c:when test="${currentApp.getStatus() == 3}">
-                                    <td>Rejected</td>
+                                    <td style="color: red">Rejected</td>
                                 </c:when>
                             </c:choose>
                             <c:choose>

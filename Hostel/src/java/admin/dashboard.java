@@ -112,18 +112,19 @@ public class dashboard extends HttpServlet {
                 application.setApplyDate(applyDate);
                 
                 //convert approved date to MY format
-                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                date = new Date();
-                
-                try {
-                   date = formatter.parse(approvedDate);
-                } catch (Exception ex) {}
-                
-                formatter = new SimpleDateFormat("dd-MMM-yyyy");
-                approvedDate = formatter.format(date);
-                
-                application.setApprovedDate(approvedDate);
-                
+                if(approvedDate != null){
+                    formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    date = new Date();
+
+                    try {
+                       date = formatter.parse(approvedDate);
+                    } catch (Exception ex) {}
+
+                    formatter = new SimpleDateFormat("dd-MMM-yyyy");
+                    approvedDate = formatter.format(date);
+
+                    application.setApprovedDate(approvedDate);
+                }
                 applications.add(application);
             }
             
