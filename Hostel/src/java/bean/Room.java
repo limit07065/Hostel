@@ -16,6 +16,7 @@ public class Room {
     private int gender;
     private int roomType;
     private int occupied;
+    private String createdDate;
 
     /**
      * @return the room_PK
@@ -99,5 +100,19 @@ public class Room {
      */
     public void setOccupied(int occupied) {
         this.occupied = occupied;
+    }
+
+    /**
+     * @return the createdDate
+     */
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate the createdDate to set
+     */
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 }

@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,6 +67,11 @@ public class AddRoom extends HttpServlet {
         int gender = Integer.parseInt(request.getParameter("Gender"));
         int roomtype = Integer.parseInt(request.getParameter("RoomType_FK"));
         
+        // Get createdDate from server time
+        Date dt = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String createdDate = format.format(dt);
+        
         try{
             PreparedStatement preparedStatement = jdbcUtility.getPsInsertRoom();
             
@@ -72,6 +79,7 @@ public class AddRoom extends HttpServlet {
             preparedStatement.setString(2, block);
             preparedStatement.setInt(3, gender);
             preparedStatement.setInt(4, roomtype);
+            preparedStatement.setString(5, createdDate);
             
             preparedStatement.executeUpdate();
             
