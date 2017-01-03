@@ -76,15 +76,16 @@
                             <td><c:out value="${loop.index + 1}" /></td>
                             <td class="first"><c:out value="${roomtype.getType()}" /></td>
                             <td class="second">
-                                <img src="img/<c:out value="${roomtype.getPic()}" />" width="70"/>
+                                <img src="img/<c:out value='${roomtype.getPic()}' />" class="img-thumbnail" width="70"/>
                             </td>
                             <td class="third"><c:out value="${roomtype.getPrice()}" /></td>
                             <td class="fourth"><c:out value="${roomtype.getDescription()}" /></td>
                             <td>
-                                <span class="glyphicon glyphicon-pencil editRT" data-toggle="modal" data-target="#editRTModal" style="cursor: pointer; color: blue;"></span>
+                                <span class="glyphicon glyphicon-pencil editRT" data-id="${roomtype.getRoomType_PK()}" data-type="${roomtype.getType()}"
+                                      data-price="${roomtype.getPrice()}" data-description="${roomtype.getDescription()}" data-pic="${roomtype.getPic()}"
+                                      data-toggle="modal" data-target="#editRTModal" style="cursor: pointer; color: blue;"></span>
                                 &nbsp;
-                                <span class="glyphicon glyphicon-trash deleteRT" data-id="${roomtype.getRoomType_PK()}" aria-hidden="true" style="color: red; cursor: pointer;"></span>
-                                
+                                <span class="glyphicon glyphicon-trash deleteRT" data-id="${roomtype.getRoomType_PK()}" data-toggle="modal" data-target="#delete" aria-hidden="true" style="color: red; cursor: pointer;"></span>
                             </td>
                         </tr>
                     </c:forEach>
@@ -157,7 +158,7 @@
                         <div class="form-group row">
                             <label class="col-xs-2 col-form-label">Image</label>
                             <div class="col-xs-10">
-                                <img id="Pic" src="img/" class="img-circle img-thumbnail" width="130" data-toggle="modal" data-target="#changeImageModal"
+                                <img id="Pic" src="img/default_room.jpg" class="img-circle img-thumbnail" width="130" data-toggle="modal" data-target="#changeImageModal"
                                      style="cursor: pointer;" onclick="closeEditModal()"/>
                             </div>
                         </div>
