@@ -19,6 +19,7 @@ public class User {
     private String contact;
     private String email;
     private String pic;
+    private String createdDate;
 
     /**
      * @return the username
@@ -144,5 +145,19 @@ public class User {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * @return the createdDate
+     */
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate the createdDate to set
+     */
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 }

@@ -118,8 +118,8 @@ public class JDBCUtility {
        try
        {
            //insert user
-            String sqlInsertUser = "INSERT INTO user(Username, Password, Level, Gender, Name, Contact, Id, Email) " +
-                                      "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlInsertUser = "INSERT INTO user(Username, Password, Level, Gender, Name, Contact, Id, Email, CreatedDate) " +
+                                      "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             psInsertUser = con.prepareStatement(sqlInsertUser);
             
@@ -150,8 +150,8 @@ public class JDBCUtility {
             psUpdateProfilePicViaUsername = con.prepareStatement(sqlUpdateProfilePicViaUsername);
             
             //insert room
-            String sqlInsertRoom = "INSERT INTO room(Number, Block, Gender, RoomType_FK) " +
-                                      "VALUES(?, ?, ?, ?, ?)";
+            String sqlInsertRoom = "INSERT INTO room(Number, Block, Gender, RoomType_FK, CreatedDate) " +
+                                      "VALUES(?, ?, ?, ?, ?, ?)";
             
             psInsertRoom = con.prepareStatement(sqlInsertRoom);
             
@@ -178,8 +178,8 @@ public class JDBCUtility {
             psUpdateRoomStatusViaId = con.prepareStatement(sqlUpdateRoomStatusViaId);
             
             //insert roomtype
-            String sqlInsertRoomType = "INSERT INTO roomtype(Type, Price, Description) " +
-                                      "VALUES(?, ?, ?)";
+            String sqlInsertRoomType = "INSERT INTO roomtype(Type, Price, Description, CreatedDate) " +
+                                      "VALUES(?, ?, ?, ?)";
             
             psInsertRoomType = con.prepareStatement(sqlInsertRoomType);
             
@@ -195,8 +195,8 @@ public class JDBCUtility {
             psUpdateRoomTypeViaId = con.prepareStatement(sqlUpdateRoomTypeViaId);
             
             //insert session
-            String sqlInsertSession = "INSERT INTO session(Name) " +
-                                      "VALUES(?)";
+            String sqlInsertSession = "INSERT INTO session(Name, CreatedDate) " +
+                                      "VALUES(?, ?)";
             
             psInsertSession = con.prepareStatement(sqlInsertSession);
             

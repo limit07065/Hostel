@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -92,6 +94,11 @@ public class Register extends HttpServlet {
         String password = request.getParameter("password");
         String cpassword = request.getParameter("cpassword");
         
+        // Get createdDate from server time
+        Date dt = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String createdDate = format.format(dt);
+        
         if(password.equals(cpassword)){
             String username = request.getParameter("username");
             int level = 1;
@@ -111,6 +118,7 @@ public class Register extends HttpServlet {
                 ps.setString(6, contact);
                 ps.setString(7, id);
                 ps.setString(8, email);
+                ps.setString(9, createdDate);
                 System.out.println(ps);
                 ps.executeUpdate();
             }catch(SQLException ex){}
