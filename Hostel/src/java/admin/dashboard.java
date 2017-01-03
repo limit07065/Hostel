@@ -168,6 +168,66 @@ public class dashboard extends HttpServlet {
                 if(rs3.getInt("Status") == 1)
                     request.getSession().setAttribute("activeSession", rs3.getString("Name"));
             }
+            
+            //count total application
+            ResultSet rs4 = jdbcUtility.getPsCountTotalApplication().executeQuery();
+            while (rs4.next()) {
+                request.setAttribute("totalApplication", rs4.getInt("count"));
+            }
+            
+            //count approved application
+            ResultSet rs5 = jdbcUtility.getPsCountApprovedApplication().executeQuery();
+            while (rs5.next()) {
+                request.setAttribute("approvedApplication", rs5.getInt("count"));
+            }
+            
+            //count rejected application
+            ResultSet rs6 = jdbcUtility.getPsCountRejectedApplication().executeQuery();   
+            while (rs6.next()) {
+                request.setAttribute("rejectedApplication", rs6.getInt("count"));
+            }
+            
+            //count unoccupied single room
+            ResultSet rs7 = jdbcUtility.getPsCountUnoccupiedSingleRoom().executeQuery();
+            while (rs7.next()) {     
+                request.setAttribute("unoccupiedSingleRoom", rs7.getInt("count"));
+            }
+            
+            //count occupied single room
+            ResultSet rs8 = jdbcUtility.getPsCountOccupiedSingleRoom().executeQuery();
+            while (rs8.next()) {     
+                request.setAttribute("occupiedSingleRoom", rs8.getInt("count"));
+            }
+            
+            //count unoccupied single room with bathroom
+            ResultSet rs9 = jdbcUtility.getPsCountUnoccupiedSingleRoomWBathroom().executeQuery();
+            while (rs9.next()) {     
+                request.setAttribute("unoccupiedSingleRoomWBathroom", rs9.getInt("count"));
+            }
+            
+            //count occupied single room with bathroom
+            ResultSet rs10 = jdbcUtility.getPsCountOccupiedSingleRoomWBathroom().executeQuery();
+            while (rs10.next()) {     
+                request.setAttribute("occupiedSingleRoomWBathroom", rs10.getInt("count"));
+            }
+            
+            //count unoccupied double room
+            ResultSet rs11 = jdbcUtility.getPsCountUnoccupiedDoubleRoom().executeQuery();
+            while (rs11.next()) {     
+                request.setAttribute("unoccupiedDoubleRoom", rs11.getInt("count"));
+            }
+            
+            //count occupied double room
+            ResultSet rs12 = jdbcUtility.getPsCountOccupiedDoubleRoom().executeQuery();
+            while (rs12.next()) {     
+                request.setAttribute("occupiedDoubleRoom", rs12.getInt("count"));
+            }
+            
+            //get active session
+            ResultSet rs13 = jdbcUtility.getPsSelectAllFromActiveSession().executeQuery();
+            while (rs13.next()) {     
+                request.setAttribute("activeSession", rs13.getString("Name"));
+            }
         }
         catch (SQLException ex)
 	{
@@ -190,7 +250,7 @@ public class dashboard extends HttpServlet {
             ex.printStackTrace ();
 	}              
     
-        //put into sessions
+        //put into request
         request.setAttribute("applications", applications);
         request.setAttribute("rooms", rooms);
         request.setAttribute("roomTypes", roomTypes);
