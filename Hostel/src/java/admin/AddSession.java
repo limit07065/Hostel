@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,11 +63,17 @@ public class AddSession extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String name = request.getParameter("Name");
+        
+        // Get createdDate from server time
+        Date dt = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String createdDate = format.format(dt);
 
         try{
             PreparedStatement preparedStatement = jdbcUtility.getPsInsertSession();
 
             preparedStatement.setString(1, name);
+            preparedStatement.setString(2, createdDate);
 
             preparedStatement.executeUpdate();
 

@@ -15,6 +15,7 @@ public class RoomType {
     private String type;
     private double price;
     private String description;
+    private String createdDate;
 
     /**
      * @return the roomType_PK
@@ -84,5 +85,19 @@ public class RoomType {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the createdDate
+     */
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate the createdDate to set
+     */
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 }

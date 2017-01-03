@@ -13,6 +13,7 @@ public class Session {
     private int id;
     private String name;
     private int status;
+    private String createdDate;
 
     /**
      * @return the id
@@ -54,5 +55,19 @@ public class Session {
      */
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    /**
+     * @return the createdDate
+     */
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate the createdDate to set
+     */
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 }
