@@ -28,7 +28,9 @@ import java.nio.file.Paths;
  * @author Ryan Hoo
  */
 @WebServlet(name = "UploadRoomImageServlet", urlPatterns = {"/UploadRoomImageServlet"})
+
 @MultipartConfig(location="C:\\Users\\User\\Desktop\\Hostel\\Hostel\\web\\img",
+
                  fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
@@ -95,6 +97,7 @@ public class UploadRoomImageServlet extends HttpServlet {
 
             preparedStatement.executeUpdate();
             
+            //System.out.println(preparedStatement);
             //PrintWriter out = response.getWriter();
             //out.println("Update successfull");
             response.sendRedirect("dashboard");

@@ -39,6 +39,7 @@ public class JDBCUtility {
    PreparedStatement psSelectAllFromActiveSession = null;
    PreparedStatement psUpdateSessionViaId = null;
    PreparedStatement psDeleteSessionViaId = null;
+   PreparedStatement psDeactivateAllSession = null;
    PreparedStatement psUpdateSessionStatusViaId = null;
    PreparedStatement psInsertApplication = null;
    PreparedStatement psSelectAllFromApplication = null;
@@ -48,6 +49,15 @@ public class JDBCUtility {
    PreparedStatement psSelectBlockViaRoomTypeNGender = null;
    PreparedStatement psSelectRoomViaTypeBlockNGender = null;
    PreparedStatement psUpdateRoomTypeImage = null;
+   PreparedStatement psCountApprovedApplication = null;
+   PreparedStatement psCountRejectedApplication = null;
+   PreparedStatement psCountTotalApplication = null;
+   PreparedStatement psCountUnoccupiedSingleRoom = null;
+   PreparedStatement psCountOccupiedSingleRoom = null;
+   PreparedStatement psCountUnoccupiedSingleRoomWBathroom = null;
+   PreparedStatement psCountOccupiedSingleRoomWBathroom = null;
+   PreparedStatement psCountUnoccupiedDoubleRoom = null;
+   PreparedStatement psCountOccupiedDoubleRoom = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -206,7 +216,12 @@ public class JDBCUtility {
             
             psUpdateSessionViaId = con.prepareStatement(sqlUpdateSessionViaId);
             
-            //update session via id
+            //deactivate all session
+            String sqlDeactivateAllSession = "UPDATE session SET Status = ? ";
+            
+            psDeactivateAllSession = con.prepareStatement(sqlDeactivateAllSession);
+            
+            //update session status via id
             String sqlUpdateSessionStatusViaId = "UPDATE session SET Status = ? " +
                                                 "WHERE Session_PK = ?";
             
@@ -272,6 +287,59 @@ public class JDBCUtility {
             String sqlUpdateRoomTypeImage = "UPDATE roomtype SET Pic = ? WHERE RoomType_PK = ?"; 
             
             psUpdateRoomTypeImage = con.prepareStatement(sqlUpdateRoomTypeImage); 
+            
+            //count approved application
+            String sqlCountApprovedApplication = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session " 
+                                                + "ON application.Session = session.Name AND session.Status = 1 " 
+                                                + "WHERE application.Status = 1";
+            
+            psCountApprovedApplication = con.prepareStatement(sqlCountApprovedApplication);
+            
+            //count rejected application
+            String sqlCountRejectedApplication = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session " 
+                                                + "ON application.Session = session.Name AND session.Status = 1 " 
+                                                + "WHERE application.Status = 3";
+            
+            psCountRejectedApplication = con.prepareStatement(sqlCountRejectedApplication);
+            
+            //count total application
+            String sqlCountTotalApplication = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session " 
+                                                + "ON application.Session = session.Name AND session.Status = 1 ";                                                
+            
+            psCountTotalApplication = con.prepareStatement(sqlCountTotalApplication);
+            
+            //count unonccupied single room
+            String sqlCountUnoccupiedSingleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 1 AND Occupied = 0" ;                                               
+            
+            psCountUnoccupiedSingleRoom = con.prepareStatement(sqlCountUnoccupiedSingleRoom);
+            
+            //count onccupied single room
+            String sqlCountOccupiedSingleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 1 AND Occupied = 1" ;                                               
+            
+            psCountOccupiedSingleRoom = con.prepareStatement(sqlCountOccupiedSingleRoom);
+            
+            //count unonccupied single room with bathroom
+            String sqlCountUnoccupiedSingleRoomWBathroom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 2 AND Occupied = 0" ;                                               
+            
+            psCountUnoccupiedSingleRoomWBathroom = con.prepareStatement(sqlCountUnoccupiedSingleRoomWBathroom);
+            
+            //count onccupied single room with bathroom
+            String sqlCountOccupiedSingleRoomWBathroom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 2 AND Occupied = 1" ;                                               
+            
+            psCountOccupiedSingleRoomWBathroom = con.prepareStatement(sqlCountOccupiedSingleRoomWBathroom);
+            
+            //count unonccupied double room
+            String sqlCountUnoccupiedDoubleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 3 AND Occupied = 0" ;                                               
+            
+            psCountUnoccupiedDoubleRoom = con.prepareStatement(sqlCountUnoccupiedDoubleRoom);
+            
+            //count onccupied double room
+            String sqlCountOccupiedDoubleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 3 AND Occupied = 1" ;                                               
+            
+            psCountOccupiedDoubleRoom = con.prepareStatement(sqlCountOccupiedDoubleRoom);
        }
        
        catch(SQLException ex)
@@ -383,6 +451,11 @@ public class JDBCUtility {
        return psUpdateSessionViaId;
    }
    
+   public PreparedStatement getPsDeactivateAllSession()
+   {
+       return psDeactivateAllSession;
+   }
+   
    public PreparedStatement getPsUpdateSessionStatusViaId()
    {
        return psUpdateSessionStatusViaId;
@@ -440,5 +513,42 @@ public class JDBCUtility {
    public PreparedStatement getPsUpdateRoomTypeImage()
    {
        return psUpdateRoomTypeImage;
+   }
+   
+   public PreparedStatement getPsCountApprovedApplication()
+   {
+       return psCountApprovedApplication;
+   }
+   public PreparedStatement getPsCountRejectedApplication()
+   {
+       return psCountRejectedApplication;
+   }
+   public PreparedStatement getPsCountTotalApplication()
+   {
+       return psCountTotalApplication;
+   }
+   public PreparedStatement getPsCountUnoccupiedSingleRoom()
+   {
+       return psCountUnoccupiedSingleRoom;
+   }
+   public PreparedStatement getPsCountOccupiedSingleRoom()
+   {
+       return psCountOccupiedSingleRoom;
+   }
+   public PreparedStatement getPsCountUnoccupiedSingleRoomWBathroom()
+   {
+       return psCountUnoccupiedSingleRoomWBathroom;
+   }
+   public PreparedStatement getPsCountOccupiedSingleRoomWBathroom()
+   {
+       return psCountOccupiedSingleRoomWBathroom;
+   }
+   public PreparedStatement getPsCountUnoccupiedDoubleRoom()
+   {
+       return psCountUnoccupiedDoubleRoom;
+   }
+   public PreparedStatement getPsCountOccupiedDoubleRoom()
+   {
+       return psCountOccupiedDoubleRoom;
    }
 }

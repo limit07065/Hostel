@@ -70,7 +70,7 @@ public class RejectApplicationServlet extends HttpServlet {
         try {                    
             PreparedStatement preparedStatement = jdbcUtility.getPsUpdateApplicationStatusViaId();
             
-            preparedStatement.setString(1, "1");
+            preparedStatement.setString(1, "3");
             preparedStatement.setString(2, rejectDate);
             preparedStatement.setInt(3, id);
             
