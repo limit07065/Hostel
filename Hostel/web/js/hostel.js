@@ -37,7 +37,7 @@ function readURL(input) {
     }
 }
 
-$(document).on('change', '#upload', function (e) {
+$("#upload").change(function () {
     readURL(this);
 });
 

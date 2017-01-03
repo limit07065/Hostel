@@ -20,7 +20,6 @@
         <%@include file="tab-room.jsp" %>
         <%@include file="tab-roomtype.jsp" %>
         <%@include file="tab-session.jsp" %>
-        <%@include file="tab-report.jsp" %>
     </div>
 
     <div class="col-md-3">
@@ -29,8 +28,7 @@
             <li class="active"><a data-toggle="pill" href="#application">Application</a></li>
             <li><a data-toggle="pill" href="#room">Room</a></li>
             <li><a data-toggle="pill" href="#roomtype">Room Type</a></li>
-            <li><a data-toggle="pill" href="#session">Session</a></li>
-            <li><a data-toggle="pill" href="#report">Report</a></li>
+            <li><a data-toggle="pill" href="#session">Session</a></li>  
         </ul>
     </div>
 </div>
@@ -45,17 +43,21 @@
 <script src="js/hostel.js"></script>
 
 <!--Data Table JavaScript-->
-<script src="js/jquery.datatable.min.js"></script>
 <script src="js/bootstrap.datatable.min.js"></script>
+<script src="js/jquery.datatable.min.js"></script>
+
+<!--Data Table -->
 
 
 <script>
     // Room JQuery AJAX
     $(document).on('submit', 'form#AddRoomForm', function (e) {
+        
+        
         $.ajax({
             type: "POST",
             url: "AddRoom",
-            data: $(this).serialize(), // serializes the form's elements.
+            data: $("#AddRoomForm").serialize(), // serializes the form's elements.
             success: function () {
                 $('#addRModal').modal('hide');
                 $('.modal-backdrop').remove();
@@ -66,7 +68,7 @@
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
-
+    
     //edit room
      $(document).on('click', 'span.editR', function (e) {
         $("#EditRoomForm #id").val($(this).data("id"));
@@ -74,9 +76,11 @@
         $("#EditRoomForm #rNumber").val($(this).data("number"));
         $("#EditRoomForm #rGender").val($(this).data("gender"));
         $("#EditRoomForm #rType").val($(this).data("type"));
+        
     });
-
+    
     $(document).on('submit', 'form#EditRoomForm', function (e) {        
+        
         $.ajax({
             type: "POST",
             url: "EditRoom",
@@ -111,14 +115,14 @@
             e.preventDefault(); // avoid to execute the actual submit of the form.
         });
     });
-
+    
     // Room Type JQuery AJAX
     $(document).on('submit', 'form#AddRoomTypeForm', function (e) {
         $.ajax({
             type: "POST",
             url: "AddRoomType",
             data: $("#AddRoomTypeForm").serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $('#addRTModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#roomtype").load(" #roomtype>*");
@@ -128,16 +132,19 @@
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
-    $(document).on('submit', 'form#UploadRoomImageForm', function (e) {
-        $.ajax({
-            type: "POST",
-            url: "UploadRoomImageServlet",
-            data: new FormData(this),
-            contentType: false,
-            processData: false
-        });
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-    });
+//    $(document).on('submit', 'form.UploadRoomImageForm', function (e) {
+//        $.ajax({
+//            type: "POST",
+//            url: "UploadRoomImageServlet",
+//            data: $(this).serialize(), // serializes the form's elements.
+//            success: function(){
+//                $(this).parents(".modal fade").modal('hide');
+//                $("#roomtype").load(" #roomtype>*");
+//                alert("Successfully change the image.");
+//            }
+//        });
+//        e.preventDefault(); // avoid to execute the actual submit of the form.
+//    });
     function backEditing() { // This function is used to close the Upload Image Modal and Open the Editing Modal
         $("#editRTModal").modal('show');
     }
@@ -145,14 +152,14 @@
         $("#editRTModal").modal('hide');
         $("#UploadRoomImageForm #id").val($("#EditRoomTypeForm #id").val());
         $("#UploadRoomImageForm #Number").html($("#EditRoomTypeForm #Number").val());
-        //$("#UploadRoomImageForm #Pic").attr('src', $("#EditRoomTypeForm #Pic").attr("src"));
+        $("#UploadRoomImageForm #Pic").attr('src', $("#EditRoomTypeForm #Pic").attr("src"));
     }
     $(document).on('click', 'span.editRT', function (e) {
-        $("#EditRoomTypeForm #id").val($(this).data("id"));
-        $("#EditRoomTypeForm #Number").val($(this).data("type"));
-        $("#EditRoomTypeForm #Price").val($(this).data("price"));
-        $("#EditRoomTypeForm #Description").val($(this).data("description"));
-        $("#EditRoomTypeForm #Pic").attr('src', "img/" + $(this).data("pic"));
+        $("#EditRoomTypeForm #id").val($(this).siblings("input").val());
+        $("#EditRoomTypeForm #Number").val($(this).parents("tr").children("td.first").html());
+        $("#EditRoomTypeForm #Price").val($(this).parents("tr").children("td.third").html());
+        $("#EditRoomTypeForm #Description").val($(this).parents("tr").children("td.fourth").html());
+        $("#EditRoomTypeForm #Pic").attr('src', $(this).parents("tr").children("td.second").children("img").attr("src"));
     });
     $(document).on('submit', 'form#EditRoomTypeForm', function (e) {
         $.ajax({
@@ -171,19 +178,24 @@
     });
     $(document).on('click', 'span.deleteRT', function () {
         var id = $(this).data("id");
-        $("#deletecontent").text('Are you sure you want to delete the room type?');        
+
+        $("#deletecontent").text('Are you sure you want to delete the room type?');
+        $("#delete").modal("show");
         $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteRoomType",
                 data: 'id=' + id,
-                success: function(){
+                success: function () {
                     $("#roomtype").load(" #roomtype>*");
                     $("#delete").modal("hide");
+                    $("#messagecontent").text("Successfully delete the room type.");
                     $("#message").modal("show");
+
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
+
         });
     });
     // End of Room Type JQuery AJAX
@@ -198,7 +210,7 @@
                 $('#addSModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
-                $("#messagecontent").text("Successfully add the session .");
+                $("#messagecontent").text("Successfully add the session.");
                 $("#message").modal("show");
             }
         });
@@ -209,28 +221,29 @@
             type: "POST",
             url: "SessionActivation",
             data: 'id=' + $(this).siblings("input").val() + '&status=' + $(this).siblings("input").next().val(),
-            success: function(){
+            success: function () {
                 $("#session").load(" #session>*");
-                $("#messagecontent").text("Successfully toggle sessions' status .");
+                $("#messagecontent").text("Successfully toggle the session's status.");
                 $("#message").modal("show");
+                $("#application").load(" #application>*");
             }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
     $(document).on('click', 'span.editS', function (e) {
-        $("#EditSessionForm #id").val($(this).data("id"));
-        $("#EditSessionForm #Name").val($(this).data("name"));
+        $("#EditSessionForm #id").val($(this).parents("tr").children("td.Name").next().children("input").val());
+        $("#EditSessionForm #Name").val($(this).parents("tr").children("td.Name").html());
     });
     $(document).on('submit', 'form#EditSessionForm', function (e) {
         $.ajax({
             type: "POST",
             url: "EditSession",
             data: $(this).serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $(this).parents(".modal fade").modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
-                $("#messagecontent").text("Successfully edit the session .");
+                $("#messagecontent").text("Successfully edit the session.");
                 $("#message").modal("show");
             }
         });
@@ -238,14 +251,17 @@
     });
     $(document).on('click', 'span.deleteS', function () {
         var id = $(this).data("id");
-        $("#deletecontent").text('Are you sure you want to delete the session?');        
+
+        $("#deletecontent").text('Are you sure you want to delete the session?');
+        $("#delete").modal("show");
         $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteSession",
                 data: 'id=' + id,
-                success: function(){
+                success: function () {
                     $("#session").load(" #session>*");
+                    $("#messagecontent").text("Successfully delete the session.");
                     $("#delete").modal("hide");
                     $("#message").modal("show");
                 }
@@ -254,7 +270,7 @@
         });
     });
     // End of Session JQuery AJAX 
-
+    
     // Application JQuery AJAX
     $(document).on('click', 'button.approve', function (e) {
         var id = $(this).data("appid");
@@ -265,14 +281,12 @@
             data: 'id=' + id, 
             success: function () {
                 $("#application").load(" #application>*");
-                $("#messagecontent").text("Successfully approve the application .");
-                $("#message").modal("show");
             }
         });
-
+        
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
-
+    
     $(document).on('click', 'button.reject', function (e) {
         var id = $(this).data("appid");
 
@@ -282,16 +296,14 @@
             data: 'id=' + id, 
             success: function () {
                 $("#application").load(" #application>*");
-                $("#messagecontent").text("Successfully reject the application .");
-                $("#message").modal("show");
             }
         });
-
+        
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
     // End of Application JQuery AJAX
 </script>
-<!--Data Table -->
+
 <script>
     $(document).ready(function () {
         $("#tableapplication").dataTable({

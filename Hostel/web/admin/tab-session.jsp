@@ -74,9 +74,10 @@
                                 <input type="hidden" name="status" id="status" value="${currentSession.getStatus()}">
                             </td>
                             <td>
-                                <span class="glyphicon glyphicon-pencil editS" data-id="${currentSession.getId()}" data-name="${currentSession.getName()}" data-toggle="modal" data-target="#editSModal" style="cursor:pointer; color: blue;"></span>
+                                <span class="glyphicon glyphicon-pencil editS" data-toggle="modal" data-target="#editSModal" style="cursor:pointer; color: blue;"></span>
                                 &nbsp;
-                                <span class="glyphicon glyphicon-trash deleteS" data-id="${currentSession.getId()}" data-toggle="modal" data-target="#delete" aria-hidden="true" style="color: red; cursor: pointer;"></span>
+                                <span class="glyphicon glyphicon-trash deleteS" data-id="${currentSession.getId()}" aria-hidden="true" style="color: red; cursor: pointer;"></span>
+                                
                             </td>
                         </tr>
                     </c:forEach>
