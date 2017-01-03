@@ -151,8 +151,7 @@ public class JDBCUtility {
             
             //insert room
             String sqlInsertRoom = "INSERT INTO room(Number, Block, Gender, RoomType_FK, CreatedDate) " +
-                                      "VALUES(?, ?, ?, ?, ?)";
-
+                                      "VALUES(?, ?, ?, ?, ?, ?)";
             
             psInsertRoom = con.prepareStatement(sqlInsertRoom);
             

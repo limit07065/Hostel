@@ -85,30 +85,28 @@
                 <span style="font-size:20px;" class="glyphicon glyphicon-chevron-down">
             </h2>
         </div>
-        <div class="page-content" style="display:none;">
-            <table class="table table-responsive table-hover">
-                <tr>
-                    <th>Session</th>
-                    <th>Block</th>
-                    <th>Room No.</th>
-                    <th>Room Type</th>
-                    <th>Price/Day</th>
-                    <th>Total</th>
-                </tr> 
-                <c:forEach items="${sessionScope.applications}" var="currentApp" varStatus="loop">
-                    <c:if test="${currentApp.getSession() != activeSession}">
-                        <tr>
-                            <td><c:out value="${currentApp.getSession()}" /></td>
-                            <td><c:out value="${currentApp.getBlock()}" /></td>
-                            <td><c:out value="${currentApp.getNumber()}" /></td>
-                            <td><c:out value="${currentApp.getRoomtype()}" /></td>
-                            <td><c:out value="${currentApp.getPrice()}" /></td>
-                            <td><c:out value="${currentApp.getPrice() * 130}" /></td>
-                        </tr>
-                    </c:if>
-                </c:forEach>
-            </table>
-        </div>
+        <table class="table table-responsive table-hover" style="display:none;">
+            <tr>
+                <th>Session</th>
+                <th>Block</th>
+                <th>Room No.</th>
+                <th>Room Type</th>
+                <th>Price/Day</th>
+                <th>Total</th>
+            </tr> 
+            <c:forEach items="${sessionScope.applications}" var="currentApp" varStatus="loop">
+                <c:if test="${currentApp.getSession() != activeSession}">
+                    <tr>
+                        <td><c:out value="${currentApp.getSession()}" /></td>
+                        <td><c:out value="${currentApp.getBlock()}" /></td>
+                        <td><c:out value="${currentApp.getNumber()}" /></td>
+                        <td><c:out value="${currentApp.getRoomtype()}" /></td>
+                        <td><c:out value="${currentApp.getPrice()}" /></td>
+                        <td><c:out value="${currentApp.getPrice() * 130}" /></td>
+                    </tr>
+                </c:if>
+            </c:forEach>
+        </table>
     </div>
 </div>
 <%@include file="footer.jsp" %>
@@ -117,10 +115,10 @@
         $('[data-toggle="tooltip"]').tooltip();
         $("h2.clickable-header").click(function () {
             if ($(this).children("span").attr("class") === "glyphicon glyphicon-chevron-down") {
-                $(this).parents(".container").children(".page-content").slideDown();
+                $(this).parents(".container").children("table").slideDown("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
             } else {
-                $(this).parents(".container").children(".page-content").slideUp();
+                $(this).parents(".container").children("table").slideUp("slow");
                 $(this).children("span").removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }
         });
