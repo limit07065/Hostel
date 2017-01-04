@@ -19,7 +19,7 @@ public class JDBCUtility {
    String password;
    PreparedStatement psInsertUser = null;
    PreparedStatement psSelectAllFromUserViaUsername = null;
-   PreparedStatement psSelectUserViaUserPass = null;
+   PreparedStatement psSelectUserViaUserPass = null;   
    PreparedStatement psUpdateUserViaUsername= null;
    PreparedStatement psChangePasswordViaUsername = null;
    PreparedStatement psUpdateProfilePicViaUsername = null;
@@ -58,6 +58,7 @@ public class JDBCUtility {
    PreparedStatement psCountOccupiedSingleRoomWBathroom = null;
    PreparedStatement psCountUnoccupiedDoubleRoom = null;
    PreparedStatement psCountOccupiedDoubleRoom = null;
+   
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()

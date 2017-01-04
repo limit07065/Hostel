@@ -30,13 +30,13 @@
                 <c:when test="${not empty applications}">
                     <c:forEach items="${applications}" var="currentApp" varStatus="loop">
                         <c:if test="${currentApp.getStatus() != 2}">
-                            <tr>
+                            <tr >
                                 <td><c:out value="${index}" /></td>  <%-- Status == 2 is not output at here, have to use another variable as counter  --%>
-                            <td class="student"  data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getUsername()}" /></td>
-                            <td><c:out value="${currentApp.getBlock()}" /></td>
-                            <td><c:out value="${currentApp.getNumber()}" /></td>
-                            <td><c:out value="${currentApp.getRoomtype()}" /></td>   
-                            <td><c:out value="${currentApp.getApplyDate()}" /></td>
+                            <td  class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getUsername()}" /></td>
+                            <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getBlock()}" /></td>
+                            <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getNumber()}" /></td>
+                            <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getRoomtype()}" /></td>   
+                            <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getApplyDate()}" /></td>
 
 
                             <c:choose>
@@ -44,7 +44,7 @@
                                     <td>Pending</td>
                                 </c:when>
                                 <c:when test="${currentApp.getStatus() == 1}">
-                                    <td>Approved</td>
+                                    <td style="color: green">Approved</td>
                                 </c:when>
                                 <c:when test="${currentApp.getStatus() == 2}">
                                     <td>Cancelled</td>
@@ -90,28 +90,35 @@
     </div>
 
     <!--Modal for student window-->
-
+    <style>
+        .student-label
+        {
+            width  :100px;
+        }
+    </style>
     <div id="studentwindow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header green">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                    <h4 class="modal-title" id="myModalLabel"></h4>
+                    <h4 class="modal-title" id="studentusername"></h4>
                 </div>
                 <div class="modal-body">
                     <div id="studentphoto" class="img-circle img-thumbnail img-circle img-modal">                
                     </div>
-                    <label>Full Name</label><span id='studentname'></span>
-                    <label>Matrix ID</label><span id='studentmatrixid'></span>
-                    <label>Email</label><span id='studentemail'></span>
-                    <label>Contact</label><span id='studentcontact'></span>
+                    <label class="student-label">Username</label><span class='studentusername'></span><br>
+                    <label class="student-label">Full Name</label><span id='studentname'></span><br>
+                    <label class="student-label">Matrix ID</label><span id='studentmatrixid'></span><br>                    
+                    <label class="student-label">Gender</label><span id='studentgender'></span><br>
+                    <label class="student-label">Email</label><span id='studentemail'></span><br>
+                    <label class="student-label">Contact</label><span id='studentcontact'></span><br>
 
                 </div>
-                <div class="modal-footer ">
-                    <button id="studentapprove" class="approve btn btn-success" data-appId="${currentApp.getApplication_PK()}">Approve</button>
-                    <button id="studentreject" class="reject btn btn-danger" data-appId="${currentApp.getApplication_PK()}">Reject</button>
+<!--                <div class="modal-footer ">
+                    <button id="studentapprove" class="approve btn btn-success" data-appId>Approve</button>
+                    <button id="studentreject" class="reject btn btn-danger" data-appId>Reject</button>
 
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
