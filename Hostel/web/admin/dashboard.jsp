@@ -68,7 +68,7 @@
     });
 
     //edit room
-     $(document).on('click', 'span.editR', function (e) {
+    $(document).on('click', 'span.editR', function (e) {
         $("#EditRoomForm #id").val($(this).data("id"));
         $("#EditRoomForm #rBlock").val($(this).data("block"));
         $("#EditRoomForm #rNumber").val($(this).data("number"));
@@ -76,7 +76,7 @@
         $("#EditRoomForm #rType").val($(this).data("type"));
     });
 
-    $(document).on('submit', 'form#EditRoomForm', function (e) {        
+    $(document).on('submit', 'form#EditRoomForm', function (e) {
         $.ajax({
             type: "POST",
             url: "EditRoom",
@@ -95,7 +95,7 @@
     $(document).on('click', 'span.deleteR', function () {
         var id = $(this).data("id");
 
-        $("#deletecontent").text('Are you sure you want to delete the room?');        
+        $("#deletecontent").text('Are you sure you want to delete the room?');
         $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
@@ -118,7 +118,7 @@
             type: "POST",
             url: "AddRoomType",
             data: $("#AddRoomTypeForm").serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $('#addRTModal').modal('hide');
                 $('.modal-backdrop').remove();
                 $("#roomtype").load(" #roomtype>*");
@@ -171,13 +171,13 @@
     });
     $(document).on('click', 'span.deleteRT', function () {
         var id = $(this).data("id");
-        $("#deletecontent").text('Are you sure you want to delete the room type?');        
+        $("#deletecontent").text('Are you sure you want to delete the room type?');
         $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteRoomType",
                 data: 'id=' + id,
-                success: function(){
+                success: function () {
                     $("#roomtype").load(" #roomtype>*");
                     $("#delete").modal("hide");
                     $("#message").modal("show");
@@ -209,8 +209,9 @@
             type: "POST",
             url: "SessionActivation",
             data: 'id=' + $(this).siblings("input").val() + '&status=' + $(this).siblings("input").next().val(),
-            success: function(){
+            success: function () {
                 $("#session").load(" #session>*");
+                $("#report").load(" #report>*");
                 $("#messagecontent").text("Successfully toggle sessions' status .");
                 $("#message").modal("show");
             }
@@ -226,7 +227,7 @@
             type: "POST",
             url: "EditSession",
             data: $(this).serialize(), // serializes the form's elements.
-            success: function(){
+            success: function () {
                 $(this).parents(".modal fade").modal('hide');
                 $('.modal-backdrop').remove();
                 $("#session").load(" #session>*");
@@ -238,13 +239,13 @@
     });
     $(document).on('click', 'span.deleteS', function () {
         var id = $(this).data("id");
-        $("#deletecontent").text('Are you sure you want to delete the session?');        
+        $("#deletecontent").text('Are you sure you want to delete the session?');
         $("#yes").on("click", function (e) {
             $.ajax({
                 type: "POST",
                 url: "DeleteSession",
                 data: 'id=' + id,
-                success: function(){
+                success: function () {
                     $("#session").load(" #session>*");
                     $("#delete").modal("hide");
                     $("#message").modal("show");
@@ -262,10 +263,13 @@
         $.ajax({
             type: "POST",
             url: "ApproveApplicationServlet",
-            data: 'id=' + id, 
+            data: 'id=' + id,
             success: function () {
                 $("#application").load(" #application>*");
+                $("#report").load(" #report>*");
+                // $("#studentwindow").modal("hide");
                 $("#messagecontent").text("Successfully approve the application .");
+                $("#studentwindow").modal("hide");
                 $("#message").modal("show");
             }
         });
@@ -279,9 +283,11 @@
         $.ajax({
             type: "POST",
             url: "RejectApplicationServlet",
-            data: 'id=' + id, 
+            data: 'id=' + id,
             success: function () {
                 $("#application").load(" #application>*");
+                $("#report").load(" #report>*");
+                // $("#studentwindow").modal("hide");
                 $("#messagecontent").text("Successfully reject the application .");
                 $("#message").modal("show");
             }
@@ -298,24 +304,38 @@
             "iDisplayLength": 10,
             "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
         });
-        
+
         $("#tableroom").dataTable({
             "iDisplayLength": 10,
             "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
         });
 
         $(".student").on("click", function () {
-            var appId = $(this).data("appid");
-            var username = $(this).text();
+            var username = $(this).data("username");
+            var appid = $(this).data("appid");
 
             //query student detail and edit field in modal
-            $.get("test", function (data) {
+            $.get("GetUser", {username: username}, function (data) {
                 var student = JSON.parse(data);
-                $("#studentname").text(student.fullname);
-                $("#studentmatrixid").text(student.matrixId);
-                $("#studentwindow").modal();
+                $("#studentusername").text(username);
+                $(".studentusername").text(username);
+                $("#studentname").text(student.Name);
+                $("#studentmatrixid").text(student.Id);
+                var n = "1".localeCompare(student.Gender);
+                if (n === 0)
+                    $("#studentgender").text("Male");
+                else if (n === 1)
+                    $("#studentgender").text("Female");
+                $("#studentcontact").text(student.Contact);
+                $("#studentemail").text(student.Email);
+                $("#studentphoto").css("background-image", "url('img/profile/" + student.Pic + "')");                
+                $("#studentwindow").modal("show");
             });
         });
+
+
+
+
     });
 </script>
 </body>

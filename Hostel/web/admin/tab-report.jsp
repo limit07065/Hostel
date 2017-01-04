@@ -6,7 +6,7 @@
 
 <div id="report" class="tab-pane fade">
     <h3>
-        Session ${activeSession}
+        Report for ${activeSession}
     </h3>
     <div class="col-xs-12 col-md-4" style="padding-bottom: 10px;">
         <button type="button" class="btn btn-primary">Total Application :  <span class="badge">${totalApplication}</span></button>
