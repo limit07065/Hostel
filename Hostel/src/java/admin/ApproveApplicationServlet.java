@@ -8,6 +8,7 @@ package admin;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -60,13 +61,16 @@ public class ApproveApplicationServlet extends HttpServlet {
         
         //get Application_PK 
         int id = Integer.parseInt(request.getParameter("id"));
+        String room = null;
+        String block = null;
         
         //approve date - now
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String approveDate = sdf.format(dt);
         
-        try {                    
+        try {                
+            //update application status
             PreparedStatement preparedStatement = jdbcUtility.getPsUpdateApplicationStatusViaId();
             
             preparedStatement.setString(1, "1");
@@ -74,6 +78,25 @@ public class ApproveApplicationServlet extends HttpServlet {
             preparedStatement.setInt(3, id);
             
             preparedStatement.executeUpdate();
+            
+            //get block and room number from the application
+            PreparedStatement preparedStatement2 = jdbcUtility.getPsSelectBlockRoomFromApplicationViaId();
+            preparedStatement2.setInt(1, id);
+            
+            ResultSet rs = preparedStatement2.executeQuery();
+            
+            while (rs.next()) {
+                block = rs.getString("Block");
+                room =rs.getString("Number");
+            }
+            
+            //update room status
+            PreparedStatement preparedStatement3 = jdbcUtility.getPsUpdateRoomStatusViaBlockRoom();
+            preparedStatement3.setInt(1, 1);
+            preparedStatement3.setString(2, block);
+            preparedStatement3.setString(3, room);
+            
+            preparedStatement3.executeUpdate();
         }
         catch (SQLException ex)
 	{

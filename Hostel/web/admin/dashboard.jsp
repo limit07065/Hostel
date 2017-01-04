@@ -286,6 +286,7 @@
             data: 'id=' + id,
             success: function () {
                 $("#application").load(" #application>*");
+                $("#room").load(" #room>*");
                 $("#report").load(" #report>*");
                 // $("#studentwindow").modal("hide");
                 $("#messagecontent").text("Successfully approve the application .");
@@ -306,6 +307,7 @@
             data: 'id=' + id,
             success: function () {
                 $("#application").load(" #application>*");
+                $("#room").load(" #room>*");
                 $("#report").load(" #report>*");
                 // $("#studentwindow").modal("hide");
                 $("#messagecontent").text("Successfully reject the application .");

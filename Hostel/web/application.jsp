@@ -45,13 +45,13 @@
                                                 <td>Pending</td>
                                             </c:when>
                                             <c:when test="${currentApp.getStatus() == 1}">
-                                                <td>Approved</td>
+                                                <td style="color: green">Approved</td>
                                             </c:when>
                                             <c:when test="${currentApp.getStatus() == 2}">
                                                 <td>Cancelled</td>
                                             </c:when>
                                             <c:when test="${currentApp.getStatus() == 3}">
-                                                <td>Rejected</td>
+                                                <td style="color: red">Rejected</td>
                                             </c:when>
                                         </c:choose>
 
@@ -59,7 +59,16 @@
                                             <c:param name="session"   value="${currentApp.getSession()}" />
                                         </c:url>
 
-                                        <td><a href="<c:out value='${cancelApplicationURL}' />">Cancel</a></td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${currentApp.getStatus() == 0}">
+                                                    <a href="<c:out value='${cancelApplicationURL}' />">Cancel</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ----
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                     </tr>
                                 </c:if>
                             </c:forEach>

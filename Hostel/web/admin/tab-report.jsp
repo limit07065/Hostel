@@ -17,6 +17,8 @@
     <div class="col-xs-12 col-md-4" style="padding-bottom: 10px;">
         <button type="button" class="btn btn-danger">Rejected Application :  <span class="badge">${rejectedApplication}</span></button>
     </div>
+   
+    <h3 style="margin-top:8%;">Report For Current Room</h3>
     <table id="tableroom" class="table table-responsive table-hover tablesorter" cellspacing="0" width="100%" >
         <thead>
             <tr>

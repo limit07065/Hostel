@@ -17,11 +17,11 @@
                 <th>Name.</th>            
                 <th>Block</th>
                 <th>Room </th>
-                <th>Type</th>
+                <th style="max-width:100px;">Type</th>
                 <th>Apply Date</th>
                 <th>Status</th>
                 <th>Processed Date</th>
-                <th>Action</th>
+                <th class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                             <td  class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getUsername()}" /></td>
                             <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getBlock()}" /></td>
                             <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getNumber()}" /></td>
-                            <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getRoomtype()}" /></td>   
+                            <td class="student" style="max-width:100px;" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getRoomtype()}" /></td>   
                             <td class="student" data-username="${currentApp.getUsername()}" data-appId="${currentApp.getApplication_PK()}"><c:out value="${currentApp.getApplyDate()}" /></td>
 
 
@@ -61,15 +61,19 @@
                                     <td></td>
                                 </c:otherwise>
                             </c:choose>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${currentApp.getStatus() != 1}">
+                            <c:choose>
+                                <c:when test="${currentApp.getStatus() != 1 && currentApp.getStatus() != 3}">
+                                    <td class="text-center">
                                         <button class="approve btn btn-success" data-appId="${currentApp.getApplication_PK()}">Approve</button>
-                                    </c:when>
-                                    <c:when test="${currentApp.getStatus() != 3}">
                                         <button class="reject btn btn-danger" data-appId="${currentApp.getApplication_PK()}">Reject</button>
-                                    </c:when>
-                                </c:choose>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="text-center" style="color: gray;">
+                                        No action
+                                    </td>
+                                </c:otherwise>
+                            </c:choose>
                             </td>
                             </tr>
                             <c:set var="index" value="${index + 1}" />

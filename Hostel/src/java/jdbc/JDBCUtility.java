@@ -58,7 +58,8 @@ public class JDBCUtility {
    PreparedStatement psCountOccupiedSingleRoomWBathroom = null;
    PreparedStatement psCountUnoccupiedDoubleRoom = null;
    PreparedStatement psCountOccupiedDoubleRoom = null;
-   
+   PreparedStatement psSelectBlockRoomFromApplicationViaId = null;
+   PreparedStatement psUpdateRoomStatusViaBlockRoom = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -309,7 +310,7 @@ public class JDBCUtility {
             //count total application
             String sqlCountTotalApplication = "SELECT COUNT(*) AS count " 
                                                 + "FROM application INNER JOIN session " 
-                                                + "ON application.Session = session.Name AND session.Status = 1 ";                                                
+                                                + "ON application.Session = session.Name AND session.Status = 1 AND application.status != 2";                                                
             
             psCountTotalApplication = con.prepareStatement(sqlCountTotalApplication);
             
@@ -342,6 +343,18 @@ public class JDBCUtility {
             String sqlCountOccupiedDoubleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 3 AND Occupied = 1" ;                                               
             
             psCountOccupiedDoubleRoom = con.prepareStatement(sqlCountOccupiedDoubleRoom);
+            
+            //select room number and block from application
+            String sqlSelectBlockRoomFromApplicationViaId = "SELECT Block, Number FROM application WHERE Application_PK = ?" ;                                               
+            
+            psSelectBlockRoomFromApplicationViaId = con.prepareStatement(sqlSelectBlockRoomFromApplicationViaId);
+            
+             //update room status via block and room numebr
+            String sqlUpdateRoomStatusViaBlockRoom = "UPDATE room SET Occupied = ? WHERE Block = ? AND Number = ?" ;                                               
+            
+            psUpdateRoomStatusViaBlockRoom = con.prepareStatement(sqlUpdateRoomStatusViaBlockRoom);
+            
+            
        }
        
        catch(SQLException ex)
@@ -552,5 +565,13 @@ public class JDBCUtility {
    public PreparedStatement getPsCountOccupiedDoubleRoom()
    {
        return psCountOccupiedDoubleRoom;
+   }
+   public PreparedStatement getPsSelectBlockRoomFromApplicationViaId()
+   {
+       return psSelectBlockRoomFromApplicationViaId;
+   }
+   public PreparedStatement getPsUpdateRoomStatusViaBlockRoom()
+   {
+       return psUpdateRoomStatusViaBlockRoom;
    }
 }
