@@ -79,7 +79,7 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td colspan="7" class="text-center">No application.<td>
+                        <td colspan="9" class="text-center">No application.<td>
                     </tr>
                 </c:otherwise>
 
