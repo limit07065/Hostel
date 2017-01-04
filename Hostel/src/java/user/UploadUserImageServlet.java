@@ -27,7 +27,7 @@ import jdbc.JDBCUtility;
  * @author wenhe
  */
 @WebServlet(name = "UploadUserImageServlet", urlPatterns = {"/UploadUserImageServlet"})
-@MultipartConfig(location="C:\\Users\\Ray\\Desktop\\Hostel\\Hostel\\web\\img\\profile",
+@MultipartConfig(location="C:\\Ryan\\academic\\3-SCSJ\\Sem1\\Internet Programming\\Hostel\\Hostel\\web\\img\\profile",
                  fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB

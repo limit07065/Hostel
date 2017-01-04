@@ -47,8 +47,22 @@
 <!--Data Table JavaScript-->
 <script src="js/jquery.datatable.min.js"></script>
 <script src="js/bootstrap.datatable.min.js"></script>
-
-
+<c:if test="${not empty applications}">
+<script>
+    $("#tableapplication").dataTable({
+        "iDisplayLength": 10,
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+    });
+</script> 
+</c:if>
+<c:if test="${not empty rooms}">
+<script>
+    $("#tableroom").dataTable({
+        "iDisplayLength": 10,
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+    });
+</script>
+</c:if>
 <script>
     // Room JQuery AJAX
     $(document).on('submit', 'form#AddRoomForm', function (e) {
@@ -134,7 +148,12 @@
             url: "UploadRoomImageServlet",
             data: new FormData(this),
             contentType: false,
-            processData: false
+            processData: false,
+            success: function () {
+                $(this).parents(".modal").modal('toggle');
+                $('.modal-backdrop').remove();
+                $("#roomtype").load(" #roomtype>*");
+            }
         });
         e.preventDefault(); // avoid to execute the actual submit of the form.
     });
@@ -212,6 +231,7 @@
             success: function () {
                 $("#session").load(" #session>*");
                 $("#report").load(" #report>*");
+                $("#application").load(" #application>*");
                 $("#messagecontent").text("Successfully toggle sessions' status .");
                 $("#message").modal("show");
             }
@@ -300,16 +320,7 @@
 <!--Data Table -->
 <script>
     $(document).ready(function () {
-        $("#tableapplication").dataTable({
-            "iDisplayLength": 10,
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
-        });
-
-        $("#tableroom").dataTable({
-            "iDisplayLength": 10,
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
-        });
-
+       
         $(".student").on("click", function () {
             var username = $(this).data("username");
             var appid = $(this).data("appid");
@@ -328,7 +339,7 @@
                     $("#studentgender").text("Female");
                 $("#studentcontact").text(student.Contact);
                 $("#studentemail").text(student.Email);
-                $("#studentphoto").css("background-image", "url('img/profile/" + student.Pic + "')");                
+                $("#studentphoto").css("background-image", "url('img/profile/" + student.Pic + "')");
                 $("#studentwindow").modal("show");
             });
         });
