@@ -6,24 +6,49 @@
 
 <div id="report" class="tab-pane fade">
     <h3>
-        Session  
+        Session ${activeSession}
     </h3>
-    Total App
+    <div class="col-xs-12 col-md-4" style="padding-bottom: 10px;">
+        <button type="button" class="btn btn-primary">Total Application :  <span class="badge">${totalApplication}</span></button>
+    </div>
+    <div class="col-xs-12 col-md-4" style="padding-bottom: 10px;">
+        <button type="button" class="btn btn-success">Approved Application :  <span class="badge">${approvedApplication}</span></button>
+    </div>
+    <div class="col-xs-12 col-md-4" style="padding-bottom: 10px;">
+        <button type="button" class="btn btn-danger">Rejected Application :  <span class="badge">${rejectedApplication}</span></button>
+    </div>
     <table id="tableroom" class="table table-responsive table-hover tablesorter" cellspacing="0" width="100%" >
         <thead>
             <tr>
-                <th>No.</th>
-                <th>Block</th>            
-                <th>Number</th>
-                <th>Gender</th>
                 <th>Type</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Rented</th>            
+                <th>Free</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td>Single</td>
+                <td>${occupiedSingleRoom}</td>
+                <td>${unoccupiedSingleRoom}</td>
+                <td>${occupiedSingleRoom + unoccupiedSingleRoom}</td>
+            </tr>
+            <tr>
+                <td>Double</td>
+                <td>${occupiedDoubleRoom}</td>
+                <td>${unoccupiedDoubleRoom}</td>
+                <td>${occupiedDoubleRoom + unoccupiedDoubleRoom}</td>
+            </tr>
+            <tr>
+                <td>Single With Bathroom</td>
+                <td>${occupiedSingleRoomWBathroom}</td>
+                <td>${unoccupiedSingleRoomWBathroom}</td>
+                <td>${occupiedSingleRoomWBathroom + unoccupiedSingleRoomWBathroom}</td>
+            </tr>
+        </tbody>
+<!--        <tbody>
         <c:choose>
-            <c:when test="${not empty rooms}">
+            <c:when test="${not empty occupiedSingleRoomWBathroom}">
                 <c:forEach items="${rooms}" var="room" varStatus="loop">
                     <tr>
                         <td><c:out value="${loop.index+1}" /></td>
@@ -73,6 +98,6 @@
             </c:otherwise>
 
         </c:choose>
-        </tbody>
+        </tbody>-->
     </table>
 </div>

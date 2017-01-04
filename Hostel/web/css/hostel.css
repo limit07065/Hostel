@@ -372,4 +372,18 @@ input[type="radio"].toggle:checked + label {
     font-size: 18px;
 }
 
+#report button .reportingBtn
+{
+    font-size: 108%;
+    margin-left: 2%;
+}
 
+/*table thead
+{
+    background-color: #575a5f !important;
+}
+
+table thead .thColour
+{
+    color: #fff !important;
+}*/
