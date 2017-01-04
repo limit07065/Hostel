@@ -309,37 +309,61 @@ public class JDBCUtility {
             //count total application
             String sqlCountTotalApplication = "SELECT COUNT(*) AS count " 
                                                 + "FROM application INNER JOIN session " 
-                                                + "ON application.Session = session.Name AND session.Status = 1 ";                                                
+                                                + "ON application.Session = session.Name AND session.Status = 1 AND application.Status != 2";                                                
             
             psCountTotalApplication = con.prepareStatement(sqlCountTotalApplication);
             
             //count unonccupied single room
-            String sqlCountUnoccupiedSingleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 1 AND Occupied = 0" ;                                               
+            String sqlCountUnoccupiedSingleRoom = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session ON application.Session = session.Name "
+                                                + "INNER JOIN roomtype ON application.RoomType = roomtype.Type "
+                                                + "INNER JOIN room ON room.RoomType_FK = roomtype.RoomType_PK "
+                                                + "WHERE application.Status != 2 AND room.Occupied = 0 AND room.RoomType_FK = 1 AND session.Status = 1";                                            
             
             psCountUnoccupiedSingleRoom = con.prepareStatement(sqlCountUnoccupiedSingleRoom);
             
             //count onccupied single room
-            String sqlCountOccupiedSingleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 1 AND Occupied = 1" ;                                               
+            String sqlCountOccupiedSingleRoom = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session ON application.Session = session.Name "
+                                                + "INNER JOIN roomtype ON application.RoomType = roomtype.Type "
+                                                + "INNER JOIN room ON room.RoomType_FK = roomtype.RoomType_PK "
+                                                + "WHERE application.Status != 2 AND room.Occupied = 1 AND room.RoomType_FK = 1 AND session.Status = 1";                                             
             
             psCountOccupiedSingleRoom = con.prepareStatement(sqlCountOccupiedSingleRoom);
             
             //count unonccupied single room with bathroom
-            String sqlCountUnoccupiedSingleRoomWBathroom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 2 AND Occupied = 0" ;                                               
+            String sqlCountUnoccupiedSingleRoomWBathroom = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session ON application.Session = session.Name "
+                                                + "INNER JOIN roomtype ON application.RoomType = roomtype.Type "
+                                                + "INNER JOIN room ON room.RoomType_FK = roomtype.RoomType_PK "
+                                                + "WHERE application.Status != 2 AND room.Occupied = 0 AND room.RoomType_FK = 2 AND session.Status = 1";                                              
             
             psCountUnoccupiedSingleRoomWBathroom = con.prepareStatement(sqlCountUnoccupiedSingleRoomWBathroom);
             
             //count onccupied single room with bathroom
-            String sqlCountOccupiedSingleRoomWBathroom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 2 AND Occupied = 1" ;                                               
+            String sqlCountOccupiedSingleRoomWBathroom = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session ON application.Session = session.Name "
+                                                + "INNER JOIN roomtype ON application.RoomType = roomtype.Type "
+                                                + "INNER JOIN room ON room.RoomType_FK = roomtype.RoomType_PK "
+                                                + "WHERE application.Status != 2 AND room.Occupied = 1 AND room.RoomType_FK = 2 AND session.Status = 1";                                              
             
             psCountOccupiedSingleRoomWBathroom = con.prepareStatement(sqlCountOccupiedSingleRoomWBathroom);
             
             //count unonccupied double room
-            String sqlCountUnoccupiedDoubleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 3 AND Occupied = 0" ;                                               
+            String sqlCountUnoccupiedDoubleRoom = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session ON application.Session = session.Name "
+                                                + "INNER JOIN roomtype ON application.RoomType = roomtype.Type "
+                                                + "INNER JOIN room ON room.RoomType_FK = roomtype.RoomType_PK "
+                                                + "WHERE application.Status != 2 AND room.Occupied = 0 AND room.RoomType_FK = 3 AND session.Status = 1";                                           
             
             psCountUnoccupiedDoubleRoom = con.prepareStatement(sqlCountUnoccupiedDoubleRoom);
             
             //count onccupied double room
-            String sqlCountOccupiedDoubleRoom = "SELECT COUNT(*) AS count FROM room WHERE RoomType_FK = 3 AND Occupied = 1" ;                                               
+            String sqlCountOccupiedDoubleRoom = "SELECT COUNT(*) AS count " 
+                                                + "FROM application INNER JOIN session ON application.Session = session.Name "
+                                                + "INNER JOIN roomtype ON application.RoomType = roomtype.Type "
+                                                + "INNER JOIN room ON room.RoomType_FK = roomtype.RoomType_PK "
+                                                + "WHERE application.Status != 2 AND room.Occupied = 1 AND room.RoomType_FK = 3 AND session.Status = 1";                                              
             
             psCountOccupiedDoubleRoom = con.prepareStatement(sqlCountOccupiedDoubleRoom);
        }
